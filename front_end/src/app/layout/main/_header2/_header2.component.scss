@@ -1,0 +1,15 @@
+.header {
+    background: var(--sub-color);
+    color: white;
+}
+
+ul {
+    gap: 10px;
+}
+
+.fas.fa-search {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+}

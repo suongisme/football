@@ -1,0 +1,25 @@
+<div>
+    <div class="container d-flex flex-column">
+        <form [formGroup]="formGroup" class="row d-flex flex-wrap my-3 gap-2">
+            <ng-select
+                class="col-md-2 px-0"
+                placeholder="Chọn Tỉnh/thành phố"
+            ></ng-select>
+
+            <ng-select
+                class="col-md-2 px-0"
+                placeholder="Chọn Quận/Huyện"
+            ></ng-select>
+
+            <ng-select
+                class="col-md-2 px-0"
+                placeholder="Chọn Môn thể thao"
+            ></ng-select>
+            
+            <input class="col-md-4 nice-input " placeholder="Nhập tên sân..." />
+            <button class="col-md-1">Tìm kiếm</button>
+        </form>
+
+        <div class="separator"></div>
+    </div>
+</div>
