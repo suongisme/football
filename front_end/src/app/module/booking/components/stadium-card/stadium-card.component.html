@@ -6,13 +6,7 @@
         <span class="fw-semibold stadium-name">{{ stadium?.name }}</span>
         <div class="d-flex justify-content-between">
             <span>Số người: <strong>{{ stadium?.numPeople }}</strong></span>
-            <div>
-                <i class="fas fa-star active"></i>
-                <i class="fas fa-star active"></i>
-                <i class="fas fa-star active"></i>
-                <i class="fas fa-star active"></i>
-                <i class="fas fa-star active"></i>
-            </div>
+            <app-rate></app-rate>
         </div>
         <span>Giá: <span class="price">{{stadium?.fromPrice | currency:'VND'}}</span> - <span class="price">{{stadium?.toPrice | currency:'VND'}}</span> /Trận</span>
         <div class="d-flex gap-5">

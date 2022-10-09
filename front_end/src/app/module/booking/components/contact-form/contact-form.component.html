@@ -1,0 +1,26 @@
+<div class="d-flex flex-column align-items-center gap-3">
+    <span class="fw-bold" style="font-size: 16px;">Đặt sân qua các kênh sau</span>
+    <form class="d-flex flex-column align-items-center gap-2 w-100">
+        <div class="d-flex align-items-center justify-content-centerc text-white">
+            <i class="fas fa-space-shuttle"></i>
+            <span>Tư vấn miễn phí</span>
+        </div>
+        <div class="w-100 d-flex">
+            <input class="flex-grow-1 nice-input" placeholder="Để số điện thoại cho chúng tôi gọi."/>
+            <button>Gửi</button>
+        </div>
+    </form>
+
+    <ng-container
+        [ngTemplateOutlet]="social"
+    ></ng-container>
+</div>
+
+<ng-template #social>
+    <div class="w-100 d-flex flex-column gap-2">
+        <div class="social zalo"><span>ĐẶT QUA ZALO</span></div>
+        <div class="social facebook"><span>ĐẶT QUA FACEBOOK</span> </div>
+        <div class="social find"><span>TÌM SÂN TRỐNG</span></div>
+        <div class="social phone"><span>Số điện thoại</span></div>
+    </div>
+</ng-template>

@@ -1,0 +1,70 @@
+<div>
+    <div class="container mt-2">
+        <div class="row flex-column-reverse flex-lg-row">
+            <div class="col-lg-7 col-md-12">
+                <ng-container
+                    [ngTemplateOutlet]="detail"
+                ></ng-container>
+            </div>
+            <app-contact-form class="col-lg-5 col-md-12"></app-contact-form>
+        </div>
+        
+    </div>
+</div>
+
+<ng-template #detail>
+    <app-slide-show></app-slide-show>
+    <h1>Sân bóng cỏ nhân tạo Khu Bốn - Sơn Động - Bắc Giang</h1>
+    <app-rate></app-rate>
+    <div>
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Dục Tú - Đông Anh - Hà Nội</span>
+    </div>
+    <div class="description d-flex flex-column align-items-center mb-3 pb-3">
+        <div [class.hidden]=!isReadMore>
+            Sân bóng đá Minh Kiệt Dương Nội - Hà Đông
+            Được đầu tư xây dựng trong trường phổ thông quốc tế VIS, sân bóng Minh Kiệt gồm 4 sân mới và đẹp. Chất lượng cỏ cũng như hệ thống đèn chiếu sáng hiện đại, đạt tiêu chuẩn. Giá cả vô cũng rẻ
+
+            Địa chỉ và giá thuê sân bóng đá Minh Kiệt Dương Nội
+            Sân đá bóng Minh Kiệt Dương Nội tọa lạc ngay cạnh trung tâm thương mại Aeon Mall Hà Đông, gồm cụm 4 sân bóng cỏ nhân tạo 7 người được đầu tư khai thác rất mới và đẹp. Lòng sân có kích thước 28 x 44, là một trong những sân bóng có chiều ngang rộng những chiều dài hơi ngắn.
+
+            Mặt sân được đầu tư với cỏ đẹp, mềm mại, không trơn tượt. Hệ thống luới đèn, bảng hiệu tỷ số rất hiện đại. Hệ thống đèn chiếu sáng đường chạy, lưới chắn bóng đều đẹp và đồng bộ, cũng cấp đủ ảnh sáng cho các đội chơi. Có lẽ vì thế mà sân bóng Minh Kiệt trở thành một trong những điểm đến thường xuyên của các dân Phủi Hà Đông, 
+
+            Không gian thoáng mát, xung quanh không có nhà cao tầng nên tâm nhìn của sân rất rộng. Sân rất nổi tiếng và là điểm tô chức nhiều giải bóng đá lớn dành cho phủi thủ khắp Hà thành. 
+
+            Địa chỉ và giá thuê sân bóng Minh Kiệt Dương Nội
+
+            Xem thêm: Kích thước sân bóng 7 người
+
+            Tiện ích tại sân bóng đá Minh Kiệt Dương Nội
+            Có khu dịch vụ, căng tin, công trình phụ trợ, vệ sinh
+            Có bảo vệ an ninh đảm bảo an toàn
+        </div>
+        <button class="read-more" *ngIf="!isReadMore" (click)="isReadMore = true">
+            Xem thêm
+            <i class="fas fa-chevron-down"></i>
+        </button>
+
+        <button class="read-less" *ngIf="isReadMore" (click)="isReadMore = false">
+            Thu gọn
+            <i class="fas fa-chevron-up"></i>
+        </button>
+    </div>
+    <div>
+        <span class="fw-bold mb-2">Khung giờ</span>
+        <div>
+            <app-core-table
+                [columns]="columns"
+                [rows]="rows"
+                [rowHeight]="50"
+                [hideHeader]="true"
+            ></app-core-table>
+        </div>
+    </div>
+    <app-find-empty-form></app-find-empty-form>
+    <app-list-stadium-container
+        [lg]="3"
+        [md]="3"
+        [sm]="2"
+    ></app-list-stadium-container>
+</ng-template>

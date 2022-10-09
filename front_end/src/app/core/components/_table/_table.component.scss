@@ -1,0 +1,15 @@
+table {
+    border: 1px solid var(--color-border);
+
+    * {
+        font-size: 14px;
+    }
+}
+
+tr:hover {
+    background: #a5a4a4;
+}
+
+.odd {
+    background: #f3f3f3;
+}

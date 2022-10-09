@@ -1,14 +1,14 @@
 import { takeUntil, Subject } from 'rxjs';
-import { BookingService } from './services/booking.service';
-import { Paginator } from '../../core/interfaces/paginator.interface';
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { BookingService } from '../../services/booking.service';
+import { Paginator } from 'src/app/core/interfaces/paginator.interface';
 
 @Component({
-    selector: 'app-booking-container',
-    templateUrl: './booking.container.html',
-    styleUrls: ['./booking.container.scss']
+    selector: 'app-stadium-container',
+    templateUrl: './stadium.container.html',
+    styleUrls: ['./stadium.container.scss']
 })
-export class BookingContainer implements OnInit, OnDestroy {
+export class StadiumContainer implements OnInit, OnDestroy {
 
     private unsubscribe$: Subject<any> = new Subject();
 

@@ -1,6 +1,6 @@
 import { Paginator } from './../../../../core/interfaces/paginator.interface';
 import { Stadium } from './../../interfaces/stadium.interface';
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { BookingService } from "../../services/booking.service";
 import { Subject, takeUntil } from 'rxjs';
 
@@ -12,6 +12,10 @@ import { Subject, takeUntil } from 'rxjs';
 export class ListStadiumContainer implements OnInit, OnDestroy {
 
     private unsubscribe$: Subject<any> = new Subject();
+
+    @Input() lg: number = 4;
+    @Input() md: number = 3;
+    @Input() sm: number = 2;
 
     public stadiumList: Stadium[];
 
@@ -25,6 +29,10 @@ export class ListStadiumContainer implements OnInit, OnDestroy {
             .subscribe(result => {
                 this.stadiumList = result;
             })
+    }
+
+    public get colClass(): string {
+        return `col-lg-${12/this.lg} col-md-${12/this.md} col-sm-${12/this.sm}`
     }
 
     public ngOnDestroy(): void {

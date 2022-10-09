@@ -11,5 +11,11 @@ export const pageRoutes: Routes = [
                 loadChildren: () => import('../module/booking/booking.module').then(m => m.BookingModule)
             }
         ]
+    },
+
+    {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: ''
     }
 ]

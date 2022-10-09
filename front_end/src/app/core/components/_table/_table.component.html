@@ -1,0 +1,29 @@
+<table class="w-100">
+    <ng-container
+        *ngIf="!hideHeader"
+        [ngTemplateOutlet]="columnsTmp"
+        [ngTemplateOutletContext]="{columns: this.columns, headerHeight: this.headerHeight}"
+    ></ng-container>
+    <ng-container
+        [ngTemplateOutlet]="rowTmp"
+        [ngTemplateOutletContext]="{columns: this.columns, rows: this.rows, rowHeight: this.rowHeight}"
+    ></ng-container>
+</table>
+
+<ng-template #columnsTmp let-headerHeight="headerHeight" let-columns="columns">
+    <tr [style.height.px]="headerHeight">
+        <th *ngFor="let col of columns" [ngStyle]="col.headerStyle">
+            <span>{{ col.headerName }}</span>
+        </th>
+    </tr>
+</ng-template>
+
+<ng-template #rowTmp let-rowHeight="rowHeight" let-rows="rows" let-columns="columns">
+    <tbody>
+        <tr *ngFor="let row of rows; let i = index" [class.odd]="i % 2 == 1" [style.height.px]="rowHeight">
+            <td *ngFor="let col of columns" class="px-3">
+                <span [style]="col.cellStyle">{{ col.valueGetter?.(row) || row[col.field] }}</span>
+            </td>
+        </tr>
+    </tbody>
+</ng-template>

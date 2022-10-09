@@ -13,9 +13,12 @@ export class BookingService {
         return of<Stadium[]>([
             {
                 name: 'Sân bóng đá Minh Kiệt Dương Nội - Hà Đông',
+                flag: 'san-bong-da-minh-kiet-duong-noi-ha-dong',
                 numPeople: 7,
                 fromPrice: 400000,
                 toPrice: 600000,
+                province: 'Hà Nội',
+                district: 'Đông Anh',
                 avatar: 'https://thegioithethao.vn/images/products_soccer/2021/01/28/resized/san-bong-minh-kiet-duong-noi-anh6_1611823656.jpg.webp',
                 options: [
                     {
