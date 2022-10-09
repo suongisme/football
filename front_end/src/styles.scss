@@ -12,10 +12,12 @@
     --primary-color: #498d3d;
     --sub-color: #226a35;
     --button-background: #ef4e22;
+    --background-footer: #f0f0f0;
 }
 
 * {
     box-sizing: border-box;
+    font-family: Helvetica,Arial,'DejaVu Sans','Liberation Sans',Freesans,sans-serif;
     padding: 0;
     margin: 0;
 }

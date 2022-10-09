@@ -1,15 +1,18 @@
-import { PaginationComponent } from './components/pagination/pagination.component';
-import { SpinnerComponent } from './components/spinner/spinner.component';
+import { CommonModule } from '@angular/common';
+import { PaginationComponent } from './components/_pagination/pagination.component';
 import { NgModule } from "@angular/core";
 
-const imports = [];
+const imports = [
+    CommonModule,
+];
 
 const declarations = [
-    SpinnerComponent,
     PaginationComponent
 ];
 
-const exports = []
+const exports = [
+    PaginationComponent
+]
 
 @NgModule({
     imports: imports,

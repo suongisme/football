@@ -1,0 +1,20 @@
+<div class="d-flex justify-content-center">
+    <div class="container d-flex justify-content-center gap-2">
+        <ng-container>
+            <button (click)="ngOnGoToFirst()" [disabled]="isFirstPage"><i class="fas fa-angle-double-left"></i></button>
+            <button (click)="ngOnPreviousPage()" [disabled]="isFirstPage"><i class="fas fa-angle-left"></i></button>
+        </ng-container>
+    
+        <button 
+            *ngFor="let page of rangeDots"
+            [class.active]="page == paginator.currentPage"
+            [innerText]="page"
+            (click)="page != '...' && ngOnPaginate(page) "    
+        ></button>
+    
+        <ng-container>
+            <button (click)="ngOnNextPage()" [disabled]="isLastPage"><i class="fas fa-angle-right"></i></button>
+            <button (click)="ngOnGoToLast()" [disabled]="isLastPage"><i class="fas fa-angle-double-right"></i></button>
+        </ng-container>
+    </div>
+</div>

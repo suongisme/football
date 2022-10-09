@@ -1,3 +1,4 @@
+import { SpinnerComponent } from './core/components/_spinner/spinner.component';
 import { LayoutRouteModule } from './layout/layout-route.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,6 +8,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
