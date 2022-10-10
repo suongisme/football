@@ -1,6 +1,7 @@
+import { Router } from '@angular/router';
 import { Paginator } from './../../../../core/interfaces/paginator.interface';
 import { Stadium } from './../../interfaces/stadium.interface';
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import { BookingService } from "../../services/booking.service";
 import { Subject, takeUntil } from 'rxjs';
 
@@ -16,11 +17,14 @@ export class ListStadiumContainer implements OnInit, OnDestroy {
     @Input() lg: number = 4;
     @Input() md: number = 3;
     @Input() sm: number = 2;
+    @Input() actionInCard: TemplateRef<any>;
+    @Input() clickableCard: boolean = true;
 
     public stadiumList: Stadium[];
 
     constructor(
-        private bookingService: BookingService
+        private bookingService: BookingService,
+        private router: Router
     ) {}
 
     public ngOnInit(): void {
@@ -29,6 +33,10 @@ export class ListStadiumContainer implements OnInit, OnDestroy {
             .subscribe(result => {
                 this.stadiumList = result;
             })
+    }
+
+    public showDetail(stadium: Stadium): void {
+        this.router.navigate(['stadium', stadium.name])
     }
 
     public get colClass(): string {

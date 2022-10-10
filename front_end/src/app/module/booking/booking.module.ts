@@ -1,5 +1,4 @@
 import { FindEmptyFormComponent } from './components/find-empty-form/find-empty-form.component';
-import { TimeModule } from './../time/time.module';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { StadiumDetailContainer } from './containers/stadium-detail/stadium-detail.container';
 import { ListStadiumContainer } from './containers/list-stadium/list-stadium.container';
@@ -16,14 +15,15 @@ import { StadiumContainer } from './containers/stadium/stadium.container';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SlideShowComponent } from './components/slide-show/slide-show.component';
+import { TimePopupComponent } from './components/time-popup/time-popup.component';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'stadium',
         component: StadiumContainer,
     },
     {
-        path: ':flag',
+        path: 'stadium/:flag',
         component: StadiumDetailContainer
     }
 ]
@@ -38,6 +38,7 @@ const declarations = [
     ContactFormComponent,
     FindEmptyFormComponent,
     SlideShowComponent,
+    TimePopupComponent,
 ]
 
 const imports = [
@@ -48,13 +49,17 @@ const imports = [
     ReactiveFormsModule,
     InlineSVGModule,
     NgSelectModule,
-    TimeModule,
     RouterModule.forChild(routes)
+]
+
+const exports = [
+    ListStadiumContainer
 ]
 
 @NgModule({
     imports: imports,
     declarations: declarations,
+    exports: exports,
     providers: [ CurrencyPipe ]
 })
 export class BookingModule {}

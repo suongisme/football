@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Menu } from "src/app/base/menu.config";
 
 @Component({
     selector: 'app-navbar',
@@ -7,4 +8,5 @@ import { Component } from "@angular/core";
 })
 export class NavbarComponent {
     
+    public menu = Menu;
 }

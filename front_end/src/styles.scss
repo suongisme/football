@@ -67,6 +67,8 @@ button {
     border: none;
     min-width: 120px;
     height: 40px;
+    font-size: 12px;
+    line-height: 16px;
 
     &:disabled,
     &:hover {
@@ -75,6 +77,11 @@ button {
     
     &:disabled {
         cursor: not-allowed;
+    }
+
+    &.cancel {
+        background: #E6E8F0;
+        color: #696F8C;
     }
 }
 

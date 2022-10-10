@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, TemplateRef } from "@angular/core";
 import { Stadium } from "../../interfaces/stadium.interface";
 
 @Component({
@@ -9,5 +9,8 @@ import { Stadium } from "../../interfaces/stadium.interface";
 export class StadiumCardComponent {
 
     @Input() stadium: Stadium;
-    
+    @Input() actionTemplate: TemplateRef<any>;
+
+    constructor(
+    ) {}
 }

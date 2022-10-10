@@ -1,5 +1,6 @@
+import { Time } from './../../interfaces/time.interface';
+import { BreadscrumService } from './../../../../layout/main/services/breadcrum.service';
 import { CurrencyPipe } from '@angular/common';
-import { Time } from './../../../time/interfaces/time.interface';
 import { CoreColumn } from './../../../../core/interfaces/column.interface';
 import { BookingService } from './../../services/booking.service';
 import { Component, OnInit } from "@angular/core";
@@ -17,10 +18,13 @@ export class StadiumDetailContainer implements OnInit {
 
     constructor(
         private bookingService: BookingService,
-        private currencyPipe: CurrencyPipe
+        private currencyPipe: CurrencyPipe,
+        private breadscrumService: BreadscrumService
     ) {}
 
+   
     public ngOnInit(): void {
+        this.setBreadscum();
         this.bookingService.searchStadium(null)
             .subscribe(result => this.bookingService.bookingResult$.next(result));
             this.columns = [
@@ -57,4 +61,19 @@ export class StadiumDetailContainer implements OnInit {
                 }
             ]
     }
+
+    private setBreadscum(): void {
+        this.breadscrumService.breadscrum$.next([
+            {
+                value: 'Sân bóng đá'
+            },
+            {
+                value: 'Hà Nội'
+            },
+            {
+                value: 'Đông Anh'
+            }
+        ])
+    }
+
 }

@@ -1,16 +1,10 @@
 <div>
     <div class="container">
         <ul class="d-flex gap-4 ps-0">
-            <li>
-                <a class="gap-1">
-                    <span [inlineSVG]="'assets/icons/svg/booking.svg'"></span>
-                    <span>ĐẶT SÂN & TÌM ĐỐI</span>
-                </a>
-            </li>
-            <li>
-                <a class="gap-1">
-                    <span [inlineSVG]="'assets/icons/svg/shop.svg'"></span>
-                    <span>CỬA HÀNG</span>
+            <li *ngFor="let m of menu">
+                <a class="gap-1" [routerLink]="m.link || 'stadium'">
+                    <span [inlineSVG]="m.icon"></span>
+                    <span>{{ m.name }}</span>
                 </a>
             </li>
         </ul>

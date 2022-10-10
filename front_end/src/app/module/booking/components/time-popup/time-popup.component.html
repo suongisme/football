@@ -1,0 +1,43 @@
+<div>
+    <div class="modal-header d-flex justify-content-center">
+        <h4 class="mb-0">KẾT QUẢ TÌM KHUNG GIỜ</h4>
+    </div>
+    <div class="modal-body">
+        <ng-container
+            [ngTemplateOutlet]="timeContainer"
+        ></ng-container>
+
+        <ng-container
+            [ngTemplateOutlet]="timeContainer"
+        ></ng-container>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+        <button>Đặt sân</button>
+        <button class="cancel" (click)="activeModal.close()">Hủy bỏ</button>
+    </div>
+</div>
+
+<ng-template #timeContainer>
+    <span class="date">11-10-2022</span>
+    <ng-container
+        [ngTemplateOutlet]="time"
+        [ngTemplateOutletContext]="{hasBorder: true}"
+    ></ng-container>
+    <ng-container
+        [ngTemplateOutlet]="time"
+        [ngTemplateOutletContext]="{hasBorder: false}"
+    ></ng-container>
+    <div class="time mb-2"></div>
+</ng-template>
+
+<ng-template #time let-hasBorder="hasBorder" let-id="id">
+    <div class="ps-3">
+        <div [class.time]="hasBorder" class="d-flex justify-content-between py-2">
+            <div>
+                <input [id]="id" class="me-1" type="checkbox" />
+                <label [for]="id">16:00 - 17:30</label>
+            </div>
+            <span>{{ '600000' | currency:'VND' }}</span>
+        </div>
+    </div>
+</ng-template>
