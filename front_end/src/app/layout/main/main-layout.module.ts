@@ -1,3 +1,4 @@
+import { MobileNavbarComponent } from './_mobile/_navbar/_mobile-navbar.component';
 import { CoreModule } from 'src/app/core/core.module';
 import { BookingFormSearchComponent } from './../../module/booking/components/search-form/form-search.component';
 import { BreadscrumComponent } from './_breadcrum/_breadcrum.component';
@@ -20,6 +21,7 @@ const declarations = [
     BreadscrumComponent,
     FooterComponent,
     SlideComponent,
+    MobileNavbarComponent,
 ]
 
 const imports = [

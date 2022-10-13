@@ -27,6 +27,10 @@ ul {
     list-style: none;
 }
 
+.active-link {
+    color: #FF9727 !important;
+}
+
 .ng-select-container {
     height: 40px !important;
     border: 1px solid var(--color-border) !important;
@@ -34,6 +38,12 @@ ul {
     .ng-placeholder {
         font-size: 14px;
     }
+}
+
+.time-close {
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
 }
 
 .nice-input {

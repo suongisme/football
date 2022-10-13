@@ -2,6 +2,7 @@ export const Menu = [
     {
         name: 'Đặt sân & Tìm đối',
         icon: 'assets/icons/svg/booking.svg',
+        link: 'stadium',
     },
     {
         name: 'Cửa hàng',

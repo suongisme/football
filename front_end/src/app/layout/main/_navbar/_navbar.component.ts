@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Menu } from "src/app/base/menu.config";
 
 @Component({
@@ -7,6 +7,8 @@ import { Menu } from "src/app/base/menu.config";
     styleUrls: ['./_navbar.component.scss']
 })
 export class NavbarComponent {
+
+    @Input() layout: 'column' | 'row' = 'row';
     
     public menu = Menu;
 }

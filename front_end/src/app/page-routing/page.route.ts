@@ -20,6 +20,6 @@ export const pageRoutes: Routes = [
     {
         path: '**',
         pathMatch: 'full',
-        redirectTo: ''
+        redirectTo: 'stadium'
     }
 ]
