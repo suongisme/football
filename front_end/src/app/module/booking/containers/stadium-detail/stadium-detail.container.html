@@ -1,4 +1,28 @@
 <div>
+    <div class="position-relative" style="height: 400px;">
+        <img class="w-100 h-100" src="/assets/images/image1.jpg" />
+        <div class="bg-dark position-absolute top-0 start-0 w-100 h-100" style="opacity: .7;"></div>
+        <div class="container position-absolute bottom-0 start-50 translate-middle-x mb-5 info-box">
+            <h1>Sân bóng cỏ nhân tạo Khu Bốn - Sơn Động - Bắc Giang</h1>
+            <div class="d-flex flex-column gap-2">
+                <div class="d-flex gap-3">
+                    <i class="fas fa-map-marker-alt text-white"></i>
+                    <span class="text-white">Dục Tú - Đông Anh - Hà Nội</span>
+                </div>
+                <div class="d-flex gap-2">
+                    <i class="fas fa-star text-white"></i>
+                    <span>Chưa có đánh giá</span>
+                </div>
+                <div class="d-flex">
+                    <i class="fas fa-user text-white"></i>
+                    <span style="margin-left: 12px;">Chỉnh sửa (Dành cho chủ sân)</span>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button>Liên hệ</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container mt-2">
         <div class="row flex-column-reverse flex-lg-row">
             <div class="col-lg-7 col-md-12">
@@ -6,21 +30,22 @@
                     [ngTemplateOutlet]="detail"
                 ></ng-container>
             </div>
-            <app-contact-form class="col-lg-5 col-md-12"></app-contact-form>
+            <div class="box col-lg-5 col-md-12" style="height: fit-content;">
+                <span>Liên hệ</span>
+                <app-contact-form class="w-100"></app-contact-form>
+            </div>
         </div>
-        
+        <div class="box">
+            <span>Các sân tại khu vực Hà Nội</span>
+            <app-list-stadium-container></app-list-stadium-container>
+        </div>
     </div>
 </div>
 
 <ng-template #detail>
-    <app-slide-show></app-slide-show>
-    <h1>Sân bóng cỏ nhân tạo Khu Bốn - Sơn Động - Bắc Giang</h1>
-    <app-rate></app-rate>
-    <div>
-        <i class="fas fa-map-marker-alt"></i>
-        <span>Dục Tú - Đông Anh - Hà Nội</span>
-    </div>
-    <div class="description d-flex flex-column align-items-center mb-3 pb-3">
+
+    <div class="box description">
+        <span>MÔ TẢ - THÔNG TIN KÈM THEO</span>
         <div [class.hidden]=!isReadMore>
             Sân bóng đá Minh Kiệt Dương Nội - Hà Đông
             Được đầu tư xây dựng trong trường phổ thông quốc tế VIS, sân bóng Minh Kiệt gồm 4 sân mới và đẹp. Chất lượng cỏ cũng như hệ thống đèn chiếu sáng hiện đại, đạt tiêu chuẩn. Giá cả vô cũng rẻ
@@ -50,21 +75,20 @@
             <i class="fas fa-chevron-up"></i>
         </button>
     </div>
-    <div>
+
+    <div class="box">
         <span class="fw-bold mb-2">Khung giờ</span>
-        <div>
-            <app-core-table
-                [columns]="columns"
-                [rows]="rows"
-                [rowHeight]="50"
-                [hideHeader]="true"
-            ></app-core-table>
-        </div>
+        <app-core-table
+            class="w-100"
+            [columns]="columns"
+            [rows]="rows"
+            [rowHeight]="50"
+            [hideHeader]="true"
+        ></app-core-table>
     </div>
-    <app-find-empty-form></app-find-empty-form>
-    <app-list-stadium-container
-        [lg]="3"
-        [md]="3"
-        [sm]="2"
-    ></app-list-stadium-container>
+
+    <div class="box">
+        <span class="fw-bold">Tìm sân trống</span>
+        <app-find-empty-form class="w-100"></app-find-empty-form>
+    </div>
 </ng-template>

@@ -1,13 +1,16 @@
-<div class="card d-flex flex-column cursor-pointer h-100">
-    <div>
+<div class="card border-0 overflow-hidden d-flex flex-column cursor-pointer h-100">
+    <div class="position-relative">
         <img class="w-100" [src]="stadium?.avatar" />
+        <div class="black bg-dark position-absolute top-0 start-0 w-100 h-100" style="opacity: .5;"></div>
+        <div class="position-absolute end-0 bottom-0 mb-2 me-2">
+            <app-rate></app-rate>
+        </div>
     </div>
-    <div class="d-flex flex-column flex-grow-1 justify-content-between p-2">
+    <div class="d-flex flex-column flex-grow-1 justify-content-between p-3">
         <div class="d-flex flex-column gap-1">
             <span class="fw-semibold stadium-name">{{ stadium?.name }}</span>
             <div class="d-flex justify-content-between">
                 <span>Số người: <strong>{{ stadium?.numPeople }}</strong></span>
-                <app-rate></app-rate>
             </div>
             <span>Giá: <span class="price">{{stadium?.fromPrice | currency:'VND'}}</span> - <span class="price">{{stadium?.toPrice | currency:'VND'}}</span> /Trận</span>
             <div class="d-flex gap-5">

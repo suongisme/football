@@ -9,7 +9,7 @@
 
 /* declare color for app */
 :root {
-    --primary-color: #498d3d;
+    --primary-color: #60da4b;
     --sub-color: #226a35;
     --button-background: #ef4e22;
     --background-footer: #f0f0f0;
@@ -88,4 +88,23 @@ button {
 .separator {
     background: #ededed;
     height: 1px;
+}
+
+.z-index-99 {
+    z-index: 99 !important;
+}
+
+.label-card {
+    padding: 10px;
+    border-radius: 20px;
+    width: fit-content;
+    color: white;
+    font-weight: 600;
+    background: var(--primary-color);
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1283px;
+    }
 }

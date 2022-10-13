@@ -1,5 +1,6 @@
 import { BreadscrumService } from './services/breadcrum.service';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-main-layout',
@@ -9,12 +10,6 @@ import { Component } from '@angular/core';
 export class MainLayout {
     
     constructor(
-        private s: BreadscrumService
-    ) {
-        this.s.breadscrum$.next([
-            {
-                value: 'Đặt sân'
-            }
-        ])
-    }
+        public router: Router,
+    ) {}
 }

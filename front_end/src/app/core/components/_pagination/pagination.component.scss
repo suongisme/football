@@ -6,12 +6,12 @@ button {
     align-items: center;
     justify-content: center;
     background: white !important;
-    color: var(--button-background);
-    border: 1px solid var(--button-background);
+    color: var(--sub-color);
+    border: 1px solid var(--sub-color);
 
     &:hover,
     &.active {
-        background: var(--button-background) !important;
+        background: var(--sub-color) !important;
         color: white;
     }
 }

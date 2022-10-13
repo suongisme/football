@@ -1,12 +1,7 @@
-<div>
-    <div class="container">
-        <ul class="d-flex gap-4 ps-0">
-            <li *ngFor="let m of menu">
-                <a class="gap-1" [routerLink]="m.link || 'stadium'">
-                    <span [inlineSVG]="m.icon"></span>
-                    <span>{{ m.name }}</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
+<ul class="d-flex gap-4 ps-0 mb-0">
+    <li *ngFor="let m of menu">
+        <a class="gap-1 text-white" [routerLink]="m.link || 'stadium'">
+            <span>{{ m.name }}</span>
+        </a>
+    </li>
+</ul>

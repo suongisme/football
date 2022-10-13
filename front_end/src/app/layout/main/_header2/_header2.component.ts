@@ -1,5 +1,6 @@
+import { BookingFormSearchComponent } from './../../../module/booking/components/search-form/form-search.component';
 import { Component } from "@angular/core";
-
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-header2',
@@ -8,4 +9,11 @@ import { Component } from "@angular/core";
 })
 export class Header2Component {
 
+    constructor(
+        private modal: NgbModal
+    ) {}
+
+    public openSearchForm(): void {
+        const modalRef = this.modal.open(BookingFormSearchComponent);
+    }
 }

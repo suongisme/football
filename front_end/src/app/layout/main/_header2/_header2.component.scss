@@ -1,15 +1,12 @@
 .header {
-    background: var(--sub-color);
-    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-ul {
-    gap: 10px;
-}
-
-.fas.fa-search {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 10px;
+.title {
+    text-transform: uppercase;
+    color: var(--button-background);
+    font-weight: bold;
+    margin-bottom: 0;
 }

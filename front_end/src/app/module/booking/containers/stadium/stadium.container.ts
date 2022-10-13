@@ -23,6 +23,7 @@ export class StadiumContainer implements OnInit, OnDestroy {
     
     public ngOnInit(): void {
         this.breadscrumService.breadscrum$.next([{value: 'Sân bóng'}])
+        this.ngOnSearch(null);
     }
 
     public ngOnSearch(formSearch): void {

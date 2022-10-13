@@ -11,13 +11,13 @@ const imports = [
 const declarations = [
     PaginationComponent,
     RateComponent,
-    CoreTableComponent
+    CoreTableComponent,
 ];
 
 const exports = [
     PaginationComponent,
     RateComponent,
-    CoreTableComponent
+    CoreTableComponent,
 ]
 
 @NgModule({
