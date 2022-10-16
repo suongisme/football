@@ -1,5 +1,5 @@
+import { Stadium } from '../../../module/booking/interfaces/stadium.interface';
 import { Component, Input, TemplateRef } from "@angular/core";
-import { Stadium } from "../../interfaces/stadium.interface";
 
 @Component({
     selector: 'app-stadium-card',

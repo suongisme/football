@@ -1,3 +1,4 @@
+import { StadiumCardComponent } from './components/_stadium-card/stadium-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EditorComponent } from './components/_editor/_editor.component';
 import { CoreTableComponent } from './components/_table/_table.component';
@@ -7,6 +8,7 @@ import { PaginationComponent } from './components/_pagination/pagination.compone
 import { NgModule } from "@angular/core";
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FileInputerComponent } from './components/_file-inputer/_file-inputer.component';
+import { ListStadiumContainer } from './components/_list-stadium/list-stadium.container';
 
 const imports = [
     CommonModule,
@@ -20,6 +22,8 @@ const declarations = [
     CoreTableComponent,
     EditorComponent,
     FileInputerComponent,
+    ListStadiumContainer,
+    StadiumCardComponent
 ];
 
 const exports = [
@@ -28,6 +32,8 @@ const exports = [
     CoreTableComponent,
     EditorComponent,
     FileInputerComponent,
+    ListStadiumContainer,
+    StadiumCardComponent
 ]
 
 @NgModule({

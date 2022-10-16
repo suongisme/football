@@ -1,6 +1,5 @@
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
-import { BookingModule } from './../booking/booking.module';
 import { MyStadiumContainer } from './containers/my-stadium/my-stadium.container';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from "@angular/core";
@@ -21,7 +20,6 @@ const routes: Routes = [
 
 const imports = [
     CoreModule,
-    BookingModule,
     CommonModule,
     NgSelectModule,
     RouterModule.forChild(routes)

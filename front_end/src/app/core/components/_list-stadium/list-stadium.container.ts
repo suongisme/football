@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
-import { Paginator } from './../../../../core/interfaces/paginator.interface';
-import { Stadium } from './../../interfaces/stadium.interface';
+import { Paginator } from '../../interfaces/paginator.interface';
+import { Stadium } from '../../../module/booking/interfaces/stadium.interface';
 import { Component, Input, OnDestroy, OnInit, TemplateRef } from "@angular/core";
-import { BookingService } from "../../services/booking.service";
+import { BookingService } from "../../../module/booking/services/booking.service";
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({

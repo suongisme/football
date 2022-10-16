@@ -7,12 +7,17 @@ export const pageRoutes: Routes = [
         component: MainLayout,
         children: [
             {
-                path: '',
+                path: 'stadium',
                 loadChildren: () => import('../module/booking/booking.module').then(m => m.BookingModule)
             },
             {
                 path: 'my-stadium',
                 loadChildren: () => import('../module/my-stadium/my-stadium.module').then(m => m.MyStadiumModule)
+            },
+            {
+                path: '**',
+                pathMatch: 'full',
+                redirectTo: 'stadium'
             }
         ]
     },
