@@ -1,4 +1,6 @@
+import { ToastService } from './../../../../core/services/toast.service';
 import { Component } from "@angular/core";
+import { DataService } from "src/app/core/services/data.service";
 
 @Component({
     selector: 'app-create-stadium',
@@ -7,4 +9,16 @@ import { Component } from "@angular/core";
 })
 export class CreateStadiumContainer {
     
+    constructor(
+        private dataService: DataService,
+        private toastService: ToastService
+     ) {}
+
+    public clearAllOption(): void {
+        this.dataService.clear$.next(true);
+    }
+
+    public cancel(): void {
+        history.back()
+    }
 }

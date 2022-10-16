@@ -7,4 +7,5 @@ import { Injectable } from "@angular/core";
 export class DataService {
 
     public menuClose$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    public clear$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 }

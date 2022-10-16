@@ -46,7 +46,7 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
     public readURL(event): void {
         if (!this.previewImage) return;
         if (!event.target.files || !event.target.files[0]) return;
-        const { files } = event.target;
+        const files = [...event.target.files];
         const file = files[0];
 
         const loadPreviewImage = file => {
@@ -62,7 +62,7 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
             };
             reader.readAsDataURL(file);
         }
-
+        this.inputer.nativeElement.value = null;
         if (!this.multiple) {
             loadPreviewImage(file);
             return;

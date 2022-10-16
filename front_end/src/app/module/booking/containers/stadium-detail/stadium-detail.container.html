@@ -30,9 +30,14 @@
                     [ngTemplateOutlet]="detail"
                 ></ng-container>
             </div>
-            <div class="box col-lg-5 col-md-12" style="height: fit-content;">
-                <span>Liên hệ</span>
-                <app-contact-form class="w-100"></app-contact-form>
+            <div class="col-lg-5 col-md-12" style="height: fit-content;">
+                <div class="box">
+                    <span>Liên hệ</span>
+                    <app-contact-form class="w-100"></app-contact-form>
+                </div>
+                <div class="box">
+                    <span>Yêu cầu</span>
+                </div>
             </div>
         </div>
         <div class="box">
@@ -77,13 +82,14 @@
     </div>
 
     <div class="box">
-        <span class="fw-bold mb-2">Khung giờ</span>
+        <span class="fw-bold mb-2">Loại sân</span>
         <app-core-table
+            style="height: 300px;"
             class="w-100"
             [columns]="columns"
             [rows]="rows"
-            [rowHeight]="50"
-            [hideHeader]="true"
+            [treeData]="true"
+            [autoGroupColumnDef]="autoGroupColumnDef"
         ></app-core-table>
     </div>
 

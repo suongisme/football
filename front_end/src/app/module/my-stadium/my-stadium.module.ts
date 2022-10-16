@@ -1,3 +1,6 @@
+import { TypeStadiumFormComponent } from './components/type-stadium-form/type-stadium-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OptionFormComponent } from './components/option-form/option-form.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { MyStadiumContainer } from './containers/my-stadium/my-stadium.container';
@@ -22,6 +25,8 @@ const imports = [
     CoreModule,
     CommonModule,
     NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes)
 ];
 const declarations = [
@@ -29,6 +34,8 @@ const declarations = [
     CreateStadiumContainer,
 
     InfoStadiumFormComponent,
+    OptionFormComponent,
+    TypeStadiumFormComponent
 ];
 
 @NgModule({

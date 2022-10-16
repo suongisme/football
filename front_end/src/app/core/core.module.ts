@@ -1,3 +1,4 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StadiumCardComponent } from './components/_stadium-card/stadium-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EditorComponent } from './components/_editor/_editor.component';
@@ -9,11 +10,14 @@ import { NgModule } from "@angular/core";
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FileInputerComponent } from './components/_file-inputer/_file-inputer.component';
 import { ListStadiumContainer } from './components/_list-stadium/list-stadium.container';
+import { AgGridModule } from 'ag-grid-angular';
 
 const imports = [
     CommonModule,
     HttpClientModule,
-    CKEditorModule
+    CKEditorModule,
+    NgbModule,
+    AgGridModule
 ];
 
 const declarations = [
@@ -23,7 +27,7 @@ const declarations = [
     EditorComponent,
     FileInputerComponent,
     ListStadiumContainer,
-    StadiumCardComponent
+    StadiumCardComponent,
 ];
 
 const exports = [
@@ -33,7 +37,7 @@ const exports = [
     EditorComponent,
     FileInputerComponent,
     ListStadiumContainer,
-    StadiumCardComponent
+    StadiumCardComponent,
 ]
 
 @NgModule({

@@ -1,5 +1,9 @@
-.box > span {
-    margin-bottom: 15px;
+.box {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    > span {
+        margin-bottom: 15px;
+    }
 }
 
 .inputer {
