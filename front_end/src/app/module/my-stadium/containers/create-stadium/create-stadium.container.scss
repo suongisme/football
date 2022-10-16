@@ -1,3 +1,16 @@
 .box > span {
     margin-bottom: 15px;
 }
+
+.inputer {
+    width: 100px;
+    height: 100px;
+    background: black;
+    color: white;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+}

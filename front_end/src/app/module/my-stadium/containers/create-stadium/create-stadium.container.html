@@ -17,6 +17,17 @@
         
                 <div class="box">
                     <span>Hình ảnh sân bóng</span>
+                    <app-file-inputer
+                        class="w-100"
+                        [previewImage]="true"
+                        [layout]="'row'"
+                        [multiple]="true"
+                        [inputerElement]="inputer"
+                    ></app-file-inputer>
+
+                    <label #inputer class="inputer">
+                        <i class="fas fa-upload"></i>
+                    </label>
                 </div>
         
                 <div class="box">

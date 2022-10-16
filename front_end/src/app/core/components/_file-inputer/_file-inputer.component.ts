@@ -11,13 +11,18 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
 
     @ViewChild('inputerBox') inputerBox: ElementRef;
     @ViewChild('inputer') inputer: ElementRef;
+
     @Input() previewImage: boolean = false;
     @Input() inputerElement: HTMLLabelElement;
+    @Input() multiple: boolean;
+    @Input() layout: 'row' | 'column';
+
     @Output() output: EventEmitter<string | ArrayBuffer | null> = new EventEmitter();
 
     public unique;
     public imagePreviewUrl: string | ArrayBuffer | null;
     public hiddenUploadFileButton: boolean = false;
+    public imagePreviewUrls: Array<string | ArrayBuffer | null> = [];
 
     constructor(
         private renderer: Renderer2
@@ -41,23 +46,39 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
     public readURL(event): void {
         if (!this.previewImage) return;
         if (!event.target.files || !event.target.files[0]) return;
-        const file = event.target.files[0];
+        const { files } = event.target;
+        const file = files[0];
 
-        const reader = new FileReader();
-        reader.onload = e => {
-            this.imagePreviewUrl = reader.result;
-            this.output.emit(this.imagePreviewUrl);
-            this.hiddenUploadFileButton = true;
-        };
+        const loadPreviewImage = file => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                if (this.multiple) {
+                    this.imagePreviewUrls.push(reader.result);
+                    return;
+                }
+                this.imagePreviewUrl = reader.result;
+                this.output.emit(this.imagePreviewUrl);
+                this.hiddenUploadFileButton = true;
+            };
+            reader.readAsDataURL(file);
+        }
 
-        reader.readAsDataURL(file);
-        this.inputer.nativeElement.value = null;
+        if (!this.multiple) {
+            loadPreviewImage(file);
+            return;
+        }
+        for (const f of files) {
+            loadPreviewImage(f);
+        }
     }
 
-    public removePreviewImage(): void {
+    public removePreviewImage(index?: number): void {
+        if (index != undefined) {
+            this.imagePreviewUrls.splice(index, 1);
+            return;
+        }
         this.imagePreviewUrl = null;
         this.hiddenUploadFileButton = false;
         
     }
-    
 }
