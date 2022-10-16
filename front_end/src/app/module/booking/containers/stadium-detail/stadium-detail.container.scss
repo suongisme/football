@@ -10,29 +10,6 @@
     color: #FF9727;
 }
 
-.box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 0 1rem rgb(0 0 0 / 15%) !important;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-
-    > span:first-child {
-        color: #FF9727;
-        text-align: left;
-        font-size: 20px;
-        font-weight: 600;
-        align-self: flex-start;
-        padding-bottom: 5px;
-        margin-bottom: 5px;
-        width: 100%;
-        border-bottom: 1px solid var(--color-border);
-        text-transform: uppercase;
-    }
-}
-
 .description {
     border-bottom: 1px solid var(--color-border);
     

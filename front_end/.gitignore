@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+/src/app/core/components/_editor/ckeditor5/build
+/src/app/core/components/_editor/ckeditor5/node_modules

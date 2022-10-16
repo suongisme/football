@@ -16,10 +16,4 @@ export const pageRoutes: Routes = [
             }
         ]
     },
-
-    {
-        path: '**',
-        pathMatch: 'full',
-        redirectTo: 'stadium'
-    }
 ]

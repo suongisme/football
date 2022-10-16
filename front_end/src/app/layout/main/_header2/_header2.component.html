@@ -2,7 +2,10 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex gap-3">
-                <a class="h4 title" [routerLink]="['stadium']">Thế giới thể thao</a>
+                <a class="h4 d-flex align-items-center gap-2 mb-0" [routerLink]="['stadium']">
+                    <img src="favicon.ico" style="width: 20px; height: 20px;" />
+                    <span class="title">FFMS</span>
+                </a>
                 <app-navbar class="d-none d-lg-block"></app-navbar>
             </div>
             <div class="gap-3 text-white d-none d-lg-flex">
@@ -10,7 +13,7 @@
                 <span class="font-weight-500 cursor-pointer"> <i class="fas fa-user"></i> Đăng nhập</span>
             </div>
             <div class="d-block d-lg-none">
-                <i class="fas fa-bars text-white cursor-pointer" style="font-size: 20px;" (click)="showMobileMenu = !showMobileMenu"></i>
+                <i class="fas fa-bars text-white cursor-pointer" style="font-size: 20px;" (click)="openMobileMenu()"></i>
                 <app-mobile-navbar *ngIf="showMobileMenu"></app-mobile-navbar>
             </div>
         </div>

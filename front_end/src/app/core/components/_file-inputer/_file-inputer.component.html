@@ -1,0 +1,11 @@
+<div>
+    <div *ngIf="!hiddenUploadFileButton" #inputerBox>
+        <label *ngIf="!inputerElement" [for]="unique">Tải file</label>
+    </div>
+    <input #inputer [id]="unique" type="file" class="d-none" (change)="readURL($event)" />
+
+    <div *ngIf="previewImage && imagePreviewUrl" class="preview-file position-relative">
+        <img [src]="imagePreviewUrl" alt="Preview Image" />
+        <span class="position-absolute time-close" (click)="removePreviewImage()">&times;</span>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import { Component, OnInit } from "@angular/core";
 import { BookingService } from 'src/app/module/booking/services/booking.service';
 import { ConfirmComponent } from 'src/app/core/components/_confirm/_confirm.component';
 import { Confirm } from 'src/app/core/interfaces/confirm.interface';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-my-stadium',
@@ -19,6 +20,7 @@ export class MyStadiumContainer implements OnInit {
         private breadscumService: BreadscrumService,
         private bookingService: BookingService,
         private modalService: NgbModal,
+        private router: Router,
     ) {}
 
     public ngOnInit(): void {
@@ -26,6 +28,10 @@ export class MyStadiumContainer implements OnInit {
         this.bookingService.searchStadium(null)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(result => this.bookingService.bookingResult$.next(result))
+    }
+
+    public createStadium(): void {
+        this.router.navigate(['my-stadium', 'create-stadium'])
     }
 
     public deleteStadium(): void {

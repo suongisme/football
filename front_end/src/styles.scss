@@ -1,120 +1,173 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 /* Importing ng-select style file. */
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
-
 /* declare color for app */
 :root {
-    --primary-color: #60da4b;
-    --sub-color: #226a35;
-    --button-background: #ef4e22;
-    --background-footer: #f0f0f0;
-    --color-border: #e8e8e8;
+  --primary-color: #60da4b;
+  --sub-color: #226a35;
+  --button-background: #ef4e22;
+  --background-footer: #f0f0f0;
+  --color-border: #ccced1;
 }
 
 * {
-    box-sizing: border-box;
-    font-family: Helvetica,Arial,'DejaVu Sans','Liberation Sans',Freesans,sans-serif;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, "DejaVu Sans", "Liberation Sans", Freesans,
+    sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 .active-link {
-    color: #FF9727 !important;
+  color: #ff9727 !important;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 1rem rgb(0 0 0 / 15%) !important;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+
+  > span:first-child {
+    color: #ff9727;
+    text-align: left;
+    font-size: 20px;
+    font-weight: 600;
+    align-self: flex-start;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    border-bottom: 1px solid var(--color-border);
+    text-transform: uppercase;
+  }
 }
 
 .ng-select-container {
-    height: 40px !important;
-    border: 1px solid var(--color-border) !important;
-    
-    .ng-placeholder {
-        font-size: 14px;
-    }
+  height: 40px !important;
+  border: 1px solid var(--color-border) !important;
+
+  .ng-placeholder {
+    font-size: 14px;
+  }
 }
 
 .time-close {
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
 }
 
 .nice-input {
-    @extend .ng-select-container;
-    outline: none;
-    padding-left: 10px;
-    font-size: 14px;
-    border-radius: 4px;
+  @extend .ng-select-container;
+  outline: none;
+  padding-left: 10px;
+  font-size: 14px;
+  border-radius: 4px;
 
-    &::placeholder { color: #999; }
+  &::placeholder {
+    color: #999;
+  }
+  &:focus {
+    border: 1px solid rgb(81, 81, 210) !important;
+  }
 }
 
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .font-weight-500 {
-    font-weight: 500 !important;
+  font-weight: 500 !important;
 }
 
 a {
-    color: black;
-    text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
 button {
-    background: var(--button-background);
-    border-radius: 5px;
-    color: white;
-    outline: none;
-    border: none;
-    min-width: 120px;
-    height: 40px;
-    font-size: 12px;
-    line-height: 16px;
+  background: var(--button-background);
+  border-radius: 5px;
+  color: white;
+  outline: none;
+  border: none;
+  min-width: 120px;
+  height: 40px;
+  font-size: 12px;
+  line-height: 16px;
 
-    &:disabled,
-    &:hover {
-        opacity: .7;
-    }
-    
-    &:disabled {
-        cursor: not-allowed;
-    }
+  &:disabled,
+  &:hover {
+    opacity: 0.7;
+  }
 
-    &.cancel {
-        background: #E6E8F0;
-        color: #696F8C;
-    }
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &.cancel {
+    background: #e6e8f0;
+    color: #696f8c;
+  }
 }
 
 .separator {
-    background: #ededed;
-    height: 1px;
+  background: #ededed;
+  height: 1px;
 }
 
 .z-index-99 {
-    z-index: 99 !important;
+  z-index: 99 !important;
 }
 
 .label-card {
-    padding: 10px;
-    border-radius: 20px;
-    width: fit-content;
-    color: white;
-    font-weight: 600;
-    background: var(--primary-color);
+  padding: 10px;
+  border-radius: 20px;
+  width: fit-content;
+  color: white;
+  font-weight: 600;
+  background: var(--primary-color);
 }
 
 @media (min-width: 1200px) {
-    .container {
-        max-width: 1283px;
-    }
+  .container {
+    max-width: 1283px;
+  }
+}
+
+angular-editor-toolbar {
+  .ae-picker-label,
+  i {
+    color: black !important;
+  }
+}
+
+// nice scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #edf1f7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8f9bb3;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6e778a;
 }
