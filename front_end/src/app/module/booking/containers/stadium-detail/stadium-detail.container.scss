@@ -17,6 +17,8 @@
         position: relative;
         max-height: 300px;
         overflow: hidden;
+        display: block !important;
+        
         &::after {
             content: "";
             position: absolute;
