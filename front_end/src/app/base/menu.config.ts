@@ -12,5 +12,10 @@ export const Menu = [
         name: 'Sân của tôi',
         icon: 'assets/icons/svg/my-stadium.svg',
         link: 'my-stadium',
+    },
+    {
+        name: 'Chờ đối thủ',
+        icon: 'assets/icons/svg/my-stadium.svg',
+        link: 'request',
     }
 ]

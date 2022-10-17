@@ -17,8 +17,9 @@
                     <i class="fas fa-user text-white"></i>
                     <span style="margin-left: 12px;">Chỉnh sửa (Dành cho chủ sân)</span>
                 </div>
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-end gap-2">
                     <button>Liên hệ</button>
+                    <button (click)="openBattle()">Set kèo</button>
                 </div>
             </div>
         </div>
@@ -89,7 +90,7 @@
             [columns]="columns"
             [rows]="rows"
             [treeData]="true"
-            [autoGroupColumnDef]="autoGroupColumnDef"
+            [groupHeader]="groupHeader"
         ></app-core-table>
     </div>
 

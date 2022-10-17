@@ -1,4 +1,5 @@
 export class Tree<T> {
     key: string;
-    children: Array<T>;
+    children?: Array<T>;
+    isRoot?: boolean;
 }

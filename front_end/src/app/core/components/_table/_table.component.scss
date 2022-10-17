@@ -1,15 +1,23 @@
-table {
-    border: 1px solid var(--color-border);
+:host ::ng-deep {
+    .ag-body-viewport::-webkit-scrollbar { width: 0px; }
+    .ag-root-wrapper,
+    .ag-header,
+    .ag-row,
+    .ag-cell { border: none !important; }
+    .ag-icon.ag-icon-menu { display: none !important; }
 
-    * {
-        font-size: 14px;
+    .ag-header-cell-text {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #8F95B2;
     }
-}
 
-tr:hover {
-    background: #a5a4a4;
-}
-
-.odd {
-    background: #f3f3f3;
+    .ag-row-odd,
+    .ag-header-row {
+        background: #F4F6FA;
+        box-shadow: inset 0px -1px 0px #edf2f7;
+    }
 }

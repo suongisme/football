@@ -1,3 +1,4 @@
+import { ActionBattleComponent, BattlePopupComponent } from './components/battle-popup/battle-popup.component';
 import { FindEmptyFormComponent } from './components/find-empty-form/find-empty-form.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { StadiumDetailContainer } from './containers/stadium-detail/stadium-detail.container';
@@ -35,6 +36,8 @@ const declarations = [
     FindEmptyFormComponent,
     SlideShowComponent,
     TimePopupComponent,
+    BattlePopupComponent,
+    ActionBattleComponent
 ]
 
 const imports = [

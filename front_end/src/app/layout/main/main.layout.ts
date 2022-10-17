@@ -1,15 +1,37 @@
-import { BreadscrumService } from './services/breadcrum.service';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { OnDestroy } from '@angular/core';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
     selector: 'app-main-layout',
     templateUrl: './main.layout.html',
     styleUrls: ['./main.layout.scss']
 })
-export class MainLayout {
+export class MainLayout implements OnInit, OnDestroy {
     
+    private unsubscribe$: Subject<void> = new Subject();
+    public isHomePage: boolean = false;
+
     constructor(
         public router: Router,
     ) {}
+
+    public ngOnInit(): void {
+        this.isHomePage = this.router.url === '/stadium';
+        this.router.events
+            .pipe(
+                filter(event => event instanceof NavigationStart),
+                takeUntil(this.unsubscribe$)
+            )
+            .subscribe(event => {
+                const navigationStart = event as NavigationStart;
+                this.isHomePage = navigationStart.url === '/stadium';
+            })
+    }
+
+    public ngOnDestroy(): void {
+        this.unsubscribe$?.next();
+        this.unsubscribe$?.complete();
+    }
 }

@@ -3,8 +3,8 @@
     class="ag-theme-alpine w-100 h-100"
     [columnDefs]="columns"
     [rowData]="rows"
-    [headerHeight]="hideHeader ? 0 : 64"
-    [rowHeight]="56"
+    [headerHeight]="hideHeader ? 0 : 56"
+    [rowHeight]="rowHeight || 64"
 
     (gridReady)="gridReady($event)"
     (gridSizeChanged)="gridSizeChanged($event)"
@@ -15,9 +15,10 @@
     class="ag-theme-alpine w-100 h-100"
     [columnDefs]="columns"
     [rowData]="rows"
-    [headerHeight]="hideHeader ? 0 : 64"
-    [rowHeight]="56"
+    [headerHeight]="hideHeader ? 0 : 56"
+    [rowHeight]="rowHeight || 64"
     [suppressMovableColumns]="true"
+    [domLayout]="domLayout"
 
     [autoGroupColumnDef]="autoGroupColumnDef"
     [treeData]="treeData"

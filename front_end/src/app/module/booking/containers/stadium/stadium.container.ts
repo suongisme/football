@@ -2,7 +2,6 @@ import { takeUntil, Subject } from 'rxjs';
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { BookingService } from '../../services/booking.service';
 import { Paginator } from 'src/app/core/interfaces/paginator.interface';
-import { BreadscrumService } from 'src/app/layout/main/services/breadcrum.service';
 
 @Component({
     selector: 'app-stadium-container',
@@ -18,11 +17,9 @@ export class StadiumContainer implements OnInit, OnDestroy {
 
     constructor(
         private bookingService: BookingService,
-        private breadscrumService: BreadscrumService
     ) {}
     
     public ngOnInit(): void {
-        this.breadscrumService.breadscrum$.next([{value: 'Sân bóng'}])
         this.ngOnSearch(null);
     }
 

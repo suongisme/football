@@ -6,6 +6,7 @@ import {
   GetServerSideGroupKey,
   IsServerSideGroup,
   IsServerSideGroupOpenByDefaultParams,
+  ColDef,
 } from 'ag-grid-community';
 
 export const isServerSideGroupOpenByDefault: (
@@ -72,3 +73,12 @@ export function createServerSideDatasource(fakeServer: any) {
   };
   return dataSource;
 }
+
+export const autoGroupColumnDef: ColDef = {
+  field: 'key',
+  cellRendererParams: {
+    innerRenderer: (params) => {
+      return params.data.key;
+    },
+  },
+};

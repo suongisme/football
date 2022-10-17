@@ -19,13 +19,15 @@
   margin: 0;
 }
 
-ul {
-  list-style: none;
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1283px;
+  }
 }
 
-.active-link {
-  color: #ff9727 !important;
-}
+ul { list-style: none; }
+
+.active-link { color: #ff9727 !important; }
 
 .box {
   display: flex;
@@ -139,34 +141,6 @@ button {
   color: white;
   font-weight: 600;
   background: var(--primary-color);
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1283px;
-  }
-}
-
-angular-editor-toolbar {
-  .ae-picker-label,
-  i {
-    color: black !important;
-  }
-}
-
-.toast-container {
-
-  .success {
-    @extend .bg-success;
-  }
-
-  .error {
-    @extend .bg-danger;
-  }
-
-  .warning {
-    @extend .bg-warning;
-  }
 }
 
 // nice scrollbar

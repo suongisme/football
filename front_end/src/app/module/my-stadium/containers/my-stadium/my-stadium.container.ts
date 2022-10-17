@@ -1,6 +1,5 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, takeUntil } from 'rxjs';
-import { BreadscrumService } from './../../../../layout/main/services/breadcrum.service';
 import { Component, OnInit } from "@angular/core";
 import { BookingService } from 'src/app/module/booking/services/booking.service';
 import { ConfirmComponent } from 'src/app/core/components/_confirm/_confirm.component';
@@ -17,14 +16,12 @@ export class MyStadiumContainer implements OnInit {
     private unsubscribe$: Subject<any> = new Subject();
 
     constructor(
-        private breadscumService: BreadscrumService,
         private bookingService: BookingService,
         private modalService: NgbModal,
         private router: Router,
     ) {}
 
     public ngOnInit(): void {
-        this.breadscumService.breadscrum$.next([{value: 'Sân của tôi'}])
         this.bookingService.searchStadium(null)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(result => this.bookingService.bookingResult$.next(result))
