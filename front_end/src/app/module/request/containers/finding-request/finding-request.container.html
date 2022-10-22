@@ -1,8 +1,11 @@
 <div class="d-flex flex-column">
+    <app-booking-form-search></app-booking-form-search>
     <app-core-table
         style="height: 300px;"
         [treeData]="false"
         [columns]="columnDef"
         [rows]="rowData"
+        [rowHeight]="100"
     ></app-core-table>
+    <app-pagination [paginator]="paginator"></app-pagination>
 </div>

@@ -1,17 +1,15 @@
-button {
-    min-width: 30px;
-    max-width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white !important;
-    color: var(--sub-color);
-    border: 1px solid var(--sub-color);
+:host ::ng-deep {
 
-    &:hover,
-    &.active {
-        background: var(--sub-color) !important;
-        color: white;
+    .page-item {
+
+        .page-link {
+            color: var(--sub-color) !important;
+            border: 1px solid var(--sub-color) !important;
+        }
+
+        &.active > .page-link {
+            background: var(--sub-color) !important;
+            color: white !important;
+        }
     }
 }

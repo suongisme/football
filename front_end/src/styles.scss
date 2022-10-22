@@ -13,8 +13,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: Helvetica, Arial, "DejaVu Sans", "Liberation Sans", Freesans,
-    sans-serif;
+  font-family: Helvetica, Arial, "DejaVu Sans", "Liberation Sans", Freesans, sans-serif;
   padding: 0;
   margin: 0;
 }
@@ -77,13 +76,19 @@ ul { list-style: none; }
   padding-left: 10px;
   font-size: 14px;
   border-radius: 4px;
-
+  
   &::placeholder {
     color: #999;
   }
   &:focus {
     border: 1px solid rgb(81, 81, 210) !important;
   }
+
+  &-error {
+    border: 1px solid rgba(var(--bs-danger-rgb), 1) !important;
+    color: rgba(var(--bs-danger-rgb), 1) !important;
+  }
+
 }
 
 .cursor-pointer {
@@ -160,4 +165,9 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #6e778a;
+}
+
+.required::after {
+  content: ' *';
+  color: rgba(var(--bs-danger-rgb), 1) ;
 }

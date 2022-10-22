@@ -5,7 +5,6 @@ import { StadiumDetailContainer } from './containers/stadium-detail/stadium-deta
 import { RouterModule } from '@angular/router';
 import { Routes } from '@angular/router';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { BookingFormSearchComponent } from './components/search-form/form-search.component';
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from 'src/app/core/core.module';
@@ -31,7 +30,6 @@ const declarations = [
     StadiumContainer,
     StadiumDetailContainer,
 
-    BookingFormSearchComponent,
     ContactFormComponent,
     FindEmptyFormComponent,
     SlideShowComponent,

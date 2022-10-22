@@ -10,7 +10,10 @@
             </div>
             <div class="gap-3 text-white d-none d-lg-flex">
                 <span class="font-weight-500 cursor-pointer"> <i class="fas fa-cart-plus"></i> Giỏ hàng</span>
-                <span class="font-weight-500 cursor-pointer"> <i class="fas fa-user"></i> Đăng nhập</span>
+                <a *ngIf="!isLoggedIn" [routerLink]="['auth', 'login']" class="font-weight-500 cursor-pointer text-white"> <i class="fas fa-user"></i> Đăng nhập</a>
+                <span *ngIf="isLoggedIn" class="cursor-pointer" (click)="logout()">
+                    Hi, {{ username }}
+                </span>
             </div>
             <div class="d-block d-lg-none">
                 <i class="fas fa-bars text-white cursor-pointer" style="font-size: 20px;" (click)="openMobileMenu()"></i>

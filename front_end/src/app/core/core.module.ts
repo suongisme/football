@@ -11,13 +11,20 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FileInputerComponent } from './components/_file-inputer/_file-inputer.component';
 import { ListStadiumContainer } from './components/_list-stadium/list-stadium.container';
 import { AgGridModule } from 'ag-grid-angular';
+import { BookingFormSearchComponent } from './components/_search-form/form-search.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const imports = [
     CommonModule,
     HttpClientModule,
     CKEditorModule,
     NgbModule,
-    AgGridModule
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AgGridModule,
+    NgbModule
 ];
 
 const declarations = [
@@ -28,6 +35,7 @@ const declarations = [
     FileInputerComponent,
     ListStadiumContainer,
     StadiumCardComponent,
+    BookingFormSearchComponent,
 ];
 
 const exports = [
@@ -38,6 +46,7 @@ const exports = [
     FileInputerComponent,
     ListStadiumContainer,
     StadiumCardComponent,
+    BookingFormSearchComponent,
 ]
 
 @NgModule({

@@ -17,7 +17,7 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
     @Input() multiple: boolean;
     @Input() layout: 'row' | 'column';
 
-    @Output() output: EventEmitter<string | ArrayBuffer | null> = new EventEmitter();
+    @Output() output: EventEmitter<any[]> = new EventEmitter();
 
     public unique;
     public imagePreviewUrl: string | ArrayBuffer | null;
@@ -48,6 +48,7 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
         if (!event.target.files || !event.target.files[0]) return;
         const files = [...event.target.files];
         const file = files[0];
+        this.output.emit(files);
 
         const loadPreviewImage = file => {
             const reader = new FileReader();
@@ -57,7 +58,6 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
                     return;
                 }
                 this.imagePreviewUrl = reader.result;
-                this.output.emit(this.imagePreviewUrl);
                 this.hiddenUploadFileButton = true;
             };
             reader.readAsDataURL(file);

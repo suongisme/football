@@ -20,4 +20,10 @@
         background: #F4F6FA;
         box-shadow: inset 0px -1px 0px #edf2f7;
     }
+
+    .header-text-center {
+        .ag-header-cell-label {
+            justify-content: center;
+        }
+    }
 }

@@ -1,0 +1,12 @@
+server:
+  servlet:
+    context-path: /api
+
+spring:
+  jwt:
+    secret: bmd1eWVuIHZhbiBzdW9uZw==
+    expire: 86400000 # 1 day
+  firebase:
+    project-id: football-36c61
+    bucket-name: football-36c61
+    pattern-url: 'https://firebasestorage.googleapis.com/v0/b/football-36c61.appspot.com/o/{0}?alt=media'
