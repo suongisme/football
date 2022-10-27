@@ -39,9 +39,9 @@ public class Stadium {
     @Column(name = "created_by", nullable = false, length = 300)
     private String createdBy;
 
-    @Column(name = "created_date", insertable = false, updatable = false)
-    @CreationTimestamp
+    @Column(name = "created_date")
     private Timestamp createdDate;
+
     @Column(name = "status")
     private Integer status;
 }

@@ -1,4 +1,4 @@
-package com.football.stadium.detail;
+package com.football.stadium.type.detail;
 
 import com.football.common.mapper.Mapper;
 import org.springframework.stereotype.Component;

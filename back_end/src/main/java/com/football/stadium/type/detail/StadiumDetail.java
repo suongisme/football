@@ -1,8 +1,9 @@
-package com.football.stadium.detail;
+package com.football.stadium.type.detail;
 
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 
@@ -13,20 +14,18 @@ public class StadiumDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
-    @Column(name = "name", nullable = false, length = 100)
-    private String name;
-
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time")
     private LocalTime startTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     private LocalTime endTime;
 
-    @Column(name = "price", nullable = false, precision = 10)
+    @Column(name = "price", precision = 10)
     private BigDecimal price;
 
-    @Column(name = "stadium_id")
-    private String stadiumId;
+    @NotNull
+    @Column(name = "parent_id", nullable = false)
+    private Long parentId;
 }

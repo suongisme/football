@@ -58,9 +58,7 @@ public class UserService implements UserDetailsService {
 
     public com.football.user.User getUserByUsername(String username) {
         return this.userRepository.findByUsername(username)
-                .orElseThrow(() -> {
-                    return new IllegalArgumentException("not found username: " + username);
-                });
+                .orElseThrow(() -> new IllegalArgumentException("not found username: " + username));
     }
 
     @Transactional

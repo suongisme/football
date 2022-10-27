@@ -7,6 +7,13 @@ spring:
     secret: bmd1eWVuIHZhbiBzdW9uZw==
     expire: 86400000 # 1 day
   firebase:
-    project-id: football-36c61
-    bucket-name: football-36c61
-    pattern-url: 'https://firebasestorage.googleapis.com/v0/b/football-36c61.appspot.com/o/{0}?alt=media'
+    project-id: football-media-store
+    bucket-name: football-media-store.appspot.com
+    pattern-url: 'https://firebasestorage.googleapis.com/v0/b/football-media-store.appspot.com/o/{0}?alt=media'
+  servlet:
+    multipart:
+      max-file-size: 128MB
+      max-request-size: 128MB
+  http:
+    multipart:
+      enabled: true

@@ -20,10 +20,11 @@ public class FirebaseService {
             log.info("uploading an image to firebase");
             Bucket bucket = StorageClient.getInstance().bucket();
             Blob blob = bucket.create(FirebaseUtils.generateFileName(file.getOriginalFilename()), file.getBytes(), file.getContentType());
+            log.info(blob.getMediaLink());
             return this.patternUrl.replace("{0}", blob.getName());
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-            return null;
+            throw new IllegalArgumentException(ex);
         }
     }
 }

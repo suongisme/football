@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class StadiumImage {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 

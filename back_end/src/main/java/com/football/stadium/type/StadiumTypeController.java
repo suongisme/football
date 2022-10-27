@@ -1,4 +1,4 @@
-package com.football.stadium.detail;
+package com.football.stadium.type;
 
 import com.football.common.dto.ResultDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/stadium-detail")
 @RequiredArgsConstructor
-public class StadiumDetailController {
+public class StadiumTypeController {
 
-    private final StadiumDetailService stadiumDetailService;
+    private final StadiumTypeService stadiumTypeService;
 
     @GetMapping("/{stadiumId}")
     public ResponseEntity getStadiumDetailByParentId(@PathVariable String stadiumId) {
-        ResultDTO<List<StadiumDetailDto>> result = this.stadiumDetailService.findStadiumDetailByParentId(stadiumId);
+        ResultDTO<List<StadiumTypeDto>> result = this.stadiumTypeService.findStadiumDetailByParentId(stadiumId);
         return ResponseEntity.ok(result);
     }
 

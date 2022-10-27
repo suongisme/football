@@ -39,6 +39,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/authenticate", "/users", "/users/active", "/users/re-send-mail").permitAll()
                 .antMatchers(HttpMethod.GET, "/provinces", "/districts/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/search-stadium").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

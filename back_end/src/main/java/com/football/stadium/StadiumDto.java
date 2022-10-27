@@ -1,7 +1,7 @@
 package com.football.stadium;
 
-import com.football.stadium.detail.StadiumDetailDto;
-import com.football.stadium.image.StadiumImageDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.football.stadium.type.StadiumTypeDto;
 import com.football.stadium.option.StadiumOptionDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,22 +32,33 @@ public class StadiumDto implements Serializable {
     @NotBlank
     private String address;
 
-    @NotBlank
-    private Long districtId;
+    @NotNull
+    private Integer districtId;
 
-    @NotBlank
-    private Long provinceId;
+    @NotNull
+    private Integer provinceId;
+
+    private String avatar;
 
     private MultipartFile avatarFile;
 
     private String description;
 
     private String createdBy;
+
     private Timestamp createdDate;
+
     private Integer status;
 
+    private Integer totalType;
+
+    private BigDecimal minPrice;
+    private BigDecimal maxPrice;
+
     @NotNull
-    private List<StadiumDetailDto> details;
-    private List<StadiumImageDto> images = new ArrayList<>();
+    private List<StadiumTypeDto> details;
+
+    @JsonIgnore
+    private List<MultipartFile> images = new ArrayList<>();
     private List<StadiumOptionDto> options = new ArrayList<>();
 }
