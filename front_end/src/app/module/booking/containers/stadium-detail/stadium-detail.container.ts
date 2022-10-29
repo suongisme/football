@@ -1,76 +1,60 @@
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Time } from './../../interfaces/time.interface';
-import { CurrencyPipe } from '@angular/common';
-import { BookingService } from './../../services/booking.service';
-import { Component, OnInit } from '@angular/core';
-import { ColDef } from 'ag-grid-community';
+import { Stadium, StadiumImage, StadiumOption } from './../../interfaces/stadium.interface';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BattlePopupComponent } from '../../components/battle-popup/battle-popup.component';
+import { ActivatedRoute } from '@angular/router';
+import { StadiumService } from 'src/app/module/my-stadium/services/stadium.service';
+import { takeUntil, Subject, Observable } from 'rxjs';
+import { StadiumImageService } from 'src/app/module/my-stadium/services/stadium-image.service';
+import { StadiumOptionService } from 'src/app/module/my-stadium/services/stadium-option.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { UserResponse } from 'src/app/core/interfaces/user.interface';
 
 @Component({
 	selector: 'app-stadium-detail-container',
 	templateUrl: './stadium-detail.container.html',
 	styleUrls: ['./stadium-detail.container.scss'],
 })
-export class StadiumDetailContainer implements OnInit {
-	
+export class StadiumDetailContainer implements OnInit, OnDestroy {
+
+	private unsubscribe$: Subject<void> = new Subject();
+
+	public stadiumByProvince$: Observable<Stadium[]>;
+	public stadiumImage$: Observable<StadiumImage[]>
+	public stadiumOption$: Observable<StadiumOption[]>;
+	public stadiumDetail$: Observable<Time[]>;
+	public stadium: Stadium;
 	public isReadMore: boolean = false;
-	public columns: ColDef[];
-	public rows: Time[];
-	public groupHeader: ColDef = {
-		headerName: 'Loại sân',
-		minWidth: 100,
-		maxWidth: 150,
-	}
+	public isOwnerStadium: boolean = false;
+
+	private currentUser: UserResponse;
 
 	constructor(
-		private bookingService: BookingService,
-		private currencyPipe: CurrencyPipe,
-		private modalService: NgbModal
+		private modalService: NgbModal,
+		private router: ActivatedRoute,
+		private stadiumService: StadiumService,
+		private stadiumImageService: StadiumImageService,
+		private stadiumOptionService: StadiumOptionService,
+		private dataService: DataService
 	) { }
 
 	public ngOnInit(): void {
-		this.bookingService
-			.searchStadium(null)
-			.subscribe((result) => this.bookingService.bookingResult$.next(result));
-		this.columns = [
-			{
-				headerName: 'Thời gian',
-				field: 'time',
-			},
-			{
-				headerName: 'Giá',
-				cellStyle: {
-					'font-weight': 'bold',
-				},
-				valueGetter: (params) => {
-					const time = params.data;
-					return this.currencyPipe.transform(time?.price, 'VND');
-				},
-			},
-		];
+		this.currentUser = this.dataService.currentUser$.getValue();
+		this.isOwnerStadium = this.currentUser && this.currentUser.userDto.role == 'OWNER_STADIUM';
 
-		this.rows = [
-			{
-				key: 'Sân 4 người',
-				children: [
-					{
-						key: '',
-						time: '16h1 - 17h',
-						price: 300000,
-					},
-				],
-			},
-			{
-				key: 'Sân 3 người',
-				children: [
-					{
-						key: '',
-						time: '16h2 - 17h',
-						price: 300000,
-					},
-				],
-			},
-		];
+		this.router.params.subscribe(res => {
+			
+			this.stadiumService.getStadiumById(res.id)
+				.pipe(takeUntil(this.unsubscribe$))
+				.subscribe(res => {
+					this.stadium = res;
+					this.stadiumByProvince$ = this.stadiumService.getStadiumByProvinceId(this.stadium.provinceId);
+					this.stadiumImage$ = this.stadiumImageService.getStadiumImage(this.stadium.id);
+					this.stadiumOption$ = this.stadiumOptionService.getStadiumOption(this.stadium.id);
+					this.stadiumDetail$ = this.stadiumService.getStadiumDetail(this.stadium.id);
+				})
+		})
 	}
 
 	public openBattle(): void {
@@ -79,5 +63,10 @@ export class StadiumDetailContainer implements OnInit {
 			scrollable: true,
 			centered: true
 		});
+	}
+
+	public ngOnDestroy(): void {
+		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
 	}
 }

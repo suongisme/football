@@ -1,5 +1,5 @@
 export interface UserResponse {
-    jwt: string;
+    token: string;
     userDto: UserDTO;
 
 }

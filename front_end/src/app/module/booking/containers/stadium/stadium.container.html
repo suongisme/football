@@ -5,9 +5,9 @@
                 <div class="col-md-2 col-12 d-flex d-md-block justify-content-center">
                     <h2 class="label-card">Sân bóng</h2>
                 </div>
-                <app-booking-form-search class="col-md-10 col-12"></app-booking-form-search>
+                <app-booking-form-search class="col-md-10 col-12" (search)="ngOnSearch($event)"></app-booking-form-search>
             </div>
-            <app-list-stadium-container></app-list-stadium-container>
+            <app-list-stadium-container [stadiumList]="stadiumList"></app-list-stadium-container>
         </div>
         <app-pagination [paginator]="paginator"></app-pagination>
     </div>

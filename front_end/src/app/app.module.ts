@@ -12,7 +12,7 @@ import { TokenService } from './layout/auth/service/token.service';
   declarations: [
     AppComponent,
     SpinnerComponent,
-    ToastComponent
+    ToastComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,6 +23,6 @@ import { TokenService } from './layout/auth/service/token.service';
   providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: TokenService, multi: true }
 	],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

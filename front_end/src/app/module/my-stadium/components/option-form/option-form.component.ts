@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/core/services/data.service';
 import { FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormArray } from '@angular/forms';
 
 @Component({
@@ -14,7 +14,8 @@ export class OptionFormComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
 
-    public formArray: FormArray<FormGroup> = new FormArray([]);
+    @Input()
+    public control: FormArray<FormGroup>;
 
     constructor(
         private fb: FormBuilder,
@@ -24,7 +25,7 @@ export class OptionFormComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.subscription = this.dataService.clear$.subscribe(res => {
             if (!res) return;
-            this.formArray.clear();
+            this.control.clear();
         })
         this.addOption();
     }
@@ -33,11 +34,11 @@ export class OptionFormComponent implements OnInit, OnDestroy {
         const formGroup = this.fb.group({
             name: [null, [Validators.required]]
         })
-        this.formArray.push(formGroup);
+        this.control.push(formGroup);
     }
 
     public removeOption(index: number): void {
-        this.formArray.removeAt(index);
+        this.control.removeAt(index);
     }
 
     public ngOnDestroy(): void {

@@ -4,3 +4,8 @@ spring:
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
     url: jdbc:mysql://0.0.0.0:3306/football
+  jpa:
+    show-sql: true
+  properties:
+    hibernate:
+      format_sql: true

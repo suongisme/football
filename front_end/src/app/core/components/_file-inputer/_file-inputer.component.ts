@@ -1,3 +1,4 @@
+import { AbstractControl, FormControl } from '@angular/forms';
 import { OnInit, Output, EventEmitter, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
 import { Component } from '@angular/core';
 
@@ -16,13 +17,14 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
     @Input() inputerElement: HTMLLabelElement;
     @Input() multiple: boolean;
     @Input() layout: 'row' | 'column';
+    @Input() control: AbstractControl<any, any>;
 
     @Output() output: EventEmitter<any[]> = new EventEmitter();
 
     public unique;
-    public imagePreviewUrl: string | ArrayBuffer | null;
     public hiddenUploadFileButton: boolean = false;
     public imagePreviewUrls: Array<string | ArrayBuffer | null> = [];
+    public files: any[] = []
 
     constructor(
         private renderer: Renderer2
@@ -53,12 +55,11 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
         const loadPreviewImage = file => {
             const reader = new FileReader();
             reader.onload = e => {
-                if (this.multiple) {
-                    this.imagePreviewUrls.push(reader.result);
-                    return;
-                }
-                this.imagePreviewUrl = reader.result;
-                this.hiddenUploadFileButton = true;
+                this.imagePreviewUrls.push(reader.result);
+                this.files.push(file);
+                this.hiddenUploadFileButton = !this.multiple;
+                this.setControl();
+                console.log(this.files)
             };
             reader.readAsDataURL(file);
         }
@@ -73,12 +74,16 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
     }
 
     public removePreviewImage(index?: number): void {
-        if (index != undefined) {
-            this.imagePreviewUrls.splice(index, 1);
-            return;
-        }
-        this.imagePreviewUrl = null;
+        this.imagePreviewUrls.splice(index, 1);
+        this.files.splice(index, 1);
+        this.setControl();
         this.hiddenUploadFileButton = false;
-        
+    }
+
+    private setControl() {
+        if (this.control) {
+            console.log(this.files);
+            this.control.setValue(this.files);
+        }
     }
 }

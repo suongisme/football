@@ -14,7 +14,7 @@ public class StadiumDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "start_time")
     private LocalTime startTime;

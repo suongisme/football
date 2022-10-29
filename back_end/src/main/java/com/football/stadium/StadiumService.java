@@ -1,22 +1,28 @@
 package com.football.stadium;
 
+import com.football.common.constant.CommonConstant;
 import com.football.common.constant.StatusEnum;
 import com.football.common.dto.ResultDTO;
 import com.football.common.dto.SearchDTO;
 import com.football.common.dto.SearchResponse;
+import com.football.common.utils.DateUtils;
 import com.football.common.utils.ResultUtils;
 import com.football.image.ImageService;
-import com.football.stadium.type.StadiumType;
-import com.football.stadium.type.StadiumTypeDto;
-import com.football.stadium.type.StadiumTypeMapper;
-import com.football.stadium.type.StadiumTypeRepository;
+import com.football.province.Province;
+import com.football.province.ProvinceRepository;
+import com.football.request.RequestRepository;
+import com.football.request.RequestStatus;
+import com.football.stadium.AvailableStadium.Response.Detail;
 import com.football.stadium.image.StadiumImage;
-import com.football.stadium.image.StadiumImageMapper;
 import com.football.stadium.image.StadiumImageRepository;
 import com.football.stadium.option.StadiumOption;
 import com.football.stadium.option.StadiumOptionDto;
 import com.football.stadium.option.StadiumOptionMapper;
 import com.football.stadium.option.StadiumOptionRepository;
+import com.football.stadium.type.StadiumType;
+import com.football.stadium.type.StadiumTypeDto;
+import com.football.stadium.type.StadiumTypeMapper;
+import com.football.stadium.type.StadiumTypeRepository;
 import com.football.stadium.type.detail.StadiumDetail;
 import com.football.stadium.type.detail.StadiumDetailDto;
 import com.football.stadium.type.detail.StadiumDetailMapper;
@@ -26,6 +32,7 @@ import com.football.user.UserService;
 import com.football.validator.ValidatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,12 +43,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.Tuple;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.text.ParseException;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -55,13 +61,15 @@ public class StadiumService {
     private final StadiumImageRepository stadiumImageRepository;
     private final StadiumOptionRepository stadiumOptionRepository;
     private final StadiumDetailRepository stadiumDetailRepository;
+    private final RequestRepository requestRepository;
 
     private final ImageService imageService;
 
     private final StadiumMapper stadiumMapper;
     private final StadiumTypeMapper stadiumTypeMapper;
     private final StadiumOptionMapper stadiumOptionMapper;
-    private final StadiumImageMapper stadiumImageMapper;
+
+    private final ProvinceRepository provinceRepository;
     private final StadiumDetailMapper stadiumDetailMapper;
     private final ValidatorService validator;
 
@@ -80,7 +88,7 @@ public class StadiumService {
             dto.setMinPrice(minAndMax.get(0, BigDecimal.class));
             dto.setMaxPrice(minAndMax.get(1, BigDecimal.class));
             List<StadiumOption> options = this.stadiumOptionRepository.findByStadiumId(stadium.getId());
-            dto.setOptions(options.stream().map(this.stadiumOptionMapper::toDto).collect(Collectors.toList()));
+            dto.setOptions(this.stadiumOptionMapper.toDto(options));
             return dto;
         };
 
@@ -108,7 +116,10 @@ public class StadiumService {
 
     public ResultDTO<StadiumDto> getStadiumById(String id) {
         Stadium stadium = this.stadiumRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Không tìm thấy SVĐ"));
-        return ResultUtils.buildSuccessResult(this.stadiumMapper.toDto(stadium));
+        StadiumDto stadiumDto = this.stadiumMapper.toDto(stadium);
+        Province province = this.provinceRepository.findById(stadium.getProvinceId()).orElse(new Province());
+        stadiumDto.setProvinceName(province.getName());
+        return ResultUtils.buildSuccessResult(stadiumDto);
     }
 
     @Transactional
@@ -159,5 +170,48 @@ public class StadiumService {
         }
 
         return ResultUtils.buildSuccessResult(stadiumDto);
+    }
+
+    public List<AvailableStadium.Response> findAvailableStadium(AvailableStadium.Request avaRequest) throws ParseException {
+        log.info("get available stadium {}", avaRequest);
+        this.validator.validate(avaRequest);
+
+        Date now = new Date();
+        if (StringUtils.isBlank(avaRequest.getStartDate())) {
+            avaRequest.setStartDate(DateUtils.dateToString(now));
+        }
+
+        if (StringUtils.isBlank(avaRequest.getEndDate())) {
+            now.setTime(now.getTime() + CommonConstant.ONE_WEEK_MILI);
+            avaRequest.setEndDate(DateUtils.dateToString(now));
+        }
+
+        this.stadiumRepository.findById(avaRequest.getStadiumId())
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sân vận động"));
+
+        List<StadiumDetail> stadiumDetails = this.stadiumDetailRepository
+                .findByStadiumId(avaRequest.getStadiumId(),avaRequest.getStartTime(), avaRequest.getEndTime());
+        long duration = DateUtils.calculateDurationDaysBetween(avaRequest.getStartDate(), avaRequest.getEndDate());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setLenient(true);
+        calendar.setTime(DateUtils.stringToDate(avaRequest.getStartDate()));
+        return IntStream.rangeClosed(1, (int) duration)
+                .mapToObj(i -> calendar.getTime())
+                .map(date -> {
+                    AvailableStadium.Response response = new AvailableStadium.Response();
+                    response.setDate(DateUtils.dateToString(date));
+                    List<Detail> details = stadiumDetails.stream()
+                            .filter(d ->
+                                !this.requestRepository.existsByStadiumDetailIdAndHireDateAndStatus(d.getId(), calendar.getTime(), RequestStatus.APPROVED.getStatus()
+                            ))
+                            .map(d -> new Detail(d.getId(), d.getStartTime().toString(), d.getEndTime().toString(), d.getPrice()))
+                            .collect(Collectors.toList());
+                    response.setChildren(details);
+                    calendar.add(Calendar.DAY_OF_MONTH, 1);
+                    return response;
+                })
+                .collect(Collectors.toList());
+
     }
 }

@@ -14,6 +14,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { BookingFormSearchComponent } from './components/_search-form/form-search.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SafePipe } from './pipes/safe.pipe';
 
 const imports = [
     CommonModule,
@@ -36,6 +37,7 @@ const declarations = [
     ListStadiumContainer,
     StadiumCardComponent,
     BookingFormSearchComponent,
+    SafePipe,
 ];
 
 const exports = [
@@ -47,6 +49,7 @@ const exports = [
     ListStadiumContainer,
     StadiumCardComponent,
     BookingFormSearchComponent,
+    SafePipe,
 ]
 
 @NgModule({

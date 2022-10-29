@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     public ngOnInit(): void {
+        this.dataService.currentUser$.next(null);
         this.ngOnInitForm();
     }
 

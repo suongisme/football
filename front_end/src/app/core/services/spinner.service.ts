@@ -12,7 +12,7 @@ export class SpinnerService {
         this.spinner$.next(true);
     }
 
-    public hidden(): void {
+    public hide(): void {
         this.spinner$.next(false);
     }
     

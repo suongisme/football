@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DataService } from 'src/app/core/services/data.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +13,8 @@ import { AuthService } from '../service/auth.service';
 })
 export class OtpComponent implements OnInit, OnDestroy {
 
-    private subscription: Subscription[] = [];
+    private unsubscribe$: Subject<void> = new Subject();
+
     public formGroup: FormGroup;
     private username: string;
 
@@ -47,19 +48,21 @@ export class OtpComponent implements OnInit, OnDestroy {
             return;
         }
         this.authService.activeAccount(this.username, this.formGroup.get('otp').value)
+            .pipe(takeUntil(this.unsubscribe$))
             .subscribe(res => {
                 this.router.navigate(['/auth', 'login']);
             })
     }
 
     public reSendMail(): void {
-        this.authService.reSendMail(this.username).subscribe(res => {
-
-        });
+        this.authService.reSendMail(this.username)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe();
     }
 
     public ngOnDestroy(): void {
         this.dataService.activeAccount$.next(null);
-        this.subscription.forEach(sub => sub.unsubscribe());
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -42,5 +43,11 @@ public class StadiumController {
     public ResponseEntity getStadiumById(@PathVariable String id) {
         ResultDTO<StadiumDto> result = this.stadiumService.getStadiumById(id);
         return ResponseEntity.ok(result.getData());
+    }
+
+    @PostMapping("/available-stadium")
+    public ResponseEntity getAvailableStadium(@RequestBody AvailableStadium.Request availableStadium) throws ParseException {
+        List<AvailableStadium.Response> availableStadium1 = this.stadiumService.findAvailableStadium(availableStadium);
+        return ResponseEntity.ok(availableStadium1);
     }
 }

@@ -31,12 +31,10 @@ export class AuthService {
                 tap({
                     next: res => {
                         this.toastService.success('Đăng nhập thành công');
-                        this.spinnerService.hidden();
+                        this.spinnerService.hide();
                     },
                     error: error => {
-                        this.toastService.error(error?.error?.message || 'Đăng nhập thất bại');
-                        this.spinnerService.hidden();
-                        if (error.status == 401) {
+                        if (error.status == 400) {
                             this.dataService.activeAccount$.next(user.username);
                             this.router.navigate(['/auth', 'otp']);
                         }
@@ -52,11 +50,11 @@ export class AuthService {
                 tap({
                     next: res => {
                         this.toastService.success('Đã gửi mã kích hoạt đến ' + user.email);
-                        this.spinnerService.hidden();
+                        this.spinnerService.hide();
                     },
                     error: error => {
                         this.toastService.error(error?.error?.message || 'Đăng ký thất bại')
-                        this.spinnerService.hidden();
+                        this.spinnerService.hide();
                     }
                 })
             )
@@ -71,11 +69,11 @@ export class AuthService {
             tap({
                 next: res => {
                     this.toastService.success('Kích hoạt thành công');
-                    this.spinnerService.hidden();
+                    this.spinnerService.hide();
                 },
                 error: error => {
                     this.toastService.error('Kích hoạt thất bại');
-                    this.spinnerService.hidden();
+                    this.spinnerService.hide();
                 }
             })
         );
@@ -89,11 +87,11 @@ export class AuthService {
             tap({
                 next: res => {
                     this.toastService.success('Đã gửi mã đến: ' +res.email);
-                    this.spinnerService.hidden();
+                    this.spinnerService.hide();
                 },
                 error: error => {
                     this.toastService.error(error?.error?.message || 'Gửi mail thất bại');
-                    this.spinnerService.hidden();
+                    this.spinnerService.hide();
                 }
             })
         )

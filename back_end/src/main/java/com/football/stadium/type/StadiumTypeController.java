@@ -19,8 +19,8 @@ public class StadiumTypeController {
 
     @GetMapping("/{stadiumId}")
     public ResponseEntity getStadiumDetailByParentId(@PathVariable String stadiumId) {
-        ResultDTO<List<StadiumTypeDto>> result = this.stadiumTypeService.findStadiumDetailByParentId(stadiumId);
-        return ResponseEntity.ok(result);
+        ResultDTO<List<StadiumTypeTree>> result = this.stadiumTypeService.findStadiumDetailByParentId(stadiumId);
+        return ResponseEntity.ok(result.getData());
     }
 
 }

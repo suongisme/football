@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StadiumRepository extends JpaRepository<Stadium, String> {
 
@@ -19,10 +20,16 @@ public interface StadiumRepository extends JpaRepository<Stadium, String> {
         " AND (:owner IS NULL OR stadium.createdBy = :owner)"
     )
     Page<Stadium> findStadium(
-        @Param("provinceId") Integer provinceId,
-        @Param("districtId") Integer districtId,
+        @Param("provinceId") Long provinceId,
+        @Param("districtId") Long districtId,
         @Param("name") String name,
         @Param("owner") String owner,
         Pageable pageable
     );
+
+    @Query("SELECT s FROM Stadium s " +
+            " JOIN StadiumType t ON t.stadiumId = s.id" +
+            " JOIN StadiumDetail d ON d.parentId = t.id" +
+            " WHERE d.id = ?1")
+    Optional<Stadium> findByStadiumDetailId(Long stadiumDetailId);
 }

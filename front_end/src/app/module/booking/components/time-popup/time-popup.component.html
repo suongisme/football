@@ -4,40 +4,48 @@
     </div>
     <div class="modal-body">
         <ng-container
+            *ngFor="let time of data"
             [ngTemplateOutlet]="timeContainer"
+            [ngTemplateOutletContext]="{item: time}"
         ></ng-container>
 
         <ng-container
-            [ngTemplateOutlet]="timeContainer"
+            *ngIf="!data || !data.length"
+            [ngTemplateOutlet]="empty"
         ></ng-container>
-    </div>
-    <div class="modal-footer d-flex justify-content-center">
-        <button>Đặt sân</button>
-        <button class="cancel" (click)="activeModal.close()">Hủy bỏ</button>
     </div>
 </div>
 
-<ng-template #timeContainer>
-    <span class="date">11-10-2022</span>
+<ng-template #timeContainer let-item="item">
+    <span class="fw-bold">{{ item.date | date:'dd-MM-yyyy' }}</span>
     <ng-container
+        *ngFor="let child of item.children; let i = index"
         [ngTemplateOutlet]="time"
-        [ngTemplateOutletContext]="{hasBorder: true}"
+        [ngTemplateOutletContext]="{
+            date: item.date, 
+            hasBorder: i < item.children.length - 1, 
+            item: child
+        }"
     ></ng-container>
     <ng-container
-        [ngTemplateOutlet]="time"
-        [ngTemplateOutletContext]="{hasBorder: false}"
+        *ngIf="!item.children?.length"
+        [ngTemplateOutlet]="empty"
     ></ng-container>
     <div class="time mb-2"></div>
 </ng-template>
 
-<ng-template #time let-hasBorder="hasBorder" let-id="id">
-    <div class="ps-3">
-        <div [class.time]="hasBorder" class="d-flex justify-content-between py-2">
-            <div>
-                <input [id]="id" class="me-1" type="checkbox" />
-                <label [for]="id">16:00 - 17:30</label>
-            </div>
-            <span>{{ '600000' | currency:'VND' }}</span>
+<ng-template #time let-item="item" let-hasBorder="hasBorder" let-date="date">
+    <div class="px-3">
+        <div [class.time]="hasBorder" class="d-flex justify-content-between align-items-center py-2">
+            <span>{{ item.startTime }} - {{ item.endTime }}</span>
+            <span>{{ item.price | currency:'VND' }}</span>
+            <i (click)="booking(item, date)" class="fas fa-check-square"></i>
         </div>
+    </div>
+</ng-template>
+
+<ng-template #empty>
+    <div class="p-3 text-center">
+        Không có sân trong thời gian này.
     </div>
 </ng-template>

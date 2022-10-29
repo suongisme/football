@@ -1,6 +1,6 @@
-import { FormArray, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
 @Component({
     selector: 'app-type-stadium-form',
@@ -9,7 +9,8 @@ import { Component, OnInit } from "@angular/core";
 })
 export class TypeStadiumFormComponent implements OnInit {
 
-    public formGroups: FormGroup[] = [];
+    @Input()
+    public formGroups: FormGroup[];
     constructor(
         private fb: FormBuilder,
     ) {}
@@ -21,6 +22,7 @@ export class TypeStadiumFormComponent implements OnInit {
     public addTypeForm(): void {
         const formGroup = this.fb.group({
             name: [null, [Validators.required]],
+            quantity: [null, [Validators.required, Validators.pattern('[0-9]+')]],
             types: this.fb.array([])
         })
         this.addTime(formGroup);
@@ -36,7 +38,8 @@ export class TypeStadiumFormComponent implements OnInit {
 
     public addTime(formGroup: FormGroup): void {
         this.getTypes(formGroup).push(this.fb.group({
-            time: [null, [Validators.required]],
+            startTime: [null, [Validators.required]],
+            endTime: [null, [Validators.required]],
             price: [null, [Validators.required]]
         }))
     }

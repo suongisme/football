@@ -20,6 +20,6 @@ public class StadiumImageController {
     @GetMapping("/{stadiumId}")
     public ResponseEntity getStadiumImageByParentId(@PathVariable String stadiumId) {
         ResultDTO<List<StadiumImageDto>> result = this.stadiumImageService.findStadiumImageByParentId(stadiumId);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(result.getData());
     }
 }

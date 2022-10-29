@@ -23,10 +23,10 @@ public class Stadium {
     private String address;
 
     @Column(name = "district_id", nullable = false)
-    private Integer districtId;
+    private Long districtId;
 
     @Column(name = "province_id", nullable = false)
-    private Integer provinceId;
+    private Long provinceId;
 
     @Lob
     @Column(name = "avatar", nullable = false)

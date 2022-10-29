@@ -33,10 +33,10 @@ public class StadiumDto implements Serializable {
     private String address;
 
     @NotNull
-    private Integer districtId;
+    private Long districtId;
 
     @NotNull
-    private Integer provinceId;
+    private Long provinceId;
 
     private String avatar;
 
@@ -54,6 +54,8 @@ public class StadiumDto implements Serializable {
 
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
+
+    private String provinceName;
 
     @NotNull
     private List<StadiumTypeDto> details;

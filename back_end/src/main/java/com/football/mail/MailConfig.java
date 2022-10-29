@@ -9,7 +9,6 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
-
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();

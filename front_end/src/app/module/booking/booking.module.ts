@@ -1,5 +1,6 @@
+import { StadiumTypeComponent } from './components/stadium-type/stadium-type.component';
 import { ActionBattleComponent, BattlePopupComponent } from './components/battle-popup/battle-popup.component';
-import { FindEmptyFormComponent } from './components/find-empty-form/find-empty-form.component';
+import { FindEmptyFormComponent } from './components/find-availabel-form/find-empty-form.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { StadiumDetailContainer } from './containers/stadium-detail/stadium-detail.container';
 import { RouterModule } from '@angular/router';
@@ -14,6 +15,9 @@ import { ContactFormComponent } from './components/contact-form/contact-form.com
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SlideShowComponent } from './components/slide-show/slide-show.component';
 import { TimePopupComponent } from './components/time-popup/time-popup.component';
+import { ConfirmComponent } from './components/time-popup/confirm/confirm.component';
+import { PendingRequestComponent } from './components/pending-request/pending-request.component';
+import { ActionComponent } from './components/pending-request/action/action.component';
 
 const routes: Routes = [
     {
@@ -21,7 +25,7 @@ const routes: Routes = [
         component: StadiumContainer,
     },
     {
-        path: ':flag',
+        path: ':id',
         component: StadiumDetailContainer
     }
 ]
@@ -35,7 +39,11 @@ const declarations = [
     SlideShowComponent,
     TimePopupComponent,
     BattlePopupComponent,
-    ActionBattleComponent
+    ActionBattleComponent,
+    StadiumTypeComponent,
+    ConfirmComponent,
+    PendingRequestComponent,
+    ActionComponent
 ]
 
 const imports = [

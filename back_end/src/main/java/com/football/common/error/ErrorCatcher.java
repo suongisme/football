@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,16 +41,24 @@ public class ErrorCatcher {
     @ExceptionHandler(value = {LockedException.class})
     public ResponseEntity lockException(LockedException ex) {
         ResultDTO<String> result = ResultUtils.buildErrorValidateResult(ex.getMessage());
-        result.setStatus(HttpStatus.UNAUTHORIZED);
+        result.setStatus(HttpStatus.BAD_REQUEST);
         result.setMessage("Tài khoản chưa được kích hoạt");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
     }
 
     @ExceptionHandler(value = {AccountExpiredException.class})
-    public ResponseEntity AccountExpiredException(AccountExpiredException ex) {
+    public ResponseEntity accountExpiredException(AccountExpiredException ex) {
         ResultDTO<String> result = ResultUtils.buildErrorValidateResult(ex.getMessage());
         result.setStatus(HttpStatus.LOCKED);
         result.setMessage("Tài khoản đã bị vô hiệu hóa");
+        return ResponseEntity.status(HttpStatus.LOCKED).body(result);
+    }
+
+    @ExceptionHandler(value = {InternalAuthenticationServiceException.class})
+    public ResponseEntity notFoundUsername() {
+        ResultDTO<String> result = ResultUtils.buildErrorValidateResult("");
+        result.setStatus(HttpStatus.UNAUTHORIZED);
+        result.setMessage("Tài khoản không tồn tại");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
     }
 }

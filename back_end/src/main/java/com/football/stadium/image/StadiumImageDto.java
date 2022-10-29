@@ -10,7 +10,8 @@ import java.io.Serializable;
  */
 @Data
 public class StadiumImageDto implements Serializable {
-    private final Integer id;
-    private final MultipartFile file;
-    private final String stadiumId;
+    private Integer id;
+    private MultipartFile file;
+    private String stadiumId;
+    private String image;
 }

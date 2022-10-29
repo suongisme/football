@@ -1,6 +1,6 @@
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { Component, EventEmitter, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { DataService } from "src/app/core/services/data.service";
 import { District, Province } from 'src/app/core/interfaces/address.interface';
 
@@ -9,42 +9,38 @@ import { District, Province } from 'src/app/core/interfaces/address.interface';
     templateUrl: './info-stadium-form.component.html',
     styleUrls: ['./info-stadium-form.component.scss']
 })
-export class InfoStadiumFormComponent implements OnInit, OnDestroy {
+export class InfoStadiumFormComponent implements OnChanges, OnInit, OnDestroy {
     
     private unsubscribe$: Subject<any> = new Subject();
 
-    @Output() output: EventEmitter<FormGroup> = new EventEmitter();
+    @Input() formGroup: FormGroup;
 
     public provinceList: Province[];
     public districtList: District[];
-    public formGroup: FormGroup;
     public avatarFile: File;
+
+    public get formControl() {
+        return this.formGroup?.controls;
+    }
 
     constructor(
         private fb: FormBuilder,
         private dataService: DataService
     ) {}
 
-    public ngOnInit(): void {
-        this.ngOnInitForm();
-        this.ngOnInitChangeEvent();
-        this.ngOnLoadProvince();
-        this.output.emit(this.formGroup);
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.formGroup?.currentValue)
+            this.ngOnInitChangeEvent();
     }
 
-    private ngOnInitForm(): void {
-        this.formGroup = this.fb.group({
-            name: [null, [Validators.required]],
-            districtId: [null, [Validators.required]],
-            provinceId: [null, [Validators.required]],
-            address: [null, [Validators.required]],
-            avatarFile: [this.avatarFile]
-        })
+    public ngOnInit(): void {
+        this.ngOnLoadProvince();
     }
 
     private ngOnInitChangeEvent(): void {
-        this.formGroup.get('province').valueChanges.subscribe(this.ngOnLoadDistrict.bind(this));
+        this.formGroup.get('provinceId').valueChanges.subscribe(this.ngOnLoadDistrict.bind(this));
     }
+   
 
     private ngOnLoadProvince(): void {
         this.provinceList = [];

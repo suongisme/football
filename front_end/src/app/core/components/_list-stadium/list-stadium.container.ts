@@ -1,16 +1,15 @@
 import { Router } from '@angular/router';
-import { Paginator } from '../../interfaces/paginator.interface';
 import { Stadium } from '../../../module/booking/interfaces/stadium.interface';
-import { Component, Input, OnDestroy, OnInit, TemplateRef } from "@angular/core";
+import { Component, Input,  TemplateRef } from "@angular/core";
 import { BookingService } from "../../../module/booking/services/booking.service";
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-list-stadium-container',
     templateUrl: './list-stadium.container.html',
     styleUrls: ['./list-stadium.container.scss']
 })
-export class ListStadiumContainer implements OnInit, OnDestroy {
+export class ListStadiumContainer {
 
     private unsubscribe$: Subject<any> = new Subject();
 
@@ -19,24 +18,14 @@ export class ListStadiumContainer implements OnInit, OnDestroy {
     @Input() sm: number = 2;
     @Input() actionInCard: TemplateRef<any>;
     @Input() clickableCard: boolean = true;
-
-    public stadiumList: Stadium[];
+    @Input() stadiumList: Stadium[];
 
     constructor(
-        private bookingService: BookingService,
         private router: Router
     ) {}
 
-    public ngOnInit(): void {
-        this.bookingService.bookingResult$
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(result => {
-                this.stadiumList = result;
-            })
-    }
-
     public showDetail(stadium: Stadium): void {
-        this.router.navigate(['stadium', stadium.name])
+        this.router.navigate(['stadium', stadium.id])
     }
 
     public get colClass(): string {

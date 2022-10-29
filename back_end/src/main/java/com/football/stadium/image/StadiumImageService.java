@@ -18,9 +18,8 @@ public class StadiumImageService {
     private final StadiumImageMapper stadiumImageMapper;
 
     public ResultDTO<List<StadiumImageDto>> findStadiumImageByParentId(String stadiumId) {
-        List<StadiumImage> stadiunImage = this.stadiumImageRepository.findByStadiumId(stadiumId);
-        List<StadiumImageDto> dtos = stadiunImage.stream().map(this.stadiumImageMapper::toDto).collect(Collectors.toList());
-        return ResultUtils.buildSuccessResult(dtos);
+        log.info("get stadium-image by stadium-id: {}", stadiumId);
+        List<StadiumImage> stadiumImage = this.stadiumImageRepository.findByStadiumId(stadiumId);
+        return ResultUtils.buildSuccessResult(this.stadiumImageMapper.toDto(stadiumImage));
     }
-
 }

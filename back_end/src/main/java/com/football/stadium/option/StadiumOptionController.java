@@ -20,6 +20,6 @@ public class StadiumOptionController {
     @GetMapping("/{stadiumId}")
     public ResponseEntity findOptionByParentId(@PathVariable String stadiumId) {
         ResultDTO<List<StadiumOptionDto>> result = this.stadiumOptionService.findOptionByParentId(stadiumId);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(result.getData());
     }
 }

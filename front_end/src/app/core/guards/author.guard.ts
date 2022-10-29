@@ -14,8 +14,8 @@ export class AuthorGuard implements CanActivate {
     ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        const user = this.dataService.currentUser$.getValue();
-        const role = Role[user.userDto.role];
+        // const user = this.dataService.currentUser$.getValue();
+        // const role = Role[user.userDto.role];
         return true;
     }
 }

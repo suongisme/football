@@ -30,7 +30,7 @@ public class MailService {
 
             Context context = new Context(LocaleContextHolder.getLocale(), mailDTO.getParamsTemplate());
             String content = this.templateEngine.process(mailDTO.getTemplateContent().getTemplate(), context);
-            mimeMessage.setContent(content, MailConstant.TYPE_HTML);
+            mimeMessage.setText(content, "UTF-8", MailConstant.TYPE_HTML);
             mimeMessage.setSubject(mailDTO.getSubject());
             mimeMessage.setFrom(MailConstant.SENDER_ADDRESS);
 

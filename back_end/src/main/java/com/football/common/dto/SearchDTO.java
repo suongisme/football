@@ -2,6 +2,8 @@ package com.football.common.dto;
 
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 public class SearchDTO<T> {
 
@@ -12,6 +14,7 @@ public class SearchDTO<T> {
     private T data;
 
     public Integer getPage() {
+        if (Objects.isNull(page)) return null;
         if (page < 1) {
             return 1;
         }
@@ -19,6 +22,7 @@ public class SearchDTO<T> {
     }
 
     public Integer getPageSize() {
+        if (Objects.isNull(pageSize)) return null;
         if (pageSize < 0) {
             return DEFAULT_PAGE_SIZE;
         }

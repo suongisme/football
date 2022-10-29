@@ -171,3 +171,9 @@ button {
   content: ' *';
   color: rgba(var(--bs-danger-rgb), 1) ;
 }
+
+.error-validate {
+  color: rgba(var(--bs-danger-rgb), 1) ;
+  font-size: 14px;
+  font-weight: 500;
+}

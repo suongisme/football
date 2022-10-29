@@ -13,7 +13,7 @@ export const isServerSideGroupOpenByDefault: (
   params: IsServerSideGroupOpenByDefaultParams
 ) => boolean = (params: IsServerSideGroupOpenByDefaultParams) => {
   // open first two levels by default
-  return true;
+  return false;
 };
 
 export const isServerSideGroup: IsServerSideGroup = (dataItem: any) => {

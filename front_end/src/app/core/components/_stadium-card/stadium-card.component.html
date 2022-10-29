@@ -10,9 +10,9 @@
         <div class="d-flex flex-column gap-1">
             <span class="fw-semibold stadium-name">{{ stadium?.name }}</span>
             <div class="d-flex justify-content-between">
-                <span>Số người: <strong>{{ stadium?.numPeople }}</strong></span>
+                <span>Số sân: <strong>{{ stadium?.totalType }}</strong></span>
             </div>
-            <span>Giá: <span class="price">{{stadium?.fromPrice | currency:'VND'}}</span> - <span class="price">{{stadium?.toPrice | currency:'VND'}}</span> /Trận</span>
+            <span>Giá: <span class="price">{{stadium?.minPrice | currency:'VND'}}</span> - <span class="price">{{stadium?.maxPrice | currency:'VND'}}</span> /Trận</span>
             <div class="d-flex gap-5">
                 <ng-container 
                     *ngIf="stadium?.options?.[0]"

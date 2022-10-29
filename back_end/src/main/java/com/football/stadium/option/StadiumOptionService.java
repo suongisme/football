@@ -18,8 +18,8 @@ public class StadiumOptionService {
     private final StadiumOptionMapper stadiumOptionMapper;
 
     public ResultDTO<List<StadiumOptionDto>> findOptionByParentId(String stadiumId) {
+        log.info("get stadium-option by stadium-id: {}", stadiumId);
         List<StadiumOption> stadiumOptions = this.stadiumOptionRepository.findByStadiumId(stadiumId);
-        List<StadiumOptionDto> dtos = stadiumOptions.stream().map(this.stadiumOptionMapper::toDto).collect(Collectors.toList());
-        return ResultUtils.buildSuccessResult(dtos);
+        return ResultUtils.buildSuccessResult(this.stadiumOptionMapper.toDto(stadiumOptions));
     }
 }

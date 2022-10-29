@@ -2,6 +2,7 @@ package com.football.security;
 
 import com.football.jwt.JwtAuthenticationEntryPoint;
 import com.football.jwt.JwtFilter;
+import com.football.role.RoleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,9 +38,16 @@ public class SecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, "/authenticate", "/users", "/users/active", "/users/re-send-mail").permitAll()
                 .antMatchers(HttpMethod.GET, "/provinces", "/districts/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/search-stadium").permitAll()
+                .antMatchers(HttpMethod.GET, "/stadiums/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/stadium-image/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/stadium-option/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/stadium-detail/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/requests/*").permitAll()
+                .antMatchers(HttpMethod.POST, "/authenticate", "/users", "/users/active", "/users/re-send-mail").permitAll()
+                .antMatchers(HttpMethod.POST, "/stadiums/search-stadium", "/stadiums/available-stadium").permitAll()
+                .antMatchers(HttpMethod.POST, "/requests").hasAnyAuthority(RoleEnum.USER.name())
+                .antMatchers(HttpMethod.POST, "/requests/approve").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
                 .anyRequest()
                 .authenticated()
                 .and()

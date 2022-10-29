@@ -1,21 +1,21 @@
-<div>
+<div *ngIf="stadium">
     <div class="position-relative" style="height: 400px;">
         <img class="w-100 h-100" src="/assets/images/image1.jpg" />
         <div class="bg-dark position-absolute top-0 start-0 w-100 h-100" style="opacity: .7;"></div>
         <div class="container position-absolute bottom-0 start-50 translate-middle-x mb-5 info-box">
-            <h1>Sân bóng đá mini Bế Văn Đàn Đà Nẵng</h1>
+            <h1>{{ stadium.name }}</h1>
             <div class="d-flex flex-column gap-2">
                 <div class="d-flex gap-3">
                     <i class="fas fa-map-marker-alt text-white"></i>
-                    <span class="text-white">Bế Văn Đàn - Chính Gián - Thanh Khê - Đà Nẵng</span>
+                    <span class="text-white">{{ stadium.address }}</span>
                 </div>
                 <div class="d-flex gap-2">
                     <i class="fas fa-star text-white"></i>
                     <span>Chưa có đánh giá</span>
                 </div>
-                <div class="d-flex">
+                <div class="d-flex" *ngIf="isOwnerStadium">
                     <i class="fas fa-user text-white"></i>
-                    <span style="margin-left: 12px;">Chỉnh sửa (Dành cho chủ sân)</span>
+                    <span style="margin-left: 12px;">Chỉnh sửa</span>
                 </div>
                 <div class="d-flex justify-content-end gap-2">
                     <button>Liên hệ</button>
@@ -36,14 +36,22 @@
                     <span>Liên hệ</span>
                     <app-contact-form class="w-100"></app-contact-form>
                 </div>
-                <div class="box">
-                    <span>Yêu cầu</span>
-                </div>
             </div>
         </div>
         <div class="box">
-            <span>Các sân tại khu vực Hà Nội</span>
-            <app-list-stadium-container></app-list-stadium-container>
+            <span>Yêu cầu</span>
+            <app-pending-request
+                style="height: 400px;"
+                class="w-100"
+                [stadium]="stadium"
+            ></app-pending-request>
+        </div>
+        <div class="box">
+            <span>Các sân tại khu vực: {{ stadium.provinceName }}</span>
+            <app-list-stadium-container 
+                class="w-100"
+                [stadiumList]="stadiumByProvince$ | async"
+            ></app-list-stadium-container>
         </div>
     </div>
 </div>
@@ -52,24 +60,7 @@
 
     <div class="box description">
         <span>MÔ TẢ - THÔNG TIN KÈM THEO</span>
-        <div [class.hidden]=!isReadMore>
-            Sân bóng đá mini Bế Văn Đàn Đà Nẵng
-            Được đầu tư xây dựng trong trường phổ thông quốc tế VIS, sân bóng Minh Kiệt gồm 4 sân mới và đẹp. Chất lượng cỏ cũng như hệ thống đèn chiếu sáng hiện đại, đạt tiêu chuẩn. Giá cả vô cũng rẻ
-
-            Địa chỉ và giá thuê Bế Văn Đàn, Chính Gián, Thanh Khê, Đà Nẵng
-            Sân bóng đá mini Bế Văn Đàn Đà Nẵng tọa lạc ngay cạnh trung tâm thương mại Aeon Mall, gồm cụm 4 sân bóng cỏ nhân tạo 7 người được đầu tư khai thác rất mới và đẹp. Lòng sân có kích thước 28 x 44, là một trong những sân bóng có chiều ngang rộng những chiều dài hơi ngắn.
-
-            Mặt sân được đầu tư với cỏ đẹp, mềm mại, không trơn tượt. Hệ thống luới đèn, bảng hiệu tỷ số rất hiện đại. Hệ thống đèn chiếu sáng đường chạy, lưới chắn bóng đều đẹp và đồng bộ, cũng cấp đủ ảnh sáng cho các đội chơi. Có lẽ vì thế mà sân bóng Minh Kiệt trở thành một trong những điểm đến thường xuyên của các dân, 
-
-            Không gian thoáng mát, xung quanh không có nhà cao tầng nên tâm nhìn của sân rất rộng. Sân rất nổi tiếng và là điểm tô chức nhiều giải bóng đá lớn dành cho phủi thủ. 
-
-            Địa chỉ và giá thuê Bế Văn Đàn, Chính Gián, Thanh Khê, Đà Nẵng
-
-            Xem thêm: Kích thước sân bóng 7 người
-
-            Tiện ích tại sân bóng đá mini Bế Văn Đàn Đà Nẵng
-            Có khu dịch vụ, căng tin, công trình phụ trợ, vệ sinh
-            Có bảo vệ an ninh đảm bảo an toàn
+        <div [class.hidden]="!isReadMore" class="w-100" [innerHTML]="stadium.description | safe:'html'">
         </div>
         <button class="read-more" *ngIf="!isReadMore" (click)="isReadMore = true">
             Xem thêm
@@ -83,19 +74,40 @@
     </div>
 
     <div class="box">
+        <span>Hình ảnh</span>
+        <div class="image-container">
+            <img 
+                *ngFor="let stadiumImage of (stadiumImage$ | async)" 
+                [src]="stadiumImage.image | safe:'resourceUrl'" 
+            />
+        </div>
+    </div>
+
+    <div class="box">
+        <span>Tiện ích</span>
+        <div class="option-container row">
+            <div
+                *ngFor="let stadiumOption of (stadiumOption$ | async)"
+                class="col-md-4 col-6">
+                <span class="w-100 d-block" [innerText]="stadiumOption.name"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="box">
         <span class="fw-bold mb-2">Loại sân</span>
-        <app-core-table
+        <app-stadium-type
             style="height: 300px;"
             class="w-100"
-            [columns]="columns"
-            [rows]="rows"
-            [treeData]="true"
-            [groupHeader]="groupHeader"
-        ></app-core-table>
+            [rows]="(stadiumDetail$ | async) || []"
+        ></app-stadium-type>
     </div>
 
     <div class="box">
         <span class="fw-bold">Tìm sân trống</span>
-        <app-find-empty-form class="w-100"></app-find-empty-form>
+        <app-find-empty-form 
+            class="w-100"
+            [stadium]="stadium"
+        ></app-find-empty-form>
     </div>
 </ng-template>

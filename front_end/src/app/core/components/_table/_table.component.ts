@@ -21,11 +21,12 @@ import 'ag-grid-enterprise';
 export class CoreTableComponent implements OnInit {
 
   @Input() columns: ColDef[];
-  @Input() rows: any[];
+  @Input() rows: any[] = [];
   @Input() hideHeader: boolean;
   @Input() treeData: boolean;
   @Input() groupHeader: ColDef;
   @Input() rowHeight: number;
+  @Input() context;
   @Input() domLayout: 'normal' | 'autoHeight' | 'print' | undefined;
 
   public autoGroupColumnDef: ColDef;
@@ -43,12 +44,14 @@ export class CoreTableComponent implements OnInit {
   }
 
   public gridReady(gridReadyEvent: GridReadyEvent): void {
-    const fakeServer = createFakeServer(this.rows);
+    const fakeServer = createFakeServer(this.rows || []);
     const datasource = createServerSideDatasource(fakeServer);
     gridReadyEvent.api.setServerSideDatasource(datasource);
 
     gridReadyEvent.api.sizeColumnsToFit();
   }
 
-  public gridSizeChanged(gridSizeChangedEvent: GridSizeChangedEvent): void {}
+  public gridSizeChanged(gridSizeChangedEvent: GridSizeChangedEvent): void {
+    gridSizeChangedEvent.api.sizeColumnsToFit();
+  }
 }

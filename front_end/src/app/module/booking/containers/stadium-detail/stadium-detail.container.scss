@@ -4,6 +4,10 @@
             max-width: 1140px;
         }
     }
+
+    .description img {
+        width: 100%;
+    }
 }
 
 .info-box {
@@ -38,5 +42,33 @@
     
     .read-less {
         background-color: var(--sub-color);
+    }
+}
+
+.d-flex-gap-10 {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+
+.image-container {
+    @extend .d-flex-gap-10;
+    img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+.option-container {
+    @extend .d-flex-gap-10;
+    gap: 0;
+    row-gap: 15px;
+    margin-top: 15px;
+
+    span {
+        border: 1px solid var(--color-border);
+        padding: 5px 10px;
+        border-radius: 4px;
     }
 }
