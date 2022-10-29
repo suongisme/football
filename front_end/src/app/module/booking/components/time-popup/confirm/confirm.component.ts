@@ -44,6 +44,7 @@ export class ConfirmComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(res => {
                 this.activeModal.close();
+                this.dataService.reloadRequestStadium$.next(true);
             })
     }
 

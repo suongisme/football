@@ -1,3 +1,4 @@
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Tree } from 'src/app/core/interfaces/table.interface';
 import { Component, OnInit } from '@angular/core';
 import { ColDef, ICellRendererParams } from 'ag-grid-community';
@@ -17,10 +18,14 @@ export class BattlePopupComponent implements OnInit {
     public groupHeader: ColDef = {
         headerName: 'Thời gian',
         minWidth: 100,
+        cellStyle: {
+            'top': '10px'
+        }
     }
 
     constructor(
-        private currencyPipe: CurrencyPipe
+        private currencyPipe: CurrencyPipe,
+        public activeModal: NgbActiveModal,
     ) {}
 
     public ngOnInit(): void {
@@ -31,102 +36,28 @@ export class BattlePopupComponent implements OnInit {
                 maxWidth: 100,
                 valueGetter: param => {
                     return this.currencyPipe.transform(param.data.price, 'VND');
+                },
+                cellStyle: {
+                    'top': '10px'
                 }
             },
             {
                 headerName: 'Tên đối thủ',
-                field: 'name'
+                field: 'competitor',
+                cellStyle: {
+                    'top': '10px'
+                }
             },
             {
                 headerName: 'Nhận kèo',
                 cellRenderer: ActionBattleComponent,
-                minWidth: 100,
-                maxWidth: 100,
+                minWidth: 120,
+                maxWidth: 120,
                 cellStyle: {
                     'display': 'flex',
-                    'align-items': 'center'
+                    'align-items': 'center',
+                    'top': '10px',
                 }
-            }
-        ]
-        this.rowData = [
-            {
-                key: '01/01/2022 - Sân 3 người',
-                isRoot: true,
-                children: [
-                    {
-                        key: '15-20h',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '20-21h',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '21-22h',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '15-20h12',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '20-21h2',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '21-22h3',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '15-20h1111',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '20-21hz',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '21-22hx',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '15-20h12a',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '20-21h2s',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    },
-                    {
-                        key: '21-22h3d',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    }
-                ]
-                
-            },
-            {
-                key: '02/01/2022 - Sân 3 người',
-                isRoot: true,
-                children: [
-                    {
-                        key: '15-20h',
-                        name: 'Nguyễn Văn Sướng',
-                        price: 2000
-                    }
-                ]
-                
             }
         ]
     }

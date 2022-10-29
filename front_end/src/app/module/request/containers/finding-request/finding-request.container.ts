@@ -1,8 +1,11 @@
+import { takeUntil, Subject } from 'rxjs';
+import { RequestPagination } from './../../../../core/interfaces/paginator.interface';
+import { RequestService } from 'src/app/module/request/services/request.service';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ColDef, ICellRendererParams } from 'ag-grid-community';
 import { Component, OnInit } from "@angular/core";
 import { FindingRequest } from '../../interfaces/finding-request.interface';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, formatDate } from '@angular/common';
 import { AG_GRID_CELL_STYLE } from 'src/app/base/constant';
 import { Paginator } from 'src/app/core/interfaces/paginator.interface';
 
@@ -12,13 +15,17 @@ import { Paginator } from 'src/app/core/interfaces/paginator.interface';
     styleUrls: ['./finding-request.container.scss']
 })
 export class FindingRequestContainer implements OnInit {
+
+    private unsubscribe$: Subject<void> = new Subject();
     
     public columnDef: ColDef[];
     public rowData: FindingRequest[] = [];
     public paginator: Paginator = new Paginator();
+    private currentFormSearch: any;
 
     constructor(
         private currencyPipe: CurrencyPipe,
+        private requestService: RequestService
     ) {}
 
     public ngOnInit(): void {
@@ -38,8 +45,8 @@ export class FindingRequestContainer implements OnInit {
             },
             {
                 headerName: 'Tên sân',
-                field: 'name',
-                tooltipField: 'name',
+                field: 'stadiumName',
+                tooltipField: 'stadiumName',
                 cellStyle: {
                     ...AG_GRID_CELL_STYLE,
                     'top': '40px'
@@ -47,8 +54,8 @@ export class FindingRequestContainer implements OnInit {
             },
             {
                 headerName: 'Địa chỉ',
-                field: 'address',
-                tooltipField: 'address',
+                field: 'stadiumAddress',
+                tooltipField: 'stadiumAddress',
                 cellStyle: {
                     ...AG_GRID_CELL_STYLE,
                     'top': '40px'
@@ -56,8 +63,12 @@ export class FindingRequestContainer implements OnInit {
             },
             {
                 headerName: 'Thời gian',
-                field: 'time',
-                tooltipField: 'time',
+                cellRenderer: ({data}) => {
+                    return `<div class="text-center">
+                        <div>${data.startTime}-${data.endTime}</div> 
+                        <div>${formatDate(data.hireDate, 'dd-MM-yyyy', 'en-US')}</div>
+                    </div>`
+                },
                 minWidth: 150,
                 maxWidth: 150,
                 cellStyle: {
@@ -67,8 +78,8 @@ export class FindingRequestContainer implements OnInit {
             },
             {
                 headerName: 'Loại sân',
-                field: 'type',
-                tooltipField: 'type',
+                field: 'typeName',
+                tooltipField: 'typeName',
                 minWidth: 100,
                 maxWidth: 100,
                 cellStyle: {
@@ -106,38 +117,41 @@ export class FindingRequestContainer implements OnInit {
                 },
             }
         ];
-        this.rowData = [
-            {
-                avatar: 'https://lh5.googleusercontent.com/p/AF1QipMgz_2mrla0ccra_jhRTMRiAv8byKdDvSaRV30L=w493-h240-k-no',
-                name: 'Sân bóng đá mini Bế Văn Đàn Đà Nẵng',
-                price: 100000,
-                time: '29/08/2001 19:30',
-                type: '5 người',
-                address: 'Bế Văn Đàn - Chính Gián - Thanh Khê - Đà Nẵng'
-            },
-            {
-                avatar: 'https://lh5.googleusercontent.com/p/AF1QipMgz_2mrla0ccra_jhRTMRiAv8byKdDvSaRV30L=w493-h240-k-no',
-                name: 'Sân bóng đá mini Bế Văn Đàn Đà Nẵng',
-                price: 100000,
-                time: '29/08/2001 19:30',
-                type: '5 người',
-                address: 'Bế Văn Đàn - Chính Gián - Thanh Khê - Đà Nẵng'
-            }
-        ]
+    }
+
+    public ngOnSearch(formSearch?): void {
+        if (formSearch) this.currentFormSearch = formSearch;
+        const body: RequestPagination<any> = {
+            page: this.paginator.currentPage,
+            pageSize: this.paginator.pageSize,
+            data: this.currentFormSearch
+        }
+        this.requestService.getFindingRequest(body)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(res => {
+                this.paginator.total = res.total;
+                this.rowData = res.data;
+            })
     }
 }
 
 @Component({
     selector: 'app-action',
-    template: '<i class="fas fa-times-circle text-danger"></i>'
+    template: '<i class="fas fa-times-circle cursor-pointer text-danger"></i>'
 })
 export class ActionComponent implements ICellRendererAngularComp {
     
-    agInit(params: ICellRendererParams<any, any>): void {
+    private param: ICellRendererParams<any, any>;
+
+    public agInit(params: ICellRendererParams<any, any>): void {
 
     }
 
-    refresh(params: ICellRendererParams<any, any>): boolean {
+    public refresh(params: ICellRendererParams<any, any>): boolean {
         return true;
+    }
+
+    public deleteRequest(): void {
+
     }
 }

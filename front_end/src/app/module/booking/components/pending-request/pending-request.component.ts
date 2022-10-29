@@ -1,8 +1,8 @@
 import { Role } from 'src/app/base/constant';
-import { Observable } from 'rxjs';
+import { Observable, filter, Subscription } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { Stadium } from './../../interfaces/stadium.interface';
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { RequestService } from 'src/app/module/request/services/request.service';
 import { ColDef } from 'ag-grid-community';
 import { PendingRequest } from 'src/app/module/request/interfaces/request.interface';
@@ -14,8 +14,10 @@ import { ActionComponent } from './action/action.component';
     templateUrl: './pending-request.component.html',
     styleUrls: ['./pending-request.component.scss']
 })
-export class PendingRequestComponent implements OnInit {
+export class PendingRequestComponent implements OnInit, OnDestroy {
     
+    private subscription: Subscription;
+
     @Input() stadium: Stadium;
 
     public columns: ColDef[];
@@ -36,6 +38,9 @@ export class PendingRequestComponent implements OnInit {
     public ngOnInit(): void {
         this.ngOnInitColumn();
         this.loadData();
+        this.subscription = this.dataSerivce.reloadRequestStadium$ 
+            .pipe(filter(isReload => isReload))
+            .subscribe(this.loadData.bind(this));
     }
 
     public loadData(): void {
@@ -63,7 +68,9 @@ export class PendingRequestComponent implements OnInit {
             },
             {
                 headerName: 'Ngày thuê',
-                field: 'hireDate',
+                valueGetter: ({data}) => {
+                    return formatDate(data.hireDate, 'dd-MM-yyyy', 'en-US');
+                },
                 minWidth: 120,
                 maxWidth: 120,
                 cellStyle: {
@@ -92,10 +99,11 @@ export class PendingRequestComponent implements OnInit {
             {
                 headerName: 'Tìm đối thủ',
                 field: 'hasCompetitor',
-                minWidth: 150,
-                maxWidth: 150,
+                minWidth: 130,
+                maxWidth: 130,
                 cellStyle: {
-                    'top': '10px'
+                    'top': '10px',
+                    'text-align': 'center',
                 }
             }
         ];
@@ -107,11 +115,15 @@ export class PendingRequestComponent implements OnInit {
                 minWidth: 120,
                 maxWidth: 120,
                 cellStyle: {
-                    'top': '10px',
-                    'text-align': 'center',
+                    'display': 'flex',
+                    'justify-content': 'center',
+                    'align-items': 'center'
                 }
             })
         }
     }
 
+    public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 }

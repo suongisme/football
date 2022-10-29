@@ -1,8 +1,11 @@
 export interface FindingRequest {
+    id: number;
     avatar: string;
-    name: string;
-    time: string;
-    type: string;
+    stadiumName: string;
+    startTime: string;
+    endTime: string;
+    hireDate: string;
+    typeName: string;
     price: number;
-    address: string;
+    stadiumAddress: string;
 }

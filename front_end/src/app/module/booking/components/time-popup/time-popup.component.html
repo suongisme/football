@@ -37,7 +37,10 @@
 <ng-template #time let-item="item" let-hasBorder="hasBorder" let-date="date">
     <div class="px-3">
         <div [class.time]="hasBorder" class="d-flex justify-content-between align-items-center py-2">
-            <span>{{ item.startTime }} - {{ item.endTime }}</span>
+            <div>
+                <span>{{ item.name }}</span>
+                <span class="ms-3">{{ item.startTime }} - {{ item.endTime }}</span>
+            </div>
             <span>{{ item.price | currency:'VND' }}</span>
             <i (click)="booking(item, date)" class="fas fa-check-square"></i>
         </div>

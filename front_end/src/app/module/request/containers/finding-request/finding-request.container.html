@@ -1,5 +1,5 @@
 <div class="d-flex flex-column">
-    <app-booking-form-search></app-booking-form-search>
+    <app-booking-form-search (search)="ngOnSearch($event)"></app-booking-form-search>
     <app-core-table
         style="height: 300px;"
         [treeData]="false"
@@ -7,5 +7,5 @@
         [rows]="rowData"
         [rowHeight]="100"
     ></app-core-table>
-    <app-pagination [paginator]="paginator"></app-pagination>
+    <app-pagination [paginator]="paginator" (paginate)="ngOnSearch()"></app-pagination>
 </div>

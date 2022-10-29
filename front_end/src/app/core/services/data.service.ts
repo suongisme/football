@@ -17,6 +17,7 @@ export class DataService {
     public currentUser$: BehaviorSubject<UserResponse> = new BehaviorSubject(null);
     public menuClose$: BehaviorSubject<boolean> = new BehaviorSubject(false);
     public clear$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    public reloadRequestStadium$: BehaviorSubject<boolean> = new BehaviorSubject(null);
 
     constructor(
         private http: HttpClient,

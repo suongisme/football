@@ -24,11 +24,36 @@ export class ActionComponent implements ICellRendererAngularComp {
         private toastService: ToastService,
     ) {}
 
-    agInit(params: ICellRendererParams<any, any>): void {
+    public agInit(params: ICellRendererParams<any, any>): void {
         this.params = params;
     }
-    refresh(params: ICellRendererParams<any, any>): boolean {
+
+    public refresh(params: ICellRendererParams<any, any>): boolean {
         return true;
+    }
+
+    public cancelRequest(): void {
+        const ref = this.ngbModal.open(ConfirmComponent, {
+            centered: true,
+            animation: true
+        });
+
+        const content: Confirm = {
+            title: 'Xác nhận',
+            message: 'Bạn có chắc chắn muốn hủy yêu cầu?'
+        };
+        ref.componentInstance.content = content;
+        ref.closed
+            .pipe(filter(res => res))
+            .subscribe(res => {
+                this.requestService
+                    .rejectRequest(this.params.data)
+                    .subscribe(res => {
+                        this.toastService.success('Hủy yêu cầu thành công');
+                        const requestComponent = this.params.context as PendingRequestComponent;
+                        requestComponent.loadData();
+                    })
+            })
     }
 
     public submit(): void {
@@ -39,7 +64,7 @@ export class ActionComponent implements ICellRendererAngularComp {
 
         const content: Confirm = {
             title: 'Xác nhận',
-            message: 'Bạn có chắc chắn muốn thực hiện'
+            message: 'Bạn có chắc chắn muốn chấp nhận yêu cầu?'
         };
         ref.componentInstance.content = content;
         ref.closed

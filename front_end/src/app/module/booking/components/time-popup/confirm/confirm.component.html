@@ -6,6 +6,7 @@
         <h5 class="fw-bold">Thông tin sân: </h5>
         <div class="d-flex flex-column gap-2">
             <span>Tên sân: <b>{{ stadium.name }}</b></span>
+            <span>Loại sân: <b>{{ time.name }}</b></span>
             <span>Thời gian: <b>{{ time.startTime }}-{{ time.endTime }} &ensp; {{ date | date:'dd-MM-yyyy'  }}</b></span>
             <span>Giá: <b>{{ time.price | currency:'VND' }}</b></span>
             

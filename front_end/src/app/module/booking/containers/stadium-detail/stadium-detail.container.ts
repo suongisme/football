@@ -1,15 +1,18 @@
+import { ConfirmComponent } from './../../../../core/components/_confirm/_confirm.component';
+import { Confirm } from './../../../../core/interfaces/confirm.interface';
 import { Time } from './../../interfaces/time.interface';
 import { Stadium, StadiumImage, StadiumOption } from './../../interfaces/stadium.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BattlePopupComponent } from '../../components/battle-popup/battle-popup.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StadiumService } from 'src/app/module/my-stadium/services/stadium.service';
-import { takeUntil, Subject, Observable } from 'rxjs';
+import { takeUntil, Subject, Observable, filter, lastValueFrom } from 'rxjs';
 import { StadiumImageService } from 'src/app/module/my-stadium/services/stadium-image.service';
 import { StadiumOptionService } from 'src/app/module/my-stadium/services/stadium-option.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { UserResponse } from 'src/app/core/interfaces/user.interface';
+import { RequestService } from 'src/app/module/request/services/request.service';
 
 @Component({
 	selector: 'app-stadium-detail-container',
@@ -36,7 +39,9 @@ export class StadiumDetailContainer implements OnInit, OnDestroy {
 		private stadiumService: StadiumService,
 		private stadiumImageService: StadiumImageService,
 		private stadiumOptionService: StadiumOptionService,
-		private dataService: DataService
+		private dataService: DataService,
+		private requestService: RequestService,
+		private _router: Router
 	) { }
 
 	public ngOnInit(): void {
@@ -57,13 +62,33 @@ export class StadiumDetailContainer implements OnInit, OnDestroy {
 		})
 	}
 
-	public openBattle(): void {
+	public async openBattle(): Promise<void> {
+		const battle = await lastValueFrom(this.requestService.getCompetitorStadium(this.stadium.id))
 		const modalRef = this.modalService.open(BattlePopupComponent, {
 			size: 'lg',
 			scrollable: true,
 			centered: true
 		});
+		modalRef.componentInstance.rowData = battle;
 	}
+
+	public deleteStadium(): void {
+        const modalRef = this.modalService.open(ConfirmComponent);
+        const content: Confirm = {
+            title: 'Xóa sân vận động',
+            message: 'Bạn có chắc chắn không!'
+        };
+        modalRef.componentInstance.content = content;
+        modalRef.closed
+        .pipe(filter(res => res))
+        .subscribe(res => {
+            this.stadiumService.deleteStadium(this.stadium.id)
+				.pipe(takeUntil(this.unsubscribe$))
+				.subscribe(res => {
+					this._router.navigate(['my-stadium'])
+				})
+        })
+    }
 
 	public ngOnDestroy(): void {
 		this.unsubscribe$.next();

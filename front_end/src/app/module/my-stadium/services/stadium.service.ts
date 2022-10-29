@@ -80,11 +80,30 @@ export class StadiumService {
             )
     }
 
+    public getMineStadium(formSearch: RequestPagination<any>): Observable<ResponsePagination<Stadium[]>> {
+        this.spinnerService.show();
+        return this.http.post<ResponsePagination<Stadium[]>>(`${this.url}/mine`, formSearch)
+            .pipe(tap(res => {
+                this.spinnerService.hide();
+            }))
+    }
+
     public getStadiumDetail(stadiumId: string): Observable<Time[]> {
         return this.http.get<Time[]>(`${this.urlStadiumDetail}/${stadiumId}`);
     }
 
     public getAvailableStadium(availableRequest: AvailableStadiumRequest): Observable<AvailableStadium[]> {
         return this.http.post<AvailableStadium[]>(`${this.url}/available-stadium`, availableRequest);
+    }
+
+    public deleteStadium(stadiumId: string): Observable<any> {
+        this.spinnerService.show();
+        return this.http.delete<any>(`${this.url}/${stadiumId}`)
+            .pipe(
+                tap(res => {
+                    this.spinnerService.hide();
+                    this.toastService.success('Xóa SVĐ thành công');
+                })
+            )
     }
 }
