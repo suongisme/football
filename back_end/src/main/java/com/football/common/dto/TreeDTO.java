@@ -12,5 +12,6 @@ import java.util.List;
 public class TreeDTO<T> {
 
     private String key;
+    private Boolean isRoot = true;
     private List<T> children;
 }

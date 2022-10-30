@@ -27,8 +27,10 @@ public class StadiumTypeService {
         List<StadiumType> stadiumDetails = this.stadiumTypeRepository.findByStadiumId(stadiumId);
         Function<StadiumType, StadiumTypeTree> toTree = stadiumType -> {
             StadiumTypeTree stadiumTypeTree = new StadiumTypeTree();
+            stadiumTypeTree.setId(stadiumType.getId());
             stadiumTypeTree.setKey(stadiumType.getId().toString());
             stadiumTypeTree.setName(stadiumType.getName());
+            stadiumTypeTree.setQuantity(stadiumType.getQuantity());
             List<StadiumDetail> types = this.stadiumDetailRepository.findByParentId(stadiumType.getId());
             List<StadiumDetailDto> details = this.stadiumDetailMapper.toDto(types);
             stadiumTypeTree.setChildren(details);

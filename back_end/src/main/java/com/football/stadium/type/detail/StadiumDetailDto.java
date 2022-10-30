@@ -9,12 +9,14 @@ import java.time.LocalTime;
 
 @Data
 public class StadiumDetailDto implements Serializable {
-    private Integer id;
+    private Long id;
     private LocalTime startTime;
     private LocalTime endTime;
     private BigDecimal price;
     private Integer parentId;
 
+    private String typeName;
+    private Long typeQuantity;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
 

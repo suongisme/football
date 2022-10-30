@@ -71,6 +71,8 @@
             <app-file-inputer
                 [previewImage]="true"
                 [control]="formGroup.get('avatarFile')"
+                [oldData]="oldData?.avatar ? [oldData.avatar] : null"
+                (delete)="ngOnDeleteAvatarFile()"
             ></app-file-inputer>
             <ng-container
                 [ngTemplateOutlet]="requiredValidateMessage"

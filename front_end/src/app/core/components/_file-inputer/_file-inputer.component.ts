@@ -1,5 +1,5 @@
 import { AbstractControl, FormControl } from '@angular/forms';
-import { OnInit, Output, EventEmitter, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked } from '@angular/core';
+import { OnInit, Output, EventEmitter, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked, OnChanges, SimpleChanges } from '@angular/core';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
     templateUrl: './_file-inputer.component.html',
     styleUrls: ['./_file-inputer.component.scss']
 })
-export class FileInputerComponent implements OnInit, AfterViewChecked {
+export class FileInputerComponent implements OnChanges, OnInit, AfterViewChecked {
     private static indexComp: number = 0;
 
     @ViewChild('inputerBox') inputerBox: ElementRef;
@@ -18,8 +18,10 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
     @Input() multiple: boolean;
     @Input() layout: 'row' | 'column';
     @Input() control: AbstractControl<any, any>;
+    @Input() oldData: string[];
 
     @Output() output: EventEmitter<any[]> = new EventEmitter();
+    @Output() delete: EventEmitter<number> = new EventEmitter();
 
     public unique;
     public hiddenUploadFileButton: boolean = false;
@@ -29,6 +31,13 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
     constructor(
         private renderer: Renderer2
     ) {}
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.oldData?.currentValue) {
+            this.imagePreviewUrls = this.oldData;
+            this.hiddenUploadFileButton = !this.multiple;
+        }
+    }
 
     public ngOnInit(): void {
         this.unique = this.constructor['ɵcmp'].id + FileInputerComponent.indexComp++;
@@ -59,7 +68,6 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
                 this.files.push(file);
                 this.hiddenUploadFileButton = !this.multiple;
                 this.setControl();
-                console.log(this.files)
             };
             reader.readAsDataURL(file);
         }
@@ -78,6 +86,7 @@ export class FileInputerComponent implements OnInit, AfterViewChecked {
         this.files.splice(index, 1);
         this.setControl();
         this.hiddenUploadFileButton = false;
+        this.delete.emit(index);
     }
 
     private setControl() {

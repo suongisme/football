@@ -1,12 +1,17 @@
 package com.football.request;
 
+import com.football.common.constant.StatusEnum;
 import com.football.common.dto.ResultDTO;
+import com.football.common.dto.SearchDTO;
+import com.football.common.dto.SearchResponse;
+import com.football.common.utils.DataUtils;
 import com.football.common.utils.DateUtils;
 import com.football.common.utils.ResultUtils;
 import com.football.mail.MailDTO;
 import com.football.mail.MailService;
 import com.football.mail.MailTemplate;
 import com.football.stadium.Stadium;
+import com.football.stadium.StadiumDto;
 import com.football.stadium.StadiumRepository;
 import com.football.stadium.type.StadiumType;
 import com.football.stadium.type.StadiumTypeRepository;
@@ -19,9 +24,14 @@ import com.football.user.UserService;
 import com.football.validator.ValidatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -54,8 +64,14 @@ public class RequestService {
         StadiumDetail stadiumDetail = this.stadiumDetailRepository.findById(requestDto.getStadiumDetailId())
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy SVĐ"));
 
-        Optional<Request> requestOpt = this.requestRepository.findApprovedByStadiumDetailIdAndHireDate(stadiumDetail.getId(), DateUtils.dateToString(requestDto.getHireDate(), "yyyy-MM-dd"));
-        if (requestOpt.isPresent()) {
+        Stadium stadium = this.stadiumRepository.findByStadiumDetailId(stadiumDetail.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy SVĐ"));
+        if (StatusEnum.INACTIVE.getStatus().equals(stadium.getStatus())) {
+            throw new IllegalArgumentException("SVĐ bị đã ngừng kinh doanh");
+        }
+        StadiumType stadiumType = this.stadiumTypeRepository.findById(stadiumDetail.getParentId()).orElse(new StadiumType());
+        List<Request> approvedRequests = this.requestRepository.findApprovedRequest(stadiumDetail.getId(), DateUtils.dateToString(requestDto.getHireDate()), RequestStatus.APPROVED.getStatus());
+        if (stadiumType.getQuantity() == approvedRequests.size()) {
             throw new IllegalArgumentException("Thời gian này đã có người đặt trước.");
         }
 
@@ -101,6 +117,7 @@ public class RequestService {
         params.put("param7", currentUser.getFullName());
         params.put("param8", currentUser.getEmail());
         params.put("param9", currentUser.getPhone());
+        params.put("param10", stadiumType.getName());
         this.mailService.send(mailDTO);
     }
 
@@ -111,6 +128,7 @@ public class RequestService {
         return this.requestRepository.findStadiumRequest(stadiumId);
     }
 
+    @Transactional
     public ResultDTO approveRequest(PendingRequestDto pendingRequestDto) {
         log.info("approve a request: {}", pendingRequestDto);
         this.requestRepository.findById(pendingRequestDto.getRequestId())
@@ -124,45 +142,85 @@ public class RequestService {
         Stadium stadium = this.stadiumRepository.findByStadiumDetailId(pendingRequestDto.getDetailId())
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy SVĐ"));
 
+        UserDto currentUser = this.userService.getCurrentUser();
+        if (!currentUser.getUsername().equals(stadium.getCreatedBy())) {
+            throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+        }
+
         requests.forEach(request -> {
             if (request.getId() == pendingRequestDto.getRequestId()) {
                 request.setStatus(RequestStatus.APPROVED.getStatus());
                 this.requestRepository.save(request);
-                this.sendMailToRequester(request, stadium);
+                this.mailService.sendMailToRequester(request, stadium, null);
                 return;
             }
 
             request.setStatus(RequestStatus.REJECT.getStatus());
             this.requestRepository.save(request);
-            this.sendMailToRequester(request, stadium);
+            this.mailService.sendMailToRequester(request, stadium, null);
         });
 
         return ResultUtils.buildSuccessResult(null);
     }
 
-    @Async
-    public void sendMailToRequester(Request request, Stadium stadium) {
-        log.info("send mail to requester: {}", request.getCreatedBy());
+    public ResultDTO<List<RequestTree>> getCompetitor(String stadiumId) {
+        log.info("get competitor stadium: {}", stadiumId);
+        this.stadiumRepository.findById(stadiumId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy SVĐ"));
 
-        User user = this.userRepository.findByUsername(request.getCreatedBy())
-                .orElse(new User());
+        List<RequestTree> trees = this.requestRepository.findRequestTree(stadiumId);
+        trees.forEach(tree -> {
+            List<RequestDto> children = this.requestRepository.findAllRequestByHireDate(
+                    tree.getHireDate(),
+                    tree.getTypeId()
+            );
+            tree.setChildren(children);
+        });
+        return ResultUtils.buildSuccessResult(trees);
+    }
 
-        MailDTO mailDTO = new MailDTO();
-        mailDTO.setTo(new String[] {user.getEmail()});
-        mailDTO.setParamsTemplate(new HashMap<>());
+    public ResultDTO rejectRequest(PendingRequestDto pendingRequestDto) {
+        log.info("reject a request: {}", pendingRequestDto);
+        Request request = this.requestRepository.findById(pendingRequestDto.getRequestId())
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy lời yêu cầu"));
 
-        Map<String, Object> param = mailDTO.getParamsTemplate();
-        param.put("param0", user.getFullName());
-        param.put("param1", stadium.getName());
-        if (RequestStatus.APPROVED.getStatus().equals(request.getStatus())) {
-            mailDTO.setTemplateContent(MailTemplate.APPROVE_REQUEST);
-            mailDTO.setSubject("[CHÚC MỪNG] CHÂP NHẬN YÊU CẦU ĐẶT SÂN");
+        Stadium stadium = this.stadiumRepository.findByStadiumDetailId(pendingRequestDto.getDetailId())
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy SVĐ"));
+        UserDto currentUser = this.userService.getCurrentUser();
+        if (!currentUser.getUsername().equals(stadium.getCreatedBy())) {
+            throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
         }
+        request.setStatus(RequestStatus.REJECT.getStatus());
+        this.requestRepository.save(request);
+        this.mailService.sendMailToRequester(request, stadium, null);
+        return ResultUtils.buildSuccessResult(null);
+    }
 
-        if (RequestStatus.REJECT.getStatus().equals(request.getStatus())) {
-            mailDTO.setTemplateContent(MailTemplate.REJECT_REQUEST);
-            mailDTO.setSubject("[THÔNG BÁO] TỪ CHỐI YÊU CẦU ĐẶT SÂN");
-        }
-        this.mailService.send(mailDTO);
+    public ResultDTO<SearchResponse<List<RequestDto>>> getFindingRequest(SearchDTO<StadiumDto> searchDTO) {
+        log.info("request to get finding-request");
+        return this.getRequestByUsername(searchDTO, true);
+    }
+
+    public ResultDTO<SearchResponse<List<RequestDto>>> getFoundRequest(SearchDTO<StadiumDto> searchDTO) {
+        log.info("request to get found-request");
+        return this.getRequestByUsername(searchDTO, false);
+    }
+
+    public ResultDTO<SearchResponse<List<RequestDto>>> getRequestByUsername(SearchDTO<StadiumDto> searchDTO, boolean isFinding) {
+        Pageable pageable = PageRequest.of(searchDTO.getPage() - 1, searchDTO.getPageSize());
+        StadiumDto data = searchDTO.getData();
+        UserDto currentUser = this.userService.getCurrentUser();
+        Page<RequestDto> response = this.requestRepository.findRequestByUsername(
+                currentUser.getUsername(),
+                isFinding,
+                data.getProvinceId(),
+                data.getDistrictId(),
+                DataUtils.resolveKeySearch(data.getName()),
+                pageable
+        );
+        SearchResponse<List<RequestDto>> searchResponse = new SearchResponse<>();
+        searchResponse.setTotal(response.getTotalElements());
+        searchResponse.setData(response.getContent());
+        return ResultUtils.buildSuccessResult(searchResponse);
     }
 }

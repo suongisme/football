@@ -19,5 +19,6 @@ import java.util.List;
 public class StadiumTypeDto implements Serializable {
     private Long id;
     private String name;
+    private Long quantity;
     private List<StadiumDetailDto> types;
 }

@@ -30,6 +30,7 @@ public class AvailableStadium {
         @NoArgsConstructor
         public static class Detail {
             private Long id;
+            private String name;
             private String startTime;
             private String endTime;
             private BigDecimal price;

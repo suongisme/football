@@ -18,6 +18,10 @@ const routes: Routes = [
     {
         path: 'create-stadium',
         component: CreateStadiumContainer
+    },
+    {
+        path: 'update-stadium/:id',
+        component: CreateStadiumContainer
     }
 ]
 

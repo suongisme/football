@@ -34,9 +34,19 @@ export class StadiumService {
                 },
                 error: error => {
                     this.spinnerService.hide();
-                    this.toastService.error(error?.error?.message ?? 'Tạo sân bóng thất bại');
                 }
             }))
+    }
+
+    public updateStadium(stadiumId: string, data): Observable<StadiumResponse> {
+        this.spinnerService.show();
+        return this.http.post<StadiumResponse>(`${this.url}/${stadiumId}`, data)
+            .pipe(
+                tap(res => {
+                    this.spinnerService.hide();
+                    this.toastService.success('Cập nhật thành công');
+                })
+            )
     }
 
     public searchStadium(formSearch: RequestPagination<any>): Observable<ResponsePagination<Stadium[]>> {

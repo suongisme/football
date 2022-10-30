@@ -1,4 +1,5 @@
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Stadium } from './../../../booking/interfaces/stadium.interface';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { DataService } from "src/app/core/services/data.service";
@@ -14,6 +15,7 @@ export class InfoStadiumFormComponent implements OnChanges, OnInit, OnDestroy {
     private unsubscribe$: Subject<any> = new Subject();
 
     @Input() formGroup: FormGroup;
+    @Input() oldData: Stadium;
 
     public provinceList: Province[];
     public districtList: District[];
@@ -29,8 +31,23 @@ export class InfoStadiumFormComponent implements OnChanges, OnInit, OnDestroy {
     ) {}
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.formGroup?.currentValue)
+        if (changes.formGroup?.currentValue) {
             this.ngOnInitChangeEvent();
+        };
+
+        if (changes.oldData.currentValue) {
+            this.formGroup.patchValue({
+                id: this.oldData.id,
+                name: this.oldData.name,
+                districtId: this.oldData.districtId,
+                provinceId: this.oldData.provinceId,
+                address: this.oldData.address,
+                description: this.oldData.description,
+            });
+            this.formControl.avatarFile.clearValidators();
+            this.formControl.avatarFile.updateValueAndValidity();
+        }
+            
     }
 
     public ngOnInit(): void {
@@ -55,6 +72,11 @@ export class InfoStadiumFormComponent implements OnChanges, OnInit, OnDestroy {
         this.dataService.getDistrict(provinceId)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(res => this.districtList = res);
+    }
+
+    public ngOnDeleteAvatarFile(): void {
+        this.formControl.avatarFile.setValidators(Validators.required);
+        this.formControl.avatarFile.updateValueAndValidity();
     }
 
     public ngOnDestroy(): void {

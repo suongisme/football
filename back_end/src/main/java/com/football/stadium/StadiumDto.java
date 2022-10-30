@@ -1,6 +1,7 @@
 package com.football.stadium;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.football.stadium.image.StadiumImageDto;
 import com.football.stadium.type.StadiumTypeDto;
 import com.football.stadium.option.StadiumOptionDto;
 import lombok.AllArgsConstructor;
@@ -62,5 +63,7 @@ public class StadiumDto implements Serializable {
 
     @JsonIgnore
     private List<MultipartFile> images = new ArrayList<>();
+
+    private List<StadiumImageDto> imageDto = new ArrayList<>();
     private List<StadiumOptionDto> options = new ArrayList<>();
 }

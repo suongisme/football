@@ -7,4 +7,5 @@ export interface Time extends Tree<Time> {
     endTime?: string;
     price?: number;
     expanded?: boolean;
+    quantity: number;
 }

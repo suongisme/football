@@ -17,7 +17,8 @@ public interface StadiumRepository extends JpaRepository<Stadium, String> {
         " WHERE (:provinceId IS NULL OR stadium.provinceId = :provinceId)" +
         " AND (:districtId IS NULL OR stadium.districtId = :districtId)" +
         " AND (:name IS NULL OR stadium.name LIKE :name)" +
-        " AND (:owner IS NULL OR stadium.createdBy = :owner)"
+        " AND (:owner IS NULL OR stadium.createdBy = :owner)" +
+        " AND stadium.status = 1"
     )
     Page<Stadium> findStadium(
         @Param("provinceId") Long provinceId,

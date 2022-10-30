@@ -21,7 +21,6 @@ public class PendingRequestDto {
     private String stadiumName;
     private String typeName;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date hireDate;
     private LocalTime startTime;
     private LocalTime endTime;

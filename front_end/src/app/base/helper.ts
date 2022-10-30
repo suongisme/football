@@ -6,6 +6,7 @@ export function prepareSubmitForm(formGroup: FormGroup | FormArray): void {
 
             if (typeof control.value == 'string' && Boolean(control.value)) {
                 control.setValue(control.value);
+                console.log(control.value)
             }
 
             if (control instanceof FormControl) {

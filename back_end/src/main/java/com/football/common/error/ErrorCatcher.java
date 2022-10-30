@@ -12,6 +12,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestControllerAdvice
 @Slf4j
@@ -32,12 +33,6 @@ public class ErrorCatcher {
         return ResponseEntity.badRequest().body(result);
     }
 
-    @ExceptionHandler(value = {BadCredentialsException.class})
-    public ResponseEntity badCredentialsException(BadCredentialsException ex) {
-        ResultDTO<String> resultDto = ResultUtils.buildErrorResult(ex.getMessage());
-        return ResponseEntity.status(resultDto.getStatus()).body(resultDto);
-    }
-
     @ExceptionHandler(value = {LockedException.class})
     public ResponseEntity lockException(LockedException ex) {
         ResultDTO<String> result = ResultUtils.buildErrorValidateResult(ex.getMessage());
@@ -54,11 +49,17 @@ public class ErrorCatcher {
         return ResponseEntity.status(HttpStatus.LOCKED).body(result);
     }
 
-    @ExceptionHandler(value = {InternalAuthenticationServiceException.class})
+    @ExceptionHandler(value = {InternalAuthenticationServiceException.class, BadCredentialsException.class})
     public ResponseEntity notFoundUsername() {
         ResultDTO<String> result = ResultUtils.buildErrorValidateResult("");
         result.setStatus(HttpStatus.UNAUTHORIZED);
         result.setMessage("Tài khoản không tồn tại");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+    }
+
+    @ExceptionHandler(value = {HttpClientErrorException.Forbidden.class})
+    public ResponseEntity forbiddenException(){
+        ResultDTO<String> result = ResultUtils.buildErrorResult("Không có quyền thc hiên chức năng");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(result);
     }
 }

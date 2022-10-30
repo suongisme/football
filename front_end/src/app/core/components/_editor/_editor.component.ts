@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs';
 import { FormControl, AbstractControl } from '@angular/forms';
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import * as CkEditorClassic from './ckeditor5/build/ckeditor.js';
 
 @Component({
@@ -7,7 +8,9 @@ import * as CkEditorClassic from './ckeditor5/build/ckeditor.js';
     templateUrl: './_editor.component.html',
     styleUrls: ['./_editor.component.scss']
 })
-export class EditorComponent {
+export class EditorComponent implements OnInit, OnDestroy {
+
+    private subscription: Subscription;
 
     @Input() control: AbstractControl<any, any>;
 
@@ -17,9 +20,21 @@ export class EditorComponent {
         shouldNotGroupWhenFull: false
     }
 
+    public ngOnInit(): void {
+        if (this.control) {
+            this.subscription = this.control.valueChanges.subscribe(res => {
+                this.content = res;
+            })
+        }
+    }
+
     public onChanges(event): void {
         if (this.control) {
             this.control.setValue(this.content);
         }
+    }
+
+    public ngOnDestroy(): void {
+        this.subscription?.unsubscribe();
     }
 }

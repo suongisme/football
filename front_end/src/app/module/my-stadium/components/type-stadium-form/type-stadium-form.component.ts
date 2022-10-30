@@ -1,31 +1,48 @@
 import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { Time } from 'src/app/module/booking/interfaces/time.interface';
 
 @Component({
     selector: 'app-type-stadium-form',
     templateUrl: './type-stadium-form.component.html',
     styleUrls: ['./type-stadium-form.component.scss']
 })
-export class TypeStadiumFormComponent implements OnInit {
+export class TypeStadiumFormComponent implements OnChanges, OnInit {
 
-    @Input()
-    public formGroups: FormGroup[];
+    @Input() formGroups: FormArray<FormGroup>;
+    @Input() oldData: Time[];
+
     constructor(
         private fb: FormBuilder,
     ) {}
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.oldData.currentValue) {
+            this.formGroups.clear();
+            this.oldData.forEach(this.addTypeForm.bind(this));
+        }
+    }
 
     public ngOnInit(): void {
         this.addTypeForm();
     }
 
-    public addTypeForm(): void {
+    public addTypeForm(data?: Time): void {
         const formGroup = this.fb.group({
-            name: [null, [Validators.required]],
-            quantity: [null, [Validators.required, Validators.pattern('[0-9]+')]],
+            id: [data?.id],
+            name: [data?.name, [Validators.required]],
+            quantity: [data?.quantity, [Validators.required, Validators.pattern('[0-9]+')]],
             types: this.fb.array([])
         })
-        this.addTime(formGroup);
+
+        if (data?.children) {
+            data.children.forEach(time => {
+                this.addTime(formGroup, time);   
+            })
+        } else {
+            this.addTime(formGroup);
+        }
         this.formGroups.push(formGroup);
     }
 
@@ -33,14 +50,15 @@ export class TypeStadiumFormComponent implements OnInit {
         if (this.formGroups.length == 1) {
             return;
         }
-        this.formGroups.splice(index, 1);
+        this.formGroups.removeAt(index);
     }
 
-    public addTime(formGroup: FormGroup): void {
+    public addTime(formGroup: FormGroup, data?: Time): void {
         this.getTypes(formGroup).push(this.fb.group({
-            startTime: [null, [Validators.required]],
-            endTime: [null, [Validators.required]],
-            price: [null, [Validators.required]]
+            id: [data?.id],
+            startTime: [data?.startTime, [Validators.required]],
+            endTime: [data?.endTime, [Validators.required]],
+            price: [data?.price, [Validators.required, Validators.pattern('[0-9]+')]]
         }))
     }
 

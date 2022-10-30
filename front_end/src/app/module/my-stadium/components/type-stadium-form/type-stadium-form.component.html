@@ -1,9 +1,9 @@
 <div>
     <div class="d-flex flex-column gap-2">
         <ng-container
-            *ngFor="let formGroup of formGroups; let i = index"
+            *ngFor="let control of formGroups.controls; let i = index"
             [ngTemplateOutlet]="form"
-            [ngTemplateOutletContext]="{formGroup: formGroup, index: i}"
+            [ngTemplateOutletContext]="{formGroup: control, index: i}"
         ></ng-container>
     </div>
     <button class="ms-2 mt-2" (click)="addTypeForm()">Thêm</button>
