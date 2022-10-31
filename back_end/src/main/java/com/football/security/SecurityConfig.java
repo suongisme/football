@@ -50,7 +50,6 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .antMatchers(HttpMethod.POST, "/requests").hasAnyAuthority(RoleEnum.USER.name())
                 .antMatchers(HttpMethod.POST, "/requests/approve", "/requests/reject").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
                 .antMatchers(HttpMethod.POST, "/requests/finding-request").hasAnyAuthority(RoleEnum.USER.name())
-                .antMatchers(HttpMethod.POST, "/requests/found-request").hasAnyAuthority(RoleEnum.USER.name())
                 .antMatchers(HttpMethod.POST, "/stadiums/*").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
                 .antMatchers(HttpMethod.DELETE, "/stadiums/*").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
                 .anyRequest()

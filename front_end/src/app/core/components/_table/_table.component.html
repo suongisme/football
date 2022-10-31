@@ -8,6 +8,7 @@
     [tooltipShowDelay]="0"
     [context]="context"
 
+    (rowClicked)="handleRowClick($event)"
     (gridReady)="gridReady($event)"
     (gridSizeChanged)="gridSizeChanged($event)"
 ></ag-grid-angular>

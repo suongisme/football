@@ -201,11 +201,6 @@ public class RequestService {
         return this.getRequestByUsername(searchDTO, true);
     }
 
-    public ResultDTO<SearchResponse<List<RequestDto>>> getFoundRequest(SearchDTO<StadiumDto> searchDTO) {
-        log.info("request to get found-request");
-        return this.getRequestByUsername(searchDTO, false);
-    }
-
     public ResultDTO<SearchResponse<List<RequestDto>>> getRequestByUsername(SearchDTO<StadiumDto> searchDTO, boolean isFinding) {
         Pageable pageable = PageRequest.of(searchDTO.getPage() - 1, searchDTO.getPageSize());
         StadiumDto data = searchDTO.getData();

@@ -11,7 +11,10 @@ public enum MailTemplate {
     RE_GET_OTP("re-get-otp"),
     REQUEST_BOOKING("request-booking"),
     APPROVE_REQUEST("approve-request"),
-    REJECT_REQUEST("reject-request");
+    REJECT_REQUEST("reject-request"),
+    REJECT_COMPETITOR("reject-competitor"),
+    APPROVE_COMPETITOR("approve-competitor"),
+    CHALLENGE_REQUEST("challenge-request");
 
     String template;
 }

@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import {
   ColDef,
   GridReadyEvent,
   GridSizeChangedEvent,
+  RowClickedEvent,
 } from 'ag-grid-community';
 import { 
   createFakeServer, 
@@ -29,6 +30,8 @@ export class CoreTableComponent implements OnInit {
   @Input() context;
   @Input() domLayout: 'normal' | 'autoHeight' | 'print' | undefined;
 
+  @Output() rowClick: EventEmitter<any> = new EventEmitter();
+
   public autoGroupColumnDef: ColDef;
   public isServerSideGroupOpenByDefault = isServerSideGroupOpenByDefault;
   public isServerSideGroup = isServerSideGroup;
@@ -41,6 +44,10 @@ export class CoreTableComponent implements OnInit {
       ...this.groupHeader,
       ...autoGroupColumnDef
     };
+  }
+
+  public handleRowClick(rowClickedEvent: RowClickedEvent): void {
+    this.rowClick.emit(rowClickedEvent.data);
   }
 
   public gridReady(gridReadyEvent: GridReadyEvent): void {

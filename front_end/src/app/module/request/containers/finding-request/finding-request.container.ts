@@ -1,8 +1,9 @@
+import { ChallengeRequestComponent } from './../challenge-request/challenge-request.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil, Subject } from 'rxjs';
 import { RequestPagination } from './../../../../core/interfaces/paginator.interface';
 import { RequestService } from 'src/app/module/request/services/request.service';
-import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ColDef, ICellRendererParams } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-community';
 import { Component, OnInit } from "@angular/core";
 import { FindingRequest } from '../../interfaces/finding-request.interface';
 import { CurrencyPipe, formatDate } from '@angular/common';
@@ -25,7 +26,8 @@ export class FindingRequestContainer implements OnInit {
 
     constructor(
         private currencyPipe: CurrencyPipe,
-        private requestService: RequestService
+        private requestService: RequestService,
+        private ngbModal: NgbModal,
     ) {}
 
     public ngOnInit(): void {
@@ -102,20 +104,6 @@ export class FindingRequestContainer implements OnInit {
                     'top': '40px'
                 },
             },
-            {
-                headerName: 'Đã tìm được',
-                headerClass: 'header-text-center',
-                cellRenderer: ActionComponent,
-                minWidth: 150,
-                maxWidth: 150,
-                cellStyle: {
-                    ...AG_GRID_CELL_STYLE,
-                    'top': '40px',
-                    'display': 'flex',
-                    'justify-content': 'center',
-                    'font-size': '20px',
-                },
-            }
         ];
     }
 
@@ -133,25 +121,13 @@ export class FindingRequestContainer implements OnInit {
                 this.rowData = res.data;
             })
     }
-}
 
-@Component({
-    selector: 'app-action',
-    template: '<i class="fas fa-times-circle cursor-pointer text-danger"></i>'
-})
-export class ActionComponent implements ICellRendererAngularComp {
-    
-    private param: ICellRendererParams<any, any>;
-
-    public agInit(params: ICellRendererParams<any, any>): void {
-
-    }
-
-    public refresh(params: ICellRendererParams<any, any>): boolean {
-        return true;
-    }
-
-    public deleteRequest(): void {
-
+    public rowClick(rowData): void {
+        const ref = this.ngbModal.open(ChallengeRequestComponent, {
+            centered: true,
+            animation: true,
+            size: 'lg'
+        })
+        ref.componentInstance.rowData = this.requestService.getChallengeRequest(rowData.id);
     }
 }

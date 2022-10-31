@@ -6,6 +6,8 @@
         [columns]="columnDef"
         [rows]="rowData"
         [rowHeight]="100"
+
+        (rowClick)="rowClick($event)"
     ></app-core-table>
     <app-pagination [paginator]="paginator" (paginate)="ngOnSearch()"></app-pagination>
 </div>

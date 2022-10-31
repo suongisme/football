@@ -1,6 +1,6 @@
 import { FindingRequest } from './../interfaces/finding-request.interface';
 import { ResponsePagination } from './../../../core/interfaces/paginator.interface';
-import { PendingRequest } from './../interfaces/request.interface';
+import { PendingRequest, Challenge } from './../interfaces/request.interface';
 import { environment } from 'src/environments/environment';
 import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -81,6 +81,32 @@ export class RequestService {
         return this.http.post<ResponsePagination<Request[]>>(`${this.url}/found-request`, formSearch)
             .pipe(
                 tap(res => this.spinnerService.hide())
+            )
+    }
+
+    public getChallengeRequest(parentId: number): Observable<Challenge[]> {
+        return this.http.get<Challenge[]>(`${this.url}/challenge-request/${parentId}`);
+    }
+
+    public rejectChallengeRequest(requestDetailId: number): Observable<any> {
+        this.spinnerService.show();
+        return this.http.get(`${this.url}/reject-competitor-request/${requestDetailId}`)
+            .pipe(
+                tap(res => {
+                    this.spinnerService.hide();
+                    this.toastService.success('Từ chối thành công')
+                })
+            )
+    }
+
+    public approveChallengeRequest(requestDetailId: number): Observable<any> {
+        this.spinnerService.show();
+        return this.http.get(`${this.url}/approve-competitor-request/${requestDetailId}`)
+            .pipe(
+                tap(res => {
+                    this.spinnerService.hide();
+                    this.toastService.success('Chấp nhận thành công')
+                })
             )
     }
 }

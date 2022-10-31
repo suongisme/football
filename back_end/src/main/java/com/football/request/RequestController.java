@@ -51,10 +51,4 @@ public class RequestController {
         ResultDTO<SearchResponse<List<RequestDto>>> result = this.requestService.getFindingRequest(searchDTO);
         return ResponseEntity.ok(result.getData());
     }
-
-    @PostMapping("/found-request")
-    public ResponseEntity getFoundRequest(@RequestBody SearchDTO<StadiumDto> searchDTO) {
-        ResultDTO<SearchResponse<List<RequestDto>>> result = this.requestService.getFoundRequest(searchDTO);
-        return ResponseEntity.ok(result.getData());
-    }
 }

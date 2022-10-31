@@ -1,11 +1,12 @@
+import { ChallengeRequestComponent } from './containers/challenge-request/challenge-request.component';
 import { RequestRentContainer } from './containers/request-rent/request-rent.container';
 import { CoreModule } from 'src/app/core/core.module';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { FindingRequestContainer, ActionComponent } from './containers/finding-request/finding-request.container';
+import { FindingRequestContainer } from './containers/finding-request/finding-request.container';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from "@angular/core";
-import { FoundRequestContainer } from './containers/found-request/found-request.container';
 import { UserRequestContainer } from './containers/user-request/user-request.container';
+import { ChallengeActionComponent } from './containers/challenge-request/action/action.component';
 
 const routes: Routes = [
     {
@@ -19,10 +20,6 @@ const routes: Routes = [
             {
                 path: 'finding-request',
                 component: FindingRequestContainer,
-            },
-            {
-                path: 'found-request',
-                component: FoundRequestContainer
             },
             {
                 path: '**',
@@ -40,9 +37,9 @@ const imports = [
 ];
 const declarations = [
     UserRequestContainer,
-    FoundRequestContainer,
     FindingRequestContainer,
-    ActionComponent
+    ChallengeRequestComponent,
+    ChallengeActionComponent,
 ];
 const exports = [];
 

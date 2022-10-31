@@ -17,3 +17,9 @@ export interface PendingRequest {
     requester: string;
     hasCompetitor: 'Y' | 'N';
 }
+
+export interface Challenge {
+    id: number;
+    requester: string;
+    createdDate: string;
+}

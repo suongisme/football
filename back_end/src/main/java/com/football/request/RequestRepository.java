@@ -47,14 +47,14 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query("SELECT new com.football.request.RequestTree(r.hireDate, t.name, t.id) FROM Request r" +
             " JOIN StadiumDetail d ON d.id = r.stadiumDetailId" +
             " JOIN StadiumType t ON t.id = d.parentId" +
-            " WHERE t.stadiumId = ?1 AND r.status = 1 AND r.hireDate > current_date")
+            " WHERE t.stadiumId = ?1 AND r.status = 1 AND r.hireDate >= current_date")
     List<RequestTree> findRequestTree(String stadiumId);
 
     @Query("SELECT new com.football.request.RequestDto(s, t, d, r) FROM Request r" +
             " JOIN StadiumDetail d ON r.stadiumDetailId = d.id" +
             " JOIN StadiumType t ON t.id = d.parentId" +
             " JOIN Stadium s ON s.id = t.stadiumId" +
-            " WHERE r.createdBy = :username AND r.status = 1 AND r.hasCompetitor = true AND r.hireDate > current_date" +
+            " WHERE r.createdBy = :username AND r.status = 1 AND r.hasCompetitor = true AND r.hireDate >= current_date" +
             " AND ((:isFinding = true AND r.competitorId IS NULL) OR (:isFinding = false AND r.competitorId IS NOT NULL)) " +
             " AND (:provinceId IS NULL OR s.provinceId = :provinceId)" +
             " AND (:districtId IS NULL OR s.districtId = :districtId)" +
