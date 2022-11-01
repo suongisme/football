@@ -15,6 +15,8 @@ import { BookingFormSearchComponent } from './components/_search-form/form-searc
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafePipe } from './pipes/safe.pipe';
+import { PendingRequestComponent } from './components/_pending-request/pending-request.component';
+import { ActionComponent } from './components/_pending-request/action/action.component';
 
 const imports = [
     CommonModule,
@@ -37,6 +39,8 @@ const declarations = [
     ListStadiumContainer,
     StadiumCardComponent,
     BookingFormSearchComponent,
+    PendingRequestComponent,
+    ActionComponent,
     SafePipe,
 ];
 
@@ -49,6 +53,8 @@ const exports = [
     ListStadiumContainer,
     StadiumCardComponent,
     BookingFormSearchComponent,
+    PendingRequestComponent,
+    ActionComponent,
     SafePipe,
 ]
 

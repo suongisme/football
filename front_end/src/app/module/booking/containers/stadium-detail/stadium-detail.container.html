@@ -47,7 +47,8 @@
             <app-pending-request
                 style="height: 400px;"
                 class="w-100"
-                [stadium]="stadium"
+                [showAction]="isOwnerStadium"
+                [stadiumRequest]="stadiumRequest$ | async"
             ></app-pending-request>
         </div>
         <div class="box">

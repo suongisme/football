@@ -7,12 +7,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BattlePopupComponent } from '../../components/battle-popup/battle-popup.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StadiumService } from 'src/app/module/my-stadium/services/stadium.service';
-import { takeUntil, Subject, Observable, filter, lastValueFrom } from 'rxjs';
+import { takeUntil, Subject, Observable, filter, lastValueFrom, map } from 'rxjs';
 import { StadiumImageService } from 'src/app/module/my-stadium/services/stadium-image.service';
 import { StadiumOptionService } from 'src/app/module/my-stadium/services/stadium-option.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { UserResponse } from 'src/app/core/interfaces/user.interface';
 import { RequestService } from 'src/app/module/request/services/request.service';
+import { PendingRequest } from 'src/app/module/request/interfaces/request.interface';
+import { Role } from 'src/app/base/constant';
 
 @Component({
 	selector: 'app-stadium-detail-container',
@@ -23,15 +25,20 @@ export class StadiumDetailContainer implements OnInit, OnDestroy {
 
 	private unsubscribe$: Subject<void> = new Subject();
 
+	public stadiumRequest$: Observable<PendingRequest[]>;
 	public stadiumByProvince$: Observable<Stadium[]>;
 	public stadiumImage$: Observable<StadiumImage[]>
 	public stadiumOption$: Observable<StadiumOption[]>;
 	public stadiumDetail$: Observable<Time[]>;
 	public stadium: Stadium;
 	public isReadMore: boolean = false;
-	public isOwnerStadium: boolean = false;
 
-	private currentUser: UserResponse;
+	public get isOwnerStadium(): boolean {
+        const currentUser = this.dataService.currentUser$.getValue();
+        return currentUser 
+        && currentUser.userDto.role == Role.OWNER_STADIUM
+        && this.stadium.createdBy == currentUser.userDto.username;
+    }
 
 	constructor(
 		private modalService: NgbModal,
@@ -41,12 +48,16 @@ export class StadiumDetailContainer implements OnInit, OnDestroy {
 		private stadiumOptionService: StadiumOptionService,
 		private dataService: DataService,
 		private requestService: RequestService,
-		private _router: Router
+		private _router: Router,
 	) { }
 
 	public ngOnInit(): void {
-		this.currentUser = this.dataService.currentUser$.getValue();
-		this.isOwnerStadium = this.currentUser && this.currentUser.userDto.role == 'OWNER_STADIUM';
+		this.dataService.reloadRequestStadium$ 
+            .pipe(
+				filter(isReload => isReload),
+				takeUntil(this.unsubscribe$)
+			)
+            .subscribe(this.loadStadiumRequest.bind(this));
 
 		this.router.params.subscribe(res => {
 			
@@ -61,6 +72,16 @@ export class StadiumDetailContainer implements OnInit, OnDestroy {
 				})
 		})
 	}
+
+	public loadStadiumRequest(): void {
+        this.stadiumRequest$ = this.requestService.getStadiumRequest({
+			page: null,
+			pageSize: null,
+			data: {
+				id: this.stadium.id
+			}
+		}).pipe(map(res => res.data));
+    }
 
 	public async openBattle(): Promise<void> {
 		const battle = await lastValueFrom(this.requestService.getCompetitorStadium(this.stadium.id))

@@ -16,7 +16,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class PendingRequestDto {
     private Long requestId;
-
     private Long detailId;
     private String stadiumName;
     private String typeName;

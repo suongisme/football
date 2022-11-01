@@ -22,8 +22,18 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
             " JOIN StadiumDetail d ON d.id = r.stadiumDetailId" +
             " JOIN StadiumType t ON t.id = d.parentId" +
             " JOIN Stadium s ON s.id = t.stadiumId" +
-            " WHERE s.id = ?1 AND r.status = 0")
-    List<PendingRequestDto> findStadiumRequest(String stadiumId);
+            " WHERE r.status = 0 AND r.hireDate >= current_date" +
+            " AND (:stadiumId IS NULL OR s.id = :stadiumId)" +
+            " AND (:provinceId IS NULL OR s.provinceId = :provinceId)" +
+            " AND (:districtId IS NULL OR s.districtId = :districtId)" +
+            " AND (:name IS NULL OR s.name LIKE :name)")
+    Page<PendingRequestDto> findStadiumRequest(
+            @Param("stadiumId") String stadiumId,
+            @Param("provinceId") Long provinceId,
+            @Param("districtId") Long districtId,
+            @Param("name") String name,
+            Pageable pageable
+    );
 
     @Query("SELECT r FROM Request r" +
             " JOIN StadiumDetail d ON d.id = r.stadiumDetailId" +

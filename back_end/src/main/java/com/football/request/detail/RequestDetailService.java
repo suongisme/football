@@ -56,6 +56,8 @@ public class RequestDetailService {
         UserDto currentUser = this.userService.getCurrentUser();
         this.sendApprovedMailToCompetitor(user, currentUser);
         this.requestDetailRepository.findByParentId(requestDetail.getParentId())
+                .stream()
+                .filter(rd -> !rd.getId().equals(requestDetailId))
                 .forEach(rd -> this.rejectCompetitorRequest(rd, currentUser));
 
         return ResultUtils.buildSuccessResult(requestDetail);

@@ -34,10 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -121,11 +118,24 @@ public class RequestService {
         this.mailService.send(mailDTO);
     }
 
-    public List<PendingRequestDto> getStadiumRequest(String stadiumId) {
-        log.info("get request of stadium: {}", stadiumId);
-        this.stadiumRepository.findById(stadiumId)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy SVĐ"));
-        return this.requestRepository.findStadiumRequest(stadiumId);
+    public SearchResponse<List<PendingRequestDto>> getStadiumRequest(SearchDTO<StadiumDto> searchDTO) {
+        StadiumDto stadiumDto = searchDTO.getData();
+        Pageable pageable = null;
+        if (Objects.nonNull(searchDTO.getPageSize()) && Objects.nonNull(searchDTO.getPage())) {
+            pageable = PageRequest.of(searchDTO.getPage() - 1, searchDTO.getPageSize());
+        }
+        log.info("get request of stadium: {}", stadiumDto);
+        Page<PendingRequestDto> pageResponse = this.requestRepository.findStadiumRequest(
+                stadiumDto.getId(),
+                stadiumDto.getProvinceId(),
+                stadiumDto.getDistrictId(),
+                DataUtils.resolveKeySearch(stadiumDto.getName()),
+                pageable
+        );
+        SearchResponse<List<PendingRequestDto>> searchResponse = new SearchResponse<>();
+        searchResponse.setData(pageResponse.getContent());
+        searchResponse.setTotal(pageResponse.getTotalElements());
+        return searchResponse;
     }
 
     @Transactional

@@ -36,8 +36,8 @@ export class RequestService {
             )
     }
 
-    public getStadiumRequest(stadiumId: string): Observable<PendingRequest[]> {
-        return this.http.get<PendingRequest[]>(`${this.url}/${stadiumId}`);
+    public getStadiumRequest(data): Observable<ResponsePagination<PendingRequest[]>> {
+        return this.http.post<ResponsePagination<PendingRequest[]>>(`${this.url}/search-request`, data);
     }
 
     public approveRequest(request: PendingRequest): Observable<any> {

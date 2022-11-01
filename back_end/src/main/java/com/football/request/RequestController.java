@@ -17,9 +17,9 @@ public class RequestController {
 
     private final RequestService requestService;
 
-    @GetMapping("/{stadiumId}")
-    public ResponseEntity getStadiumRequest(@PathVariable String stadiumId) {
-        return ResponseEntity.ok(this.requestService.getStadiumRequest(stadiumId));
+    @PostMapping("/search-request")
+    public ResponseEntity getStadiumRequest(@RequestBody SearchDTO<StadiumDto> searchDTO) {
+        return ResponseEntity.ok(this.requestService.getStadiumRequest(searchDTO));
     }
 
     @PostMapping

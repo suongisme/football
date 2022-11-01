@@ -7,7 +7,7 @@ import { ConfirmComponent } from 'src/app/core/components/_confirm/_confirm.comp
 import { Confirm } from 'src/app/core/interfaces/confirm.interface';
 import { RequestService } from 'src/app/module/request/services/request.service';
 import { ToastService } from 'src/app/core/services/toast.service';
-import { PendingRequestComponent } from '../pending-request.component';
+import { DataService } from 'src/app/core/services/data.service';
 
 @Component({
     selector: 'app-action-pending-request',
@@ -22,6 +22,7 @@ export class ActionComponent implements ICellRendererAngularComp {
         private ngbModal: NgbModal,
         private requestService: RequestService,
         private toastService: ToastService,
+        private dataService: DataService,
     ) {}
 
     public agInit(params: ICellRendererParams<any, any>): void {
@@ -50,8 +51,7 @@ export class ActionComponent implements ICellRendererAngularComp {
                     .rejectRequest(this.params.data)
                     .subscribe(res => {
                         this.toastService.success('Hủy yêu cầu thành công');
-                        const requestComponent = this.params.context as PendingRequestComponent;
-                        requestComponent.loadData();
+                        this.dataService.reloadRequestStadium$.next(true);
                     })
             })
     }
@@ -74,8 +74,7 @@ export class ActionComponent implements ICellRendererAngularComp {
                     .approveRequest(this.params.data)
                     .subscribe(res => {
                         this.toastService.success('Duyệt yêu cầu thành công');
-                        const requestComponent = this.params.context as PendingRequestComponent;
-                        requestComponent.loadData();
+                        this.dataService.reloadRequestStadium$.next(true);
                     })
             })
     }

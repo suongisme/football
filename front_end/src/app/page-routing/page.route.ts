@@ -1,5 +1,8 @@
+import { AuthenGuard } from './../base/guard/authen.guard';
 import { MainLayout } from './../layout/main/main.layout';
 import { Routes } from '@angular/router';
+import { AuthorGuard } from '../base/guard/author.guard';
+import { Role } from '../base/constant';
 
 export const pageRoutes: Routes = [
     {
@@ -12,6 +15,10 @@ export const pageRoutes: Routes = [
             },
             {
                 path: 'my-stadium',
+                canActivate: [ AuthenGuard, AuthorGuard ],
+                data: {
+                    roles: [ Role.OWNER_STADIUM ]
+                },
                 loadChildren: () => import('../module/my-stadium/my-stadium.module').then(m => m.MyStadiumModule)
             },
             {

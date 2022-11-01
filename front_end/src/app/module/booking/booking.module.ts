@@ -16,8 +16,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SlideShowComponent } from './components/slide-show/slide-show.component';
 import { TimePopupComponent } from './components/time-popup/time-popup.component';
 import { ConfirmComponent } from './components/time-popup/confirm/confirm.component';
-import { PendingRequestComponent } from './components/pending-request/pending-request.component';
-import { ActionComponent } from './components/pending-request/action/action.component';
 
 const routes: Routes = [
     {
@@ -42,8 +40,6 @@ const declarations = [
     ActionBattleComponent,
     StadiumTypeComponent,
     ConfirmComponent,
-    PendingRequestComponent,
-    ActionComponent
 ]
 
 const imports = [

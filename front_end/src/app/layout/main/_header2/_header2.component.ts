@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NgbOffcanvas, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { filter } from 'rxjs';
+import { ConfirmComponent } from 'src/app/core/components/_confirm/_confirm.component';
 import { DataService } from 'src/app/core/services/data.service';
 import { MobileNavbarComponent } from '../_mobile/_navbar/_mobile-navbar.component';
 
@@ -15,6 +17,7 @@ export class Header2Component implements OnInit {
     constructor(
         private ngbOffCanvas: NgbOffcanvas,
         private dataService: DataService,
+        private ngbModal: NgbModal,
     ) { }
 
     public ngOnInit(): void {
@@ -29,7 +32,17 @@ export class Header2Component implements OnInit {
     }
 
     public logout(): void {
-        this.dataService.logout();
+        const ref = this.ngbModal.open(ConfirmComponent, {
+            centered: true,
+            animation: true
+        })
+        ref.componentInstance.content = {
+            title: 'Xác nhận',
+            message: 'Bạn có chắc chắn muốn đăng xuất?'
+        };
+        ref.closed
+            .pipe(filter(res => res))
+            .subscribe(res => this.dataService.logout())
     }
 
     public openMobileMenu(): void {

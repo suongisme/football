@@ -7,11 +7,18 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from "@angular/core";
 import { UserRequestContainer } from './containers/user-request/user-request.container';
 import { ChallengeActionComponent } from './containers/challenge-request/action/action.component';
+import { AuthenGuard } from 'src/app/base/guard/authen.guard';
+import { AuthorGuard } from 'src/app/base/guard/author.guard';
+import { Role } from 'src/app/base/constant';
 
 const routes: Routes = [
     {
         path: 'rent',
-        component: RequestRentContainer
+        component: RequestRentContainer,
+        canActivate: [ AuthenGuard, AuthorGuard ],
+        data: {
+            roles: [ Role.OWNER_STADIUM ]
+        }
     },
     {
         path: '',
@@ -20,6 +27,10 @@ const routes: Routes = [
             {
                 path: 'finding-request',
                 component: FindingRequestContainer,
+                canActivate: [ AuthenGuard, AuthorGuard ],
+                data: {
+                    roles: [ Role.USER ]
+                }
             },
             {
                 path: '**',
@@ -40,6 +51,7 @@ const declarations = [
     FindingRequestContainer,
     ChallengeRequestComponent,
     ChallengeActionComponent,
+    RequestRentContainer
 ];
 const exports = [];
 

@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Injectable } from "@angular/core";
 import { District, Province } from '../interfaces/address.interface';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +22,7 @@ export class DataService {
 
     constructor(
         private http: HttpClient,
+        private router: Router,
     ) {}
 
     public getProvince(): Observable<Province[]> {
@@ -33,5 +35,6 @@ export class DataService {
 
     public logout(): void {
         this.currentUser$.next(null);
+        this.router.navigate(['/auth', 'login'])
     }
 }

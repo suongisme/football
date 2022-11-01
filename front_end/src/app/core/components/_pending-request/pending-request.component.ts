@@ -1,12 +1,7 @@
-import { Role } from 'src/app/base/constant';
-import { Observable, filter, Subscription } from 'rxjs';
 import { formatDate } from '@angular/common';
-import { Stadium } from './../../interfaces/stadium.interface';
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { RequestService } from 'src/app/module/request/services/request.service';
+import { Component, Input, OnInit } from "@angular/core";
 import { ColDef } from 'ag-grid-community';
 import { PendingRequest } from 'src/app/module/request/interfaces/request.interface';
-import { DataService } from 'src/app/core/services/data.service';
 import { ActionComponent } from './action/action.component';
 
 @Component({
@@ -14,37 +9,15 @@ import { ActionComponent } from './action/action.component';
     templateUrl: './pending-request.component.html',
     styleUrls: ['./pending-request.component.scss']
 })
-export class PendingRequestComponent implements OnInit, OnDestroy {
+export class PendingRequestComponent implements OnInit {
     
-    private subscription: Subscription;
-
-    @Input() stadium: Stadium;
-
+    @Input() showAction: boolean;
+    @Input() stadiumRequest: PendingRequest[] = [];
+    
     public columns: ColDef[];
-    public stadiumRequest$: Observable<PendingRequest[]>;
-
-    public get isOwnerStadium(): boolean {
-        const currentUser = this.dataSerivce.currentUser$.getValue();
-        return currentUser 
-        && currentUser.userDto.role == Role.OWNER_STADIUM
-        && this.stadium.createdBy == currentUser.userDto.username;
-    }
-
-    constructor(
-        private requestService: RequestService,
-        private dataSerivce: DataService
-    ) {}
 
     public ngOnInit(): void {
         this.ngOnInitColumn();
-        this.loadData();
-        this.subscription = this.dataSerivce.reloadRequestStadium$ 
-            .pipe(filter(isReload => isReload))
-            .subscribe(this.loadData.bind(this));
-    }
-
-    public loadData(): void {
-        this.stadiumRequest$ = this.requestService.getStadiumRequest(this.stadium.id);
     }
 
     private ngOnInitColumn(): void {
@@ -107,8 +80,7 @@ export class PendingRequestComponent implements OnInit, OnDestroy {
                 }
             }
         ];
-
-        if (this.isOwnerStadium) {
+        if (this.showAction) {
             this.columns.push({
                 headerName: 'Chấp nhận',
                 cellRenderer: ActionComponent,
@@ -121,9 +93,5 @@ export class PendingRequestComponent implements OnInit, OnDestroy {
                 }
             })
         }
-    }
-
-    public ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 }
