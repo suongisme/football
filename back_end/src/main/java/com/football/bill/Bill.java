@@ -15,9 +15,19 @@ public class Bill {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "full_name")
+    private String fullName;
 
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Temporal(TemporalType.DATE)
     @Column(name = "created_date")
     private Date createdDate;
 

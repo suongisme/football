@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { SpinnerService } from 'src/app/core/services/spinner.service';
 import { ResponsePagination } from 'src/app/core/interfaces/paginator.interface';
-import { Cart } from '../interfaces/cart.interface';
+import { Cart, Payment } from '../interfaces/cart.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -13,11 +13,22 @@ import { Cart } from '../interfaces/cart.interface';
 export class CartService {
 
     private url: string = `${environment.apiUrl}/carts`
+    private urlBill: string = `${environment.apiUrl}/bills`
 
     constructor(
         private http: HttpClient,
         private spinnerService: SpinnerService,
     ) {}
+
+    public checkout(payment: Payment): Observable<any> {
+        this.spinnerService.show();
+        return this.http.post<any>(`${this.urlBill}/checkout`, payment);
+    }
+
+    public deleteCart(cartId: number): Observable<any> {
+        this.spinnerService.show();
+        return this.http.delete(`${this.url}/${cartId}`);
+    }
 
     public getMyCart(dataSearch: RequestPagination<Cart>): Observable<ResponsePagination<Cart[]>> {
         this.spinnerService.show();

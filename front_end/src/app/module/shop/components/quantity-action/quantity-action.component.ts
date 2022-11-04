@@ -1,6 +1,7 @@
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { ICellRendererParams } from 'ag-grid-community';
+import { CartService } from '../../services/cart.service';
 
 @Component({
     selector: 'app-quantity-action',
@@ -16,6 +17,10 @@ export class QuantityActionComponent implements ICellRendererAngularComp, OnInit
 
     public value: number;
     public params: ICellRendererParams<any, any>;
+
+    constructor(
+        private cartService: CartService,
+    ) {}
 
     public ngOnInit(): void {
         if (this.defaultValue) {
@@ -38,9 +43,7 @@ export class QuantityActionComponent implements ICellRendererAngularComp, OnInit
         if (this.value == this.maxQuantity) return;
         this.value++;
         this.change.emit(this.value);
-        const { id } = this.params.data
-        var rowNode = this.params.api.getRowNode(id);
-        rowNode.setDataValue('quantity', this.value);
+        this.refreshTotalCellGrid('PLUS');
     }
 
     public subtract(): void {
@@ -48,6 +51,18 @@ export class QuantityActionComponent implements ICellRendererAngularComp, OnInit
         this.value--;
         this.change.emit(this.value);
         this.params.data.quantity = this.value;
+        this.refreshTotalCellGrid('SUBTRACT');
+    }
+
+    private refreshTotalCellGrid(action: 'PLUS' | 'SUBTRACT'): void {
+        if (!this.params) return;
+        const { id } = this.params.data
+        var rowNode = this.params.api.getRowNode(id);
+        const setData = () => {
+            this.params.data.quantity = this.value;
+            rowNode.setDataValue('total', this.value * this.params.data.price);
+        }
+        this.cartService[action.toLocaleLowerCase() + 'Quantity'](id).subscribe(setData);
     }
 
 }

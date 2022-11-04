@@ -5,6 +5,7 @@ import com.football.bill.BillDto;
 import com.football.bill.BillRepository;
 import com.football.bill.BillStatus;
 import com.football.bill.detail.BillDetail;
+import com.football.bill.detail.BillDetailDto;
 import com.football.bill.detail.BillDetailRepository;
 import com.football.common.dto.ResultDTO;
 import com.football.common.dto.SearchDTO;
@@ -56,6 +57,7 @@ public class AdminBillService {
                 bill.getCreatedDate(),
                 bill.getStatus(),
                 DataUtils.resolveKeySearch(bill.getId()),
+                null,
                 pageable
         );
         SearchResponse<List<Bill>> billResponse = new SearchResponse<>();
@@ -70,7 +72,7 @@ public class AdminBillService {
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hóa đơn"));
         bill.setStatus(BillStatus.APPROVE.getStatus());
         this.billRepository.save(bill);
-        User user = this.userService.getUserByUsername(bill.getUsername());
+        User user = this.userService.getUserByUsername(bill.getCreatedBy());
         this.sendMail(user, bill, null);
         return ResultUtils.buildSuccessResult(bill);
     }
@@ -81,13 +83,13 @@ public class AdminBillService {
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hóa đơn"));
         bill.setStatus(BillStatus.REJECT.getStatus());
         this.billRepository.save(bill);
-        List<BillDetail> details = this.billDetailRepository.findByBillId(billId);
+        List<BillDetailDto> details = this.billDetailRepository.findByBillId(billId);
         details.forEach(detail -> {
             Product product = this.productRepository.findById(detail.getProductId()).get();
             product.setQuantity( product.getQuantity() + detail.getQuantity() );
             this.productRepository.save(product);
         });
-        User user = this.userService.getUserByUsername(bill.getUsername());
+        User user = this.userService.getUserByUsername(bill.getCreatedBy());
         this.sendMail(user, bill, "Sản phẩm đã hết hàng.");
         return ResultUtils.buildSuccessResult(null);
     }

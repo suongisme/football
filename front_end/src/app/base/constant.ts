@@ -12,3 +12,18 @@ export enum Role {
     OWNER_STADIUM = 'OWNER_STADIUM',
     ADMIN = 'ADMIN',
 }
+
+export const BillStatus = [
+    {
+        id: 0,
+        label: 'Chờ duyệt'
+    },
+    {
+        id: 1,
+        label: 'Đã duyệt'
+    },
+    {
+        id: 2,
+        label: 'Từ chối'
+    }
+]

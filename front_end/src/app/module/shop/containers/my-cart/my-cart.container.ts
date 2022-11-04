@@ -1,9 +1,12 @@
 import { CurrencyPipe } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ColDef, GridReadyEvent } from "ag-grid-community";
-import { Subject, takeUntil } from "rxjs";
+import { filter, Subject, takeUntil } from "rxjs";
 import { Paginator } from "src/app/core/interfaces/paginator.interface";
+import { ToastService } from "src/app/core/services/toast.service";
+import { ActionCartComponent } from "../../components/action-cart/action-cart.component";
 import { ConfirmPaymentComponent } from "../../components/confirm-payment/confirm-payment.component";
 import { QuantityActionComponent } from "../../components/quantity-action/quantity-action.component";
 import { Cart } from "../../interfaces/cart.interface";
@@ -24,10 +27,17 @@ export class MyCartContainer implements OnInit, OnDestroy {
     public rowDatas: Cart[];
     public paginator: Paginator = new Paginator();
 
+    public get totalBill() {
+        const data = this.gridReady?.api?.getSelectedRows();
+        return data?.reduce((total, cur) => total + cur.total, 0);
+    }
+
     constructor(
         private ngbModal: NgbModal,
         private cartService: CartService,
         private currencyPipe: CurrencyPipe,
+        private toastService: ToastService,
+        private router: Router,
     ) {}
 
     public ngOnInit(): void {
@@ -96,10 +106,25 @@ export class MyCartContainer implements OnInit, OnDestroy {
             },
             {
                 headerName: 'Tổng tiền',
-                minWidth: 100,
-                field: 'quantity',
+                minWidth: 130,
+                maxWidth: 130,
+                field: 'total',
+                valueFormatter: param => {
+                    return this.currencyPipe.transform(param.data.total, 'VND');
+                },
                 cellStyle: {
                     'top': '25px'
+                }
+            },
+            {
+                headerName: 'Thao tác',
+                minWidth: 120,
+                maxWidth: 120,
+                cellRenderer: ActionCartComponent,
+                cellStyle: {
+                    'display': 'flex',
+                    'justify-content': 'center',
+                    'align-items': 'center'
                 }
             }
         ]
@@ -125,9 +150,27 @@ export class MyCartContainer implements OnInit, OnDestroy {
 
     public payment(): void {
         const data = this.gridReady.api.getSelectedRows();
+        if (!data.length) {
+            this.toastService.error('Bạn chưa chọn sản phẩm thanh toán.')
+            return;
+        }
         const ref = this.ngbModal.open(ConfirmPaymentComponent, {
             centered: true,
             animation: true
+        });
+
+        ref.componentInstance.totalBill = this.totalBill;
+
+        ref.closed
+        .pipe(filter(res => res))
+        .subscribe(res => {
+            this.cartService.checkout({
+                ...res,
+                carts: data
+            }).subscribe(res => {
+                this.toastService.success('Đặt hàng thành công.');
+                this.router.navigate(['/shop', 'my-bill']);
+            })
         })
     }
 

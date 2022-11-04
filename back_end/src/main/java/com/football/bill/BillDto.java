@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * A DTO for the {@link Bill} entity
@@ -20,4 +21,8 @@ public class BillDto implements Serializable {
     private Date createdDate;
     private BigDecimal total;
     private Integer status;
+    public String getStatusName() {
+        if (Objects.isNull(this.status)) return "";
+        return BillStatus.fromStatus(this.status).getStatusName();
+    }
 }

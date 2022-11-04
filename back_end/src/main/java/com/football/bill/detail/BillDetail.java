@@ -26,4 +26,7 @@ public class BillDetail {
 
     @Column(name = "quantity")
     private Long quantity;
+
+    @Column(name = "size_id")
+    private Long sizeId;
 }

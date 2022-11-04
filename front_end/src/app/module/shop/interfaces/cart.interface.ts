@@ -9,4 +9,12 @@ export interface Cart {
     categoryName: string;
     sizeName: string;
     price: number;
+    total: number;
+}
+
+export interface Payment {
+    fullName: string;
+    phone: string;
+    address: string;
+    carts: Cart[];
 }

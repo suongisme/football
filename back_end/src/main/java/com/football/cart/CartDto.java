@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * A DTO for the {@link Cart} entity
@@ -30,7 +31,6 @@ public class CartDto implements Serializable {
     private ProductDto product;
     private String sizeName;
     private BigDecimal price;
-
     public CartDto(Cart cart, Product product, Category category, Size size) {
         this.id = cart.getId();
         this.productId = cart.getProductId();
@@ -43,5 +43,10 @@ public class CartDto implements Serializable {
         this.categoryName = category.getName();
         this.sizeName = size.getName();
         this.price = product.getPrice();
+    }
+
+    public BigDecimal getTotal() {
+        if (Objects.isNull(this.price)) return null;
+        return this.price.multiply(new BigDecimal(this.quantity));
     }
 }

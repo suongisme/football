@@ -2,16 +2,14 @@
     <div class="container box bg-white">
         <span>Giỏ hàng của tôi</span>
         <div class="w-100">
-            <div class="d-flex mb-3">
+            <div class="d-flex justify-content-between mb-3">
+                <b class="align-self-end">Tổng hóa đơn: {{ (totalBill || 0) | currency:'VND' }}</b>
                 <app-cart-form-search
-                    class="col-md-9"
+                    class="col-md-8"
                     [searchAfterInit]="true" 
                     (search)="ngOnSearch($event)"
                 ></app-cart-form-search>
-                <div class="col-md-3 d-flex justify-content-end gap-2 align-items-end">
-                    <a style="text-decoration: underline;">Xoá tất cả</a>
-                    <button (click)="payment()">Thanh toán</button>
-                </div>
+                <button class="align-self-end" (click)="payment()">Thanh toán</button>
             </div>
             <app-core-table
                 class="w-100 d-flex"
@@ -19,12 +17,13 @@
                 [rowHeight]="100"
                 [columns]="columns"
                 [rows]="rowDatas"
+                [context]="this"
 
                 (afterInittable)="afterTableInit($event)"
             ></app-core-table>
             <app-pagination
                 [paginator]="paginator"
-
+                (paginate)="ngOnSearch(null)"
             ></app-pagination>
             
         </div>

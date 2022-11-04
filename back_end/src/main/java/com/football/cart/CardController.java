@@ -40,4 +40,10 @@ public class CardController {
         ResultDTO resultDTO = this.cartService.subtractQuantity(cartId);
         return ResponseEntity.ok(resultDTO);
     }
+
+    @DeleteMapping("/{cartId}")
+    public ResponseEntity deleteCart(@PathVariable Long cartId) {
+        ResultDTO resultDTO = this.cartService.deleteCart(cartId);
+        return ResponseEntity.ok(resultDTO);
+    }
 }

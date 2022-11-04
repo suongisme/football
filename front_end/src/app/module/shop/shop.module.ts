@@ -13,6 +13,8 @@ import { MyCartContainer } from './containers/my-cart/my-cart.container';
 import { QuantityActionComponent } from './components/quantity-action/quantity-action.component';
 import { ConfirmPaymentComponent } from './components/confirm-payment/confirm-payment.component';
 import { MyBillContainer } from './containers/my-bill/my-bill.container';
+import { ActionCartComponent } from './components/action-cart/action-cart.component';
+import { ActionBillComponent } from './components/action-bill/action-bill.component';
 
 const imports = [
     CoreModule,
@@ -33,6 +35,8 @@ const declarations = [
     QuantityActionComponent,
     ConfirmPaymentComponent,
     MyBillContainer,
+    ActionCartComponent,
+    ActionBillComponent,
 ]
 
 @NgModule({

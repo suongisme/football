@@ -70,6 +70,7 @@ public class CartService {
     }
 
     public ResultDTO deleteCart(Long cartId) {
+        this.validateChangeQuantityCart(cartId);
         this.cartRepository.deleteById(cartId);
         return ResultUtils.buildSuccessResult(null);
     }
