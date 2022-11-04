@@ -1,7 +1,8 @@
 export interface BillModel {
-    code: string;
+    id: string;
     createDate: string;
-    username: string;
-    subtotal: number;
+    createdBy: string;
+    fullName: string;
+    total: number;
     status: number;
 }

@@ -108,7 +108,6 @@ export class CommentContainer implements OnInit {
 	public onGridReady(event: GridReadyEvent): void {
 		this.params = event;
 		event.api.sizeColumnsToFit();
-		this.doSearch();
 	}
 
 }

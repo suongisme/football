@@ -8,7 +8,7 @@ import { ToastrService } from "ngx-toastr";
 import { FormSearchProductModel } from "../models/form-search-product.model";
 import { SearchModel, ResponseServiceModel } from "src/app/base/core/models/search.model";
 import { ProductModel } from "../models/product.model";
-import { SpecificationsModel } from "../models/specifications.model";
+import { SizeModel } from "../models/size.model";
 import { ProductImageModel } from "../models/product-image.model";
 
 @Injectable({
@@ -62,20 +62,12 @@ export class ProductService {
 
     }
 
-    public getSpecificationByProduct(productId): Observable<SpecificationsModel[]> {
-        return this.http.get<SpecificationsModel[]>(`${environment.API_GATEWAY}/specifications`, {
-            params: {
-                productId: productId
-            }
-        })
+    public getSizeByProduct(productId): Observable<SizeModel[]> {
+        return this.http.get<SizeModel[]>(`${environment.API_GATEWAY2}/sizes/product/${productId}`)
     }
 
     public getImages(productId): Observable<ProductImageModel[]> {
-        return this.http.get<ProductImageModel[]>(`${environment.API_GATEWAY}/product-image`, {
-            params: {
-                productId: productId
-            }
-        })       
+        return this.http.get<ProductImageModel[]>(`${environment.API_GATEWAY2}/product-image/product/${productId}`)       
     }
 
     public deleteProduct(productId): Observable<ResponseService<void>> {

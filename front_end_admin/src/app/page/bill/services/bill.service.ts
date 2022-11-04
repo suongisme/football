@@ -28,23 +28,20 @@ export class BillService {
     }
 
     public approveBill(billId: string): Observable<ResponseServiceModel<void>> {
-        const params = {billId};
         return this.handleResponse<ResponseServiceModel<void>> (
-            this.http.get<ResponseServiceModel<void>>(`${environment.API_GATEWAY}/bills/approve`, {params})
+            this.http.get<ResponseServiceModel<void>>(`${environment.API_GATEWAY}/bills/approve/${billId}`)
         );
     }
 
     public cancelBill(billId: string): Observable<ResponseServiceModel<void>> {
-        const params = {billId};
         return this.handleResponse<ResponseServiceModel<void>> (
-            this.http.get<ResponseServiceModel<void>>(`${environment.API_GATEWAY}/bills/cancel`, {params})
+            this.http.get<ResponseServiceModel<void>>(`${environment.API_GATEWAY}/bills/reject/${billId}`)
         )
     }
 
     public getBillDetial(billId: string): Observable<BillDetailModel[]> {
-        const params = {billId};
         return this.handleResponse<BillDetailModel[]>(
-            this.http.get<BillDetailModel[]>(`${environment.API_GATEWAY}/bills/details`, {params})
+            this.http.get<BillDetailModel[]>(`${environment.API_GATEWAY2}/bills/detail/${billId}`)
         );
     }
 

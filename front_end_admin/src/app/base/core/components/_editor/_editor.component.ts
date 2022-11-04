@@ -22,9 +22,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         if (this.control) {
-            this.subscription = this.control.valueChanges.subscribe(res => {
-                this.content = res;
-            })
+            this.content = this.control.value;
         }
     }
 

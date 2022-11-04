@@ -74,6 +74,23 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-6">
+                    <label class="required">Ảnh đại diện</label>
+                    <input type="file" id="file" class="d-none" (change)="onUploadImage($event, true)"/>
+                    <div *ngIf="formGroup.get('avatarFile').invalid && (formGroup.get('avatarFile').touched || formGroup.get('avatarFile').dirty)">
+                        <div *ngIf="formGroup.get('avatarFile').errors.required" class="error-validate">
+                            Ảnh đại diện không được trống.
+                        </div>
+                    </div>
+                    <div>
+                        <label *ngIf="!avatar" for="file" class="text-primary cursor-pointer">Tải ảnh lên</label>
+                        <div *ngIf="avatar" class="position-relative">
+                            <span class="time-close position-absolute text-white" style="z-index: 100; top: 10px; right: 10px;" (click)="onDeleteAvatar()">&times;</span>
+                            <img class="w-100 position-absolute" style="max-height: 270px;" [src]="avatar | safe:'resourceUrl'" />
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -104,7 +121,7 @@
             </div>
 
             <div class="row">
-                <label>Hình ảnh <small>(Ảnh đại diện ở đầu)</small></label>
+                <label>Hình ảnh</label>
                 <div class="d-flex">
                     <div class="mr-4">
                         <label for="image" class="button-upload-image cursor-pointer"></label>

@@ -33,8 +33,6 @@ public class ProductService {
         Page<ProductDto> pageProduct = this.productRepository.searchProduct(
                 data.getCategoryId(),
                 DataUtils.resolveKeySearch(data.getName()),
-                data.getFromPrice(),
-                data.getToPrice(),
                 StatusEnum.ACTIVE.getStatus(),
                 pageable
         );

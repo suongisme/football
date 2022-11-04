@@ -69,50 +69,36 @@ export class BillActionComponent implements ICellRendererAngularComp {
     private initColumn(): void {
         this.columnDef = [
             {
-                headerName: 'Hình ảnh',
-                headerTooltip: 'Hình ảnh',
-
-                cellStyle: {
-                    ...BASE_STYLE,
-                    'overflow': 'unset',
-                },
-                minWidth: 100,
-                maxWidth: 100,
-
-                cellRenderer: params => (`
-                    <img class="scale-image" width="100%" height="100%" src="${params.data.product.image}" />
-                `)
-
-            },
-            {
                 headerName: 'Tên sản phẩm',
                 headerTooltip: 'Tên sản phẩm',
 
                 minWidth: 200,
                 cellStyle: BASE_STYLE,
 
-                field: 'product.name',
-                tooltipField: 'product.name'
+                field: 'productName',
+                tooltipField: 'productName'
             },
             {
-                headerName: 'Giá nhập',
-                headerTooltip: 'Giá nhập',
+                headerName: 'Loại sẩn phẩm',
+                headerTooltip: 'Loại sẩn phẩm',
 
                 minWidth: 150,
                 cellStyle: BASE_STYLE,
 
-                valueGetter: params => this.currencyPipe.transform(params.data.product.initialPrice, 'VND'),
-                tooltipValueGetter: params => this.currencyPipe.transform(params.data.product.initialPrice, 'VND')
+                field: 'categoryName',
+                tooltipField: 'categoryName',
             },
+
             {
-                headerName: 'Giá bán',
-                headerTooltip: 'Giá bán',
+                headerName: 'Size',
+                headerTooltip: 'Size',
 
                 minWidth: 150,
+                maxWidth: 150,
                 cellStyle: BASE_STYLE,
 
-                valueGetter: params => this.currencyPipe.transform(params.data.price, 'VND'),
-                tooltipValueGetter: params => this.currencyPipe.transform(params.data.price, 'VND')
+                field: 'sizeName',
+                tooltipField: 'sizeName',
             },
             
             {
@@ -134,9 +120,9 @@ export class BillActionComponent implements ICellRendererAngularComp {
                 minWidth: 150,
                 cellStyle: BASE_STYLE,
 
-                valueGetter: params => this.currencyPipe.transform((params.data.price * params.data.quantity), 'VND'),
-                tooltipValueGetter: params => this.currencyPipe.transform((params.data.price * params.data.quantity), 'VND'),
-            }
+                valueGetter: params => this.currencyPipe.transform(params.data.total, 'VND'),
+                tooltipValueGetter: params => this.currencyPipe.transform(params.data.total, 'VND')
+            },
         ]
     }
 

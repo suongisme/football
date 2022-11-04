@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -53,14 +54,19 @@ public class AdminProductService {
     @Transactional
     public ResultDTO saveProduct(ProductDto productDto, MultipartFile avatarFile, List<MultipartFile> images) {
         log.info("save product");
-        String avatarUrl = this.imageService.uploadImage(avatarFile);
-        productDto.setAvatar(avatarUrl);
+        if (Objects.nonNull(avatarFile)) {
+            String avatarUrl = this.imageService.uploadImage(avatarFile);
+            productDto.setAvatar(avatarUrl);
+        }
         Product product = this.productMapper.toEntity(productDto);
-        product.setId(UUID.randomUUID().toString());
+        if (Objects.isNull(product.getId())) {
+            product.setId(UUID.randomUUID().toString());
+        }
         product.setStatus(StatusEnum.ACTIVE.getStatus());
         product.setCreatedDate(new Date());
         this.productRepository.save(product);
 
+        this.sizeRepository.deleteByProductId(product.getId());
         List<SizeDto> sizes = productDto.getSizes();
         if (!CollectionUtils.isEmpty(sizes)) {
             List<Size> sizeCollection = sizes.stream()
@@ -71,7 +77,16 @@ public class AdminProductService {
                     }).collect(Collectors.toList());
             this.sizeRepository.saveAll(sizeCollection);
         }
+        this.productImageRepository.deleteByProductId(product.getId());
 
+        if (!CollectionUtils.isEmpty(productDto.getImages())) {
+            List<ProductImage> productImages = productDto.getImages().stream().map(image -> {
+                ProductImage productImage = this.productImageMapper.toEntity(image);
+                productImage.setProductId(product.getId());
+                return productImage;
+            }).collect(Collectors.toList());
+            this.productImageRepository.saveAll(productImages);
+        }
         if (!CollectionUtils.isEmpty(images)) {
             List<ProductImage> productImages = images.stream()
                     .map(this.imageService::uploadImage)

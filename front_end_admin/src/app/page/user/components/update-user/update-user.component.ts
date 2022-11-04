@@ -50,11 +50,6 @@ export class UpdateUserComponent implements OnInit {
     public submit(): void {
         recursive(this.formGroup);
         if (this.formGroup.invalid) return;
-        this.userService
-            .saveUser(this.formGroup.getRawValue())
-            .subscribe(res => {
-                this.matDialogRef.close({action: 'save'});
-            })
     }
 
     public closeDialog(): void {

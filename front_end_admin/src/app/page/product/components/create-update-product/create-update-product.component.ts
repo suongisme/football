@@ -22,6 +22,7 @@ export class CreateUpdateProductComponent implements OnInit, OnDestroy {
     public status: StatusModel[] = STATUS;
     public formGroup: FormGroup;
     public images: ProductImageModel[] = []; // store base64 image to show to UI;
+    public avatar: string;
 
     constructor(
         private fb: FormBuilder,
@@ -34,9 +35,11 @@ export class CreateUpdateProductComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.initForm();
         this.getControl.categoryId.setValue(this.data.categoryList[0]?.id);
-        this.data.product && this.initData(this.data.product);
-        this.data.product && this.getSpecification();
-        this.data.product && this.getImages();
+        if (this.data.product) {
+            this.initData(this.data.product);
+            this.getSize();
+            this.getImages();
+        }
     }
 
     private initForm(): void {
@@ -48,23 +51,28 @@ export class CreateUpdateProductComponent implements OnInit, OnDestroy {
             status: [{value: 1, disabled: true}],
             description: [null],
             quantity: [null, [Validators.required, Validators.min(1)]],
+            avatarFile: [null, [Validators.required]],
+            avatar: [null],
             sizes: this.fb.array([])
         });
     }
 
     public initData(product: ProductModel): void {
         this.formGroup.patchValue(product);
+        this.avatar = product.avatar;
+        this.formGroup.get('avatarFile').clearValidators();
+        this.formGroup.get('avatarFile').updateValueAndValidity();
     }
 
-    public getSpecification(): void {
+    public getSize(): void {
         this.productService
-            .getSpecificationByProduct(this.data.product.id)
+            .getSizeByProduct(this.data.product.id)
             .pipe(
                 takeUntil(this.unsubscribe$)
             )
             .subscribe(res => {
                 this.sizes.clear();
-                res.forEach(specification => {
+                res.forEach(size => {
                     this.addSize();
                 })
                 this.sizes.patchValue(res);
@@ -82,7 +90,9 @@ export class CreateUpdateProductComponent implements OnInit, OnDestroy {
 
     public addSize(): void {
         this.sizes.push(this.fb.group({
-            name: [null, [Validators.required]]
+            id: [null],
+            name: [null, [Validators.required]],
+            productId: [this.data.product?.id],
         }))
     }
 
@@ -90,7 +100,7 @@ export class CreateUpdateProductComponent implements OnInit, OnDestroy {
         this.sizes.removeAt(index);
     }
 
-    public onUploadImage(event): void {
+    public onUploadImage(event, isAvatar: boolean = false): void {
         const files = event.target.files as FileList;
         
         if (!files?.length) return;
@@ -99,13 +109,27 @@ export class CreateUpdateProductComponent implements OnInit, OnDestroy {
             this.toastrService.error('File upload không đúng định dạng ảnh!');
             return;
         }
-        fileArray.forEach(file => {
-            const imageUrl = URL.createObjectURL(file);
-            this.images.push({
-                url: imageUrl,
-                file: file
+        if (isAvatar) {
+            this.avatar = URL.createObjectURL(fileArray[0]);
+            this.formGroup.get('avatarFile').setValue(fileArray[0]);
+        } else {
+            fileArray.forEach(file => {
+                const imageUrl = URL.createObjectURL(file);
+                this.images.push({
+                    url: imageUrl,
+                    file: file,
+                    productId: this.data.product?.id,
+                });
             });
-        });
+        }
+    }
+
+    public onDeleteAvatar() {
+        this.avatar = null;
+        this.formGroup.get('avatarFile').setValidators(Validators.required);
+        this.formGroup.get('avatarFile').setValue(null);
+        this.formGroup.get('avatarFile').markAsDirty();
+        this.formGroup.get('avatarFile').updateValueAndValidity();
     }
 
     public onDeleteImage(index: number): void {
@@ -116,16 +140,13 @@ export class CreateUpdateProductComponent implements OnInit, OnDestroy {
         recursive(this.formGroup);
         const { value, invalid } = this.formGroup;
         if (invalid) return;
-        if (!this.images?.length) {
-            this.toastrService.error('Chon ít nhất 1 ảnh');
-            return;
-        }
-        value.images = this.images;
+        value.images = this.images.filter(image => image.id);
+        const newImage = this.images.filter(image => image.file);
+        console.log(value);
         const formData = new FormData();
         formData.append('product', new Blob([JSON.stringify(value)], { type: 'application/json'}));
-        formData.append('avatarFile', this.images[0].file);
-        this.images.splice(0, 1);
-        this.images.forEach(image => {
+        formData.append('avatarFile', value.avatarFile);
+        newImage?.forEach(image => {
             formData.append('images', image.file);
         })
         this.productService

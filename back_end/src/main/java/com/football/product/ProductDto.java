@@ -1,6 +1,8 @@
 package com.football.product;
 
 import com.football.category.Category;
+import com.football.product.image.ProductImage;
+import com.football.product.image.ProductImageDto;
 import com.football.size.SizeDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +34,7 @@ public class ProductDto implements Serializable {
     private BigDecimal fromPrice;
     private BigDecimal toPrice;
     private List<SizeDto> sizes = new ArrayList<>();
+    private List<ProductImageDto> images = new ArrayList<>();
 
     public ProductDto(Product product, Category category) {
         this.id = product.getId();

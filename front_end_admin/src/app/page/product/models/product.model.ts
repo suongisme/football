@@ -1,5 +1,5 @@
 export interface ProductModel {
-    id: number;
+    id: string;
     name: string;
     code: string;
     categoryName: string;
@@ -9,4 +9,5 @@ export interface ProductModel {
     disabled?: boolean,
     status: number;
     quantity: number;
+    avatar: string;
 }

@@ -1,12 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ColDef, GridReadyEvent, GridSizeChangedEvent } from "ag-grid-community";
-import { map } from "rxjs";
-import { ActionGridComponent } from "src/app/base/core/components/cells/action-grid/action.component";
 import { StatusComponent } from "src/app/base/core/components/cells/status/status.component";
 import { ConfirmComponent } from "src/app/base/core/components/popup-confirm/popup-confirm.component";
 import { PaginationModel } from "src/app/base/core/models/pagination.model";
 import { ACTION_CLOSE, BASE_STYLE, DEFAULT_PAGE_SIZE } from "src/app/base/_helpers/constant";
+import { ActionGridComponent } from "./components/action/action.component";
 import { UpdateUserComponent } from "./components/update-user/update-user.component";
 import { UserModel } from "./models/user.model";
 import { UserService } from "./services/user.service";
@@ -101,15 +100,29 @@ export class UserContainer implements OnInit {
             },
 
             {
+                headerName: 'Chức vụ',
+                headerTooltip: 'Chức vụ',
+
+                valueGetter: param => {
+                    return param.data.role == 'USER' ? 'Người dùng' : param.data.role == 'OWNER_STADIUM' ? 'Chủ sân' : ''
+                },
+
+                cellStyle: BASE_STYLE,
+
+                minWidth: 150,
+                maxWidth: 200,
+            },
+
+            {
                 headerName: 'Trạng thái',
                 headerTooltip: 'Trạng thái',
 
                 minWidth: 100,
 
                 cellRenderer: StatusComponent,
-                values: ['Không hoạt động', 'Hoạt động'],
-                backgrounds: ['#FFEDE4', '#F4FEFF'],
-                colors: ['#DF642A', '#00A3AE'],
+                values: ['', 'Mở khóa', 'Khóa' ],
+                backgrounds: ['', '#F4FEFF', '#FFEDE4' ],
+                colors: ['', '#00A3AE', '#DF642A'],
 
                 cellStyle: BASE_STYLE
             },
@@ -117,8 +130,8 @@ export class UserContainer implements OnInit {
             {
                 cellRenderer: ActionGridComponent,
                 cellRendererParams: {
-                    onDelete: this.doDelete.bind(this),
-                    onEdit: this.doEdit.bind(this),
+                    onLock: this.onLock.bind(this),
+                    onUnlock: this.onUnlock.bind(this),
                 },
 
                 minWidth: 48,
@@ -148,31 +161,39 @@ export class UserContainer implements OnInit {
         })
     }
 
-    public doDelete(user: UserModel): void {
+    public onLock(user: UserModel): void {
         this.matDialog.open(ConfirmComponent, {
             width: '500px',
             height: '180px',
             data: {
                 title: 'Xác nhận xóa',
-                message: 'Bạn có chắc chắn muốn xóa người dùng?'
+                message: 'Bạn có chắc chắn muốn khóa tk người dùng?'
             }
         })
         .afterClosed()
         .subscribe((action) => {
             if (action === ACTION_CLOSE) return;
             this.userService
-                .deleteUser(user.username)
+                .lockUser(user.username)
                 .subscribe(res => this.doSearch(this.currentFormSearch, this.pagination.currentPage))
         })
     }
 
-    public doEdit(user: UserModel): void {
-        this.matDialog.open(UpdateUserComponent, {
-            height: '400px',
-            width: '600px',
-            data: user,
-        }).afterClosed().subscribe(event => {
-            if (event.action === 'save') this.doSearch(this.currentFormSearch, this.pagination.currentPage);
+    public onUnlock(user: UserModel): void {
+        this.matDialog.open(ConfirmComponent, {
+            width: '500px',
+            height: '180px',
+            data: {
+                title: 'Xác nhận mở',
+                message: 'Bạn có chắc chắn muốn mở khóa tk người dùng?'
+            }
+        })
+        .afterClosed()
+        .subscribe((action) => {
+            if (action === ACTION_CLOSE) return;
+            this.userService
+                .unlockUser(user)
+                .subscribe(res => this.doSearch(this.currentFormSearch, this.pagination.currentPage))
         })
     }
 

@@ -4,6 +4,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { AgGridModule } from "ag-grid-angular";
 import { CoreModule } from "src/app/base/core/core.module";
+import { ActionGridComponent } from "./components/action/action.component";
 import { FormSearchUserComponent } from "./components/form-search-user/form-search-user.component";
 import { UpdateUserComponent } from "./components/update-user/update-user.component";
 import { UserRoutingModule } from "./user-routing.module";
@@ -24,6 +25,7 @@ const declarations = [
     UserContainer,
     FormSearchUserComponent,
     UpdateUserComponent,
+    ActionGridComponent
 ]
 
 @NgModule({

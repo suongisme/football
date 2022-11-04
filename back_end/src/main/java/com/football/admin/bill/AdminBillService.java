@@ -56,7 +56,7 @@ public class AdminBillService {
         Page<Bill> bills = this.billRepository.searchBill(
                 bill.getCreatedDate(),
                 bill.getStatus(),
-                DataUtils.resolveKeySearch(bill.getId()),
+                bill.getId(),
                 null,
                 pageable
         );

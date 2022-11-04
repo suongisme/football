@@ -89,6 +89,8 @@ public class BillService {
                     cart.setProduct(this.productMapper.toDto(product));
                     if (product.getQuantity() < cart.getQuantity())
                         throw new IllegalArgumentException("Không đủ số lượng sản phẩm: " + product.getName());
+                    product.setQuantity( product.getQuantity() - cart.getQuantity());
+                    this.productRepository.save(product);
                     return product.getPrice().multiply(new BigDecimal(cart.getQuantity().toString()));
                 })
                 .reduce(new BigDecimal("0"), (total, cur) -> total.add(cur));

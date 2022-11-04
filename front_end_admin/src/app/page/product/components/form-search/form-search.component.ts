@@ -29,7 +29,7 @@ export class FormSearchComponent implements OnInit {
 
     initForm(): void {
         this.formGroup = this.fb.group({
-            codeName: [null],
+            name: [null],
             categoryId: [null],
             status: [null]
         })

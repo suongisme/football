@@ -27,7 +27,7 @@ export class AuthService {
     login(user: LoginModel): Observable<LoginResponse> {
         this.spinnerService.isLoading(true);
         return this.http
-            .post<LoginResponse>(`${this.API.replace('/admin', '')}/authenticate`, user)
+            .post<LoginResponse>(`${environment.API_GATEWAY2}/authenticate`, user)
             .pipe(
                 tap({
                     next: res => {
@@ -43,6 +43,6 @@ export class AuthService {
     }
     logout(): void {
         this.currentUser$.next(null);
-        this.router.navigate(['/auth/login'])
+        this.router.navigate(['/auth','login'])
     }
 }

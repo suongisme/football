@@ -1,5 +1,11 @@
 @import '../../../../colors.scss';
 
+:host ::ng-deep {
+    .active {
+        color: white;
+    }
+}
+
 .expanded {
     height: 50px !important;
 }

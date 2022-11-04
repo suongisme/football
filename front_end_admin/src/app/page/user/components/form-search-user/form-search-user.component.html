@@ -1,11 +1,11 @@
 <form [formGroup]="formGroup" (submit)="submit()" class="d-flex">
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <label>Người dùng</label>
-        <input class="form-control" formControlName="username" placeholder="Nhập tài khoản hoặc họ tên" />
+        <input class="form-control" formControlName="username" placeholder="Nhập tài khoản" />
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <label>Trạng thái</label>
         <ng-select
             [items]="_status"
@@ -15,6 +15,19 @@
             bindLabel="label"
             formControlName="status"
             placeholder="Chọn trạng thái"
+        ></ng-select>
+    </div>
+
+    <div class="col-md-3">
+        <label>Chức vụ</label>
+        <ng-select
+            [items]="roles"
+            [clearable]="true"
+            [searchable]="false"
+            bindValue="id"
+            bindLabel="label"
+            formControlName="role"
+            placeholder="Chọn chức vụ"
         ></ng-select>
     </div>
 

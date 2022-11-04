@@ -34,10 +34,10 @@ export class UserService {
                     );
     }
 
-    public saveUser(user: UserModel): Observable<ResponseService<UserModel>> {
+    public unlockUser(user: UserModel): Observable<ResponseService<UserModel>> {
         this.spinnerService.isLoading(true);
         return this.http
-                    .post<ResponseService<UserModel>>(`${environment.API_GATEWAY}/user`, user)
+                    .get<ResponseService<UserModel>>(`${environment.API_GATEWAY}/users/unlock/${user.username}`)
                     .pipe(
                         tap({
                             next: res => {
@@ -52,11 +52,9 @@ export class UserService {
                     )
     }
 
-    public deleteUser(username: string): Observable<ResponseService<void>> {
-        this.spinnerService.isLoading(true);
-        const params = {username: username}
+    public lockUser(username: string): Observable<ResponseService<void>> {
         return this.http
-                    .delete<ResponseService<void>>(`${environment.API_GATEWAY}/user`, {params})
+                    .get<ResponseService<void>>(`${environment.API_GATEWAY}/users/lock/${username}`)
                     .pipe(
                         tap({
                             next: res => {

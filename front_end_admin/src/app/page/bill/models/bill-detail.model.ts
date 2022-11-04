@@ -1,6 +1,8 @@
-import { ProductModel } from './../../product/models/product.model';
 export interface BillDetailModel {
-    product: ProductModel;
-    price: number;
+    productName: string;
+    categoryName: string;
+    sizeName: string;
+    productId: string;
+    total: number;
     quantity: number;
 }

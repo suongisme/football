@@ -19,6 +19,7 @@ export class FormSearchCommentComponent implements OnInit {
 
     public ngOnInit(): void {
         this.initForm();
+        this.submit();
     }
 
     private initForm(): void {

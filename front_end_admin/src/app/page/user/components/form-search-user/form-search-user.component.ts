@@ -14,7 +14,27 @@ export class FormSearchUserComponent implements OnInit {
     @Output() search: EventEmitter<UserModel> = new EventEmitter();
 
     public formGroup: FormGroup;
-    public _status: StatusModel[] = STATUS;
+    public _status: StatusModel[] = [
+        {
+            id: 0,
+            label: 'Khóa'
+        },
+        {
+            id: 1,
+            label: 'Mở khóa'
+        }
+    ];
+
+    public roles = [
+        {
+            id: 'USER',
+            label: 'Người dùng'
+        },
+        {
+            id: 'OWNER_STADIUM',
+            label: 'Chủ sân'
+        }
+    ]
 
     constructor(
         private fb: FormBuilder,
@@ -29,6 +49,7 @@ export class FormSearchUserComponent implements OnInit {
         this.formGroup = this.fb.group({
             username: [null],
             status: [null],
+            role: [null],
         });
     }
 

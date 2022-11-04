@@ -16,15 +16,11 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             " WHERE 1 = 1" +
             " AND (:categoryId IS NULL OR p.categoryId = :categoryId)" +
             " AND (:name IS NULL OR p.name LIKE :name)" +
-            " AND (:fromPrice IS NULL OR p.price >= :fromPrice)" +
-            " AND (:toPrice IS NULL OR p.price <= :toPrice)" +
             " AND (:status IS NULL OR p.status = :status)" +
             " ORDER BY p.categoryId, p.name")
     Page<ProductDto> searchProduct(
             @Param("categoryId") Long categoryId,
             @Param("name") String name,
-            @Param("fromPrice") BigDecimal fromPrice,
-            @Param("toPrice") BigDecimal toPrice,
             @Param("status") Integer status,
             Pageable pageable
     );
