@@ -14,7 +14,9 @@ public enum MailTemplate {
     REJECT_REQUEST("reject-request"),
     REJECT_COMPETITOR("reject-competitor"),
     APPROVE_COMPETITOR("approve-competitor"),
-    CHALLENGE_REQUEST("challenge-request");
+    CHALLENGE_REQUEST("challenge-request"),
+    REJECT_BILL("reject-bill"),
+    APPROVE_BILL("approve-bill");
 
     String template;
 }

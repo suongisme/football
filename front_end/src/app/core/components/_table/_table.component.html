@@ -7,6 +7,8 @@
     [rowHeight]="rowHeight || 64"
     [tooltipShowDelay]="0"
     [context]="context"
+    [rowSelection]="rowSelection"
+    [getRowId]="getRowId"
 
     (rowClicked)="handleRowClick($event)"
     (gridReady)="gridReady($event)"

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import {
   ColDef,
+  GetRowIdFunc,
+  GetRowIdParams,
   GridReadyEvent,
   GridSizeChangedEvent,
   RowClickedEvent,
@@ -29,8 +31,10 @@ export class CoreTableComponent implements OnInit {
   @Input() rowHeight: number;
   @Input() context;
   @Input() domLayout: 'normal' | 'autoHeight' | 'print' | undefined;
+  @Input() rowSelection: 'single' | 'multiple';
 
   @Output() rowClick: EventEmitter<any> = new EventEmitter();
+  @Output() afterInittable: EventEmitter<GridReadyEvent> = new EventEmitter();
 
   public autoGroupColumnDef: ColDef;
   public isServerSideGroupOpenByDefault = isServerSideGroupOpenByDefault;
@@ -46,11 +50,16 @@ export class CoreTableComponent implements OnInit {
     };
   }
 
+  public getRowId: GetRowIdFunc = (params: GetRowIdParams) => {
+    return params.data.id;
+  };
+
   public handleRowClick(rowClickedEvent: RowClickedEvent): void {
     this.rowClick.emit(rowClickedEvent.data);
   }
 
   public gridReady(gridReadyEvent: GridReadyEvent): void {
+    this.afterInittable.emit(gridReadyEvent);
     const fakeServer = createFakeServer(this.rows || []);
     const datasource = createServerSideDatasource(fakeServer);
     gridReadyEvent.api.setServerSideDatasource(datasource);

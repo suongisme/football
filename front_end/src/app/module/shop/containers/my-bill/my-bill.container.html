@@ -1,0 +1,19 @@
+<div class="wrapper">
+    <div class="container box bg-white">
+        <span>Đơn hàng của tôi</span>
+        <div class="w-100">
+            <app-core-table
+                class="w-100 d-flex"
+                style="height: 500px"
+                [rowHeight]="100"
+                [columns]="columns"
+                [rowSelection]="'multiple'"
+            ></app-core-table>
+            <app-pagination
+                [paginator]="paginator"
+
+            ></app-pagination>
+            
+        </div>
+    </div>
+</div>

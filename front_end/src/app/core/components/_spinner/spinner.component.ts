@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Observable } from "rxjs";
 import { SpinnerService } from "../../services/spinner.service";
 
 @Component({
@@ -8,7 +9,11 @@ import { SpinnerService } from "../../services/spinner.service";
 })
 export class SpinnerComponent {
 
+    public spinner: Observable<boolean>;
+
     constructor(
         public spinnerService: SpinnerService,
-    ) {}
+    ) {
+        this.spinner = this.spinnerService.spinner$.asObservable();
+    }
 }

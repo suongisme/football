@@ -50,10 +50,14 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDto getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User principal = (User) authentication.getPrincipal();
-        com.football.user.User user = this.getUserByUsername(principal.getUsername());
-        return this.userMapper.toDto(user);
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User principal = (User) authentication.getPrincipal();
+            com.football.user.User user = this.getUserByUsername(principal.getUsername());
+            return this.userMapper.toDto(user);
+        } catch (Exception exception) {
+            return new UserDto();
+        }
     }
 
     public com.football.user.User getUserByUsername(String username) {

@@ -17,6 +17,7 @@ export const Menu: IMenu[] = [
     {
         name: 'Cửa hàng',
         icon: 'assets/icons/svg/shop.svg',
+        link: '/shop/product',
         roles: [Role.USER]
     },
     {
@@ -36,5 +37,17 @@ export const Menu: IMenu[] = [
         icon: 'assets/icons/svg/my-stadium.svg',
         link: 'request/rent',
         roles: [Role.OWNER_STADIUM]
+    },
+    {
+        name: 'Giỏ hàng',
+        icon: 'assets/icons/svg/my-stadium.svg',
+        link: '/shop/my-cart',
+        roles: [Role.USER]
+    },
+    {
+        name: 'Đơn hàng',
+        icon: 'assets/icons/svg/my-stadium.svg',
+        link: '/shop/my-bill',
+        roles: [Role.USER]
     }
 ]

@@ -1,0 +1,32 @@
+<div class="wrapper">
+    <div class="container box bg-white">
+        <span>Giỏ hàng của tôi</span>
+        <div class="w-100">
+            <div class="d-flex mb-3">
+                <app-cart-form-search
+                    class="col-md-9"
+                    [searchAfterInit]="true" 
+                    (search)="ngOnSearch($event)"
+                ></app-cart-form-search>
+                <div class="col-md-3 d-flex justify-content-end gap-2 align-items-end">
+                    <a style="text-decoration: underline;">Xoá tất cả</a>
+                    <button (click)="payment()">Thanh toán</button>
+                </div>
+            </div>
+            <app-core-table
+                class="w-100 d-flex"
+                style="height: 500px"
+                [rowHeight]="100"
+                [columns]="columns"
+                [rows]="rowDatas"
+
+                (afterInittable)="afterTableInit($event)"
+            ></app-core-table>
+            <app-pagination
+                [paginator]="paginator"
+
+            ></app-pagination>
+            
+        </div>
+    </div>
+</div>
