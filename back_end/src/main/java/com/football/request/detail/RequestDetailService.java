@@ -52,6 +52,10 @@ public class RequestDetailService {
         requestDetail.setStatus(RequestDetailStatus.APPROVE.getStatus());
         this.requestDetailRepository.save(requestDetail);
 
+        Request request = this.requestRepository.findById(requestDetail.getParentId()).get();
+        request.setCompetitorId(requestDetail.getRequester());
+        this.requestRepository.save(request);
+
         User user = this.userService.getUserByUsername(requestDetail.getRequester());
         UserDto currentUser = this.userService.getCurrentUser();
         this.sendApprovedMailToCompetitor(user, currentUser);
