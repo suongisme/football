@@ -12,6 +12,7 @@ export class MainLayout implements OnInit, OnDestroy {
     
     private unsubscribe$: Subject<void> = new Subject();
     public isHomePage: boolean = false;
+    public isShopPage: boolean = false;
 
     constructor(
         public router: Router,
@@ -19,6 +20,7 @@ export class MainLayout implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.isHomePage = this.router.url === '/stadium';
+        this.isShopPage = this.router.url === '/shop/product';
         this.router.events
             .pipe(
                 filter(event => event instanceof NavigationStart),
@@ -27,6 +29,7 @@ export class MainLayout implements OnInit, OnDestroy {
             .subscribe(event => {
                 const navigationStart = event as NavigationStart;
                 this.isHomePage = navigationStart.url === '/stadium';
+                this.isShopPage = navigationStart.url === '/shop/product';
             })
     }
 

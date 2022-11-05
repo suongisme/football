@@ -27,5 +27,4 @@ export class NavbarComponent implements OnInit {
                 this.role = Role[u.userDto.role];
             })
     }
-
 }

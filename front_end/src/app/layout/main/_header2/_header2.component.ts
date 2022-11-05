@@ -1,9 +1,11 @@
+import { filter } from 'rxjs';
+import { FeedbackComponent } from './../_feedback/_feedback.component';
 import { Component, OnInit } from '@angular/core';
 import { NgbOffcanvas, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { filter } from 'rxjs';
 import { ConfirmComponent } from 'src/app/core/components/_confirm/_confirm.component';
 import { DataService } from 'src/app/core/services/data.service';
 import { MobileNavbarComponent } from '../_mobile/_navbar/_mobile-navbar.component';
+import { Role } from 'src/app/base/constant';
 
 @Component({
     selector: 'app-header2',
@@ -13,6 +15,7 @@ import { MobileNavbarComponent } from '../_mobile/_navbar/_mobile-navbar.compone
 export class Header2Component implements OnInit {
     public isLoggedIn: boolean = false;
     public username: string;
+    public homeUrl: string = '';
 
     constructor(
         private ngbOffCanvas: NgbOffcanvas,
@@ -23,12 +26,23 @@ export class Header2Component implements OnInit {
     public ngOnInit(): void {
         this.dataService.currentUser$.subscribe(res => {
             this.isLoggedIn = res != null;
+            this.homeUrl = 'stadium'
             if (this.isLoggedIn) {
                 this.username = res.userDto.username;
+                if (res.userDto.role == Role.OWNER_STADIUM) {
+                    this.homeUrl = 'my-stadium'
+                }
             } else {
                 this.username = null;
             }
         })
+    }
+
+    public openFeedBackModal(): void {
+        this.ngbModal.open(FeedbackComponent, {
+            centered: true,
+            animation: true
+        });
     }
 
     public logout(): void {

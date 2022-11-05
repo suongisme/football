@@ -9,6 +9,9 @@
             </div>
             <app-list-stadium-container [stadiumList]="stadiumList"></app-list-stadium-container>
         </div>
-        <app-pagination [paginator]="paginator"></app-pagination>
+        <app-pagination 
+            [paginator]="paginator"
+            (paginate)="ngOnSearch()"
+        ></app-pagination>
     </div>
 </div>

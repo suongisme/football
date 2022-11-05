@@ -11,6 +11,8 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { CommonModule } from '@angular/common';
 import { SlideComponent } from './_slide/_slide.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackComponent } from './_feedback/_feedback.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const declarations = [
     MainLayout,
@@ -20,6 +22,7 @@ const declarations = [
     FooterComponent,
     SlideComponent,
     MobileNavbarComponent,
+    FeedbackComponent
 ]
 
 const imports = [
@@ -27,7 +30,9 @@ const imports = [
     CoreModule,
     PageRoutingModule,
     InlineSVGModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
 ]
 
 @NgModule({

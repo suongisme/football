@@ -1,3 +1,4 @@
+import { Feedback } from './../interfaces/feedback.interface';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserResponse } from './../interfaces/user.interface';
@@ -36,5 +37,9 @@ export class DataService {
     public logout(): void {
         this.currentUser$.next(null);
         this.router.navigate(['/auth', 'login'])
+    }
+
+    public sendFeedback(feedback: Feedback): Observable<any> {
+        return this.http.post(`${this.url}/feedbacks`, feedback);
     }
 }

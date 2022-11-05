@@ -24,8 +24,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
-
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtFilter jwtFilter;
 
@@ -40,6 +38,11 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.GET, "/provinces", "/districts/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/stadiums/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/categories/products").permitAll()
+                .antMatchers(HttpMethod.GET, "/products/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/products/category/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/sizes/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/product-image/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/stadium-image/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/stadium-option/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/stadium-detail/*").permitAll()
@@ -51,7 +54,9 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .antMatchers(HttpMethod.POST, "/requests/approve", "/requests/reject").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
                 .antMatchers(HttpMethod.POST, "/requests/finding-request").hasAnyAuthority(RoleEnum.USER.name())
                 .antMatchers(HttpMethod.POST, "/stadiums/*").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
+                .antMatchers(HttpMethod.POST, "/feedbacks").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/stadiums/*").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
+                .antMatchers("/admin/**").hasAnyAuthority(RoleEnum.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -177,8 +177,8 @@ public class RequestService {
         log.info("get competitor stadium: {}", stadiumId);
         this.stadiumRepository.findById(stadiumId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy SVĐ"));
-
-        List<RequestTree> trees = this.requestRepository.findRequestTree(stadiumId);
+        UserDto currentUser = this.userService.getCurrentUser();
+        List<RequestTree> trees = this.requestRepository.findRequestTree(stadiumId, currentUser.getUsername());
         trees.forEach(tree -> {
             List<RequestDto> children = this.requestRepository.findAllRequestByHireDate(
                     tree.getHireDate(),

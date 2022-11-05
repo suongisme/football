@@ -26,6 +26,10 @@ export const pageRoutes: Routes = [
                 loadChildren: () => import('../module/request/request.module').then(m => m.RequestModule)  
             },
             {
+                path: 'shop',
+                loadChildren: () => import('../module/shop/shop.module').then(m => m.ShopModule),
+            },
+            {
                 path: '**',
                 pathMatch: 'full',
                 redirectTo: 'stadium'

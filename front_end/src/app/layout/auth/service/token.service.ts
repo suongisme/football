@@ -1,4 +1,4 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { catchError, Observable, tap, throwError } from "rxjs";
@@ -27,6 +27,11 @@ export class TokenService implements HttpInterceptor {
         })
 
         return next.handle(request).pipe(
+            tap(res => {
+                if (res instanceof HttpResponse ) {
+                    this.spinnerService.hide();
+                  }
+            }),
             catchError((error) => {
                 this.toastService.error(error.error?.message || 'Có lỗi xảy ra');
                 this.spinnerService.hide();
