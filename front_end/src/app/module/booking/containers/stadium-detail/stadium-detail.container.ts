@@ -69,6 +69,7 @@ export class StadiumDetailContainer implements OnInit, OnDestroy {
 					this.stadiumImage$ = this.stadiumImageService.getStadiumImage(this.stadium.id);
 					this.stadiumOption$ = this.stadiumOptionService.getStadiumOption(this.stadium.id);
 					this.stadiumDetail$ = this.stadiumService.getStadiumDetail(this.stadium.id);
+					this.loadStadiumRequest();
 				})
 		})
 	}

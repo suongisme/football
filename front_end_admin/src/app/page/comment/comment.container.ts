@@ -9,6 +9,7 @@ import { FeedbackModel } from './models/feeback.model';
 import { Component, OnInit } from "@angular/core";
 import { DatePipe } from '@angular/common';
 import 'ag-grid-enterprise';
+import { ActionComponent } from './components/action/action.component';
 
 @Component({
 	selector: 'app-comment-container',
@@ -45,15 +46,7 @@ export class CommentContainer implements OnInit {
 				cellStyle: BASE_STYLE,
 				minWidth: 200,
 			},
-			{
-				headerName: 'Nội dung',
-				headerTooltip: 'Nội dung',
-
-				minWidth: 200,
-				cellStyle: BASE_STYLE,
-				field: 'content',
-				tooltipField: 'content'
-			},
+			
 			{
 				headerName: 'Số điện thoại',
 				headerTooltip: 'Số điện thoại',
@@ -84,6 +77,16 @@ export class CommentContainer implements OnInit {
 				valueGetter: params => this.datePipe.transform(params.data.createdDate, 'dd/MM/yyyy'),
 				tooltipValueGetter: params => this.datePipe.transform(params.data.createdDate, 'dd/MM/yyyy'),
 
+			},
+
+			{
+				cellStyle: {
+					'display': 'flex',
+					'align-items': 'center',
+					'justify-content': 'center'
+				},
+				minWidth: 100,
+				cellRenderer: ActionComponent,
 			},
 		]
 

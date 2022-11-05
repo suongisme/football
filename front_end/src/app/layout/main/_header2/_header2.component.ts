@@ -1,6 +1,7 @@
+import { filter } from 'rxjs';
+import { FeedbackComponent } from './../_feedback/_feedback.component';
 import { Component, OnInit } from '@angular/core';
 import { NgbOffcanvas, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { filter } from 'rxjs';
 import { ConfirmComponent } from 'src/app/core/components/_confirm/_confirm.component';
 import { DataService } from 'src/app/core/services/data.service';
 import { MobileNavbarComponent } from '../_mobile/_navbar/_mobile-navbar.component';
@@ -29,6 +30,13 @@ export class Header2Component implements OnInit {
                 this.username = null;
             }
         })
+    }
+
+    public openFeedBackModal(): void {
+        this.ngbModal.open(FeedbackComponent, {
+            centered: true,
+            animation: true
+        });
     }
 
     public logout(): void {

@@ -9,7 +9,7 @@
                 <app-navbar class="d-none d-lg-block"></app-navbar>
             </div>
             <div class="gap-3 text-white d-none d-lg-flex">
-                <span class="font-weight-500 cursor-pointer"><i class="fas fa-comments-alt"></i>Feedback</span>
+                <span class="font-weight-500 cursor-pointer" (click)="openFeedBackModal()"><i class="fas fa-comments-alt"></i>Feedback</span>
                 <a *ngIf="!isLoggedIn" [routerLink]="['auth', 'login']" class="font-weight-500 cursor-pointer text-white"> <i class="fas fa-user"></i> Đăng nhập</a>
                 <span *ngIf="isLoggedIn" class="cursor-pointer" (click)="logout()">
                     Hi, {{ username }}

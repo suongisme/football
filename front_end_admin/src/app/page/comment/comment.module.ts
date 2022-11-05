@@ -1,3 +1,4 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +10,7 @@ import { NgModule } from "@angular/core";
 import { AgGridModule } from 'ag-grid-angular';
 import { FormSearchCommentComponent } from './components/form-search/form-search.component';
 import { CoreModule } from 'src/app/base/core/core.module';
+import { ActionComponent } from './components/action/action.component';
 
 const routes: Routes = [
     {
@@ -24,12 +26,14 @@ const imports = [
     RouterModule.forChild(routes),
     AgGridModule.forRoot([]),
     NgSelectModule,
+    MatDialogModule,
 
     CoreModule,
 ];
 const declarations = [
     CommentContainer,
     FormSearchCommentComponent,
+    ActionComponent,
 ];
 
 @NgModule({

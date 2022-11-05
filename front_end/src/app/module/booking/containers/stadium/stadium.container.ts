@@ -24,7 +24,7 @@ export class StadiumContainer implements OnInit, OnDestroy {
     
     public ngOnInit(): void {}
 
-    public ngOnSearch(formSearch): void {
+    public ngOnSearch(formSearch?): void {
         if (formSearch) this.currentFormSearch = formSearch;
         const data: RequestPagination<any> = {
             page: this.paginator.currentPage,

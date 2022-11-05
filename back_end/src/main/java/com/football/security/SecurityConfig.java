@@ -24,8 +24,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
-
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtFilter jwtFilter;
 
@@ -56,6 +54,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .antMatchers(HttpMethod.POST, "/requests/approve", "/requests/reject").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
                 .antMatchers(HttpMethod.POST, "/requests/finding-request").hasAnyAuthority(RoleEnum.USER.name())
                 .antMatchers(HttpMethod.POST, "/stadiums/*").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
+                .antMatchers(HttpMethod.POST, "/feedbacks").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/stadiums/*").hasAnyAuthority(RoleEnum.OWNER_STADIUM.name())
                 .antMatchers("/admin/**").hasAnyAuthority(RoleEnum.ADMIN.name())
                 .anyRequest()
