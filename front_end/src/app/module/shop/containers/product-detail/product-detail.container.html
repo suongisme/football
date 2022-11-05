@@ -1,7 +1,7 @@
 <div *ngIf="product" class="wrapper py-4">
     <div class="container bg-white box">
         <span>Thông tin sản phẩm: </span>
-        <div class="row" style="height: 350px">
+        <div class="row w-100 overflow-hidden" style="height: 350px">
             <div class="col-md-5 d-flex flex-column gap-3">
                 <span class="fw-bold h4">{{ product.name }}</span>
                 <div class="d-flex justify-content-between">
@@ -28,11 +28,20 @@
             </div>
 
             <div class="col-md-5">
-                <img class="w-100" [src]="product.avatar | safe:'resourceUrl'"  />
+                <img class="w-100" style="height: 350px;" [src]="currentImageShow | safe:'resourceUrl'" />
             </div>
 
-            <div class="col-md-2 d-flex flex-column gap-2">
-                <img *ngFor="let img of productImage$ | async" [src]="img.url | safe:'resourceUrl'" style="width: 100px; height: 80px"/>
+            <div class="col-md-2 h-100 position-relative overflow-hidden">
+                <i *ngIf="productImage?.length > 3" class="fas fa-chevron-up position-absolute cursor-pointer" style="top: 5px; left: 50px; font-size: 20px; z-index: 100;" (click)="previousImage()"></i>
+                <div class="d-flex flex-column gap-2" style="transition: all .5s;" [style.transform]="'translateY(' + showImageIndex * -88 +'px)'">
+                    <img class="cursor-pointer" style="width: 100px; height: 80px" [src]="product.avatar | safe:'resourceUrl'" (click)="currentImageShow = product.avatar" />
+                    <img *ngFor="let img of productImage" [src]="img.url | safe:'resourceUrl'" 
+                        style="width: 100px; height: 80px"
+                        class="cursor-pointer"
+                        (click)="currentImageShow = img.url"
+                    />
+                </div>
+                <i *ngIf="productImage?.length > 3" class="fas fa-chevron-down position-absolute cursor-pointer" style="top: 320px; left: 50px; font-size: 20px; z-index: 100;" (click)="nextImage()"></i>
             </div>
         </div>
         <div class="w-100">
@@ -71,7 +80,7 @@
 
     <div class="container bg-white box">
         <span>Mô tả sản phẩm</span>
-        <div [innerHTML]="product.description | safe:'html'"></div>
+        <div class="w-100" [innerHTML]="product.description | safe:'html'"></div>
     </div>
 
     <div class="container bg-white box">

@@ -17,9 +17,11 @@ import { DataService } from 'src/app/core/services/data.service';
 export class ProductDetailContainer implements OnInit {
 
     public product: Product
-    public productImage$: Observable<any>;
+    public productImage: any[];
     public productSize$: Observable<any>;
     public product$: Observable<any>
+    public currentImageShow: string;
+    public showImageIndex: number = 0;
 
     constructor(
         private ngbModal: NgbModal,
@@ -36,9 +38,13 @@ export class ProductDetailContainer implements OnInit {
             this.productService.findById(param.productId)
                 .subscribe(res => {
                     this.product = res;
+                    this.currentImageShow = this.product.avatar;
                     this.product$ = this.productService.getProduct(this.product.categoryId);
                 });
-            this.productImage$ = this.productService.getProductImage(param.productId);
+            this.productService.getProductImage(param.productId)
+                .subscribe(res => {
+                    this.productImage = res;
+                })
             this.productSize$ = this.productService.getProductSize(param.productId);
         })
     }
@@ -71,4 +77,13 @@ export class ProductDetailContainer implements OnInit {
         })
     }
     
+    public nextImage(): void {
+        if (this.showImageIndex == (this.productImage?.length - 3)) return;
+        this.showImageIndex++;
+    }
+
+    public previousImage(): void {
+        if (this.showImageIndex == 0) return;
+        this.showImageIndex--;
+    }
 }
