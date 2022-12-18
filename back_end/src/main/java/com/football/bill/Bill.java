@@ -36,4 +36,7 @@ public class Bill {
 
     @Column(name = "status")
     private Integer status;
+
+    @Column(name = "approve_date")
+    private Date approveDate;
 }

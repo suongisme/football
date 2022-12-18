@@ -4,13 +4,11 @@ import com.football.bill.Bill;
 import com.football.bill.BillDto;
 import com.football.bill.BillRepository;
 import com.football.bill.BillStatus;
-import com.football.bill.detail.BillDetail;
 import com.football.bill.detail.BillDetailDto;
 import com.football.bill.detail.BillDetailRepository;
 import com.football.common.dto.ResultDTO;
 import com.football.common.dto.SearchDTO;
 import com.football.common.dto.SearchResponse;
-import com.football.common.utils.DataUtils;
 import com.football.common.utils.ResultUtils;
 import com.football.mail.MailDTO;
 import com.football.mail.MailService;
@@ -28,10 +26,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -70,6 +65,7 @@ public class AdminBillService {
     public ResultDTO approveBill(String billId) {
         Bill bill = this.billRepository.findById(billId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hóa đơn"));
+        bill.setApproveDate(new Date());
         bill.setStatus(BillStatus.APPROVE.getStatus());
         this.billRepository.save(bill);
         User user = this.userService.getUserByUsername(bill.getCreatedBy());

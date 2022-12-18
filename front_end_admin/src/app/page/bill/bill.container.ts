@@ -127,6 +127,15 @@ export class BillContainer implements OnInit {
             },
 
             {
+                headerName: 'Ngày phê duyệt',
+                headerTooltip: 'Ngày phê duyệt',
+
+                valueGetter: param => this.datePipe.transform(param.data.approveDate, 'dd/MM/yyyy'),
+                tooltipValueGetter: param => this.datePipe.transform(param.data.approveDate, 'dd/MM/yyyy'),
+                cellStyle: BASE_STYLE,
+            },
+
+            {
                 cellRenderer: BillActionComponent,
                 cellStyle: {
                     'overflow': 'unset'

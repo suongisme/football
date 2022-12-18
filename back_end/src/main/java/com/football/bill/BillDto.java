@@ -21,6 +21,7 @@ public class BillDto implements Serializable {
     private Date createdDate;
     private BigDecimal total;
     private Integer status;
+    private Date approveDate;
     public String getStatusName() {
         if (Objects.isNull(this.status)) return "";
         return BillStatus.fromStatus(this.status).getStatusName();
