@@ -11,7 +11,6 @@ import { takeUntil, Subject, Observable, filter, lastValueFrom, map } from 'rxjs
 import { StadiumImageService } from 'src/app/module/my-stadium/services/stadium-image.service';
 import { StadiumOptionService } from 'src/app/module/my-stadium/services/stadium-option.service';
 import { DataService } from 'src/app/core/services/data.service';
-import { UserResponse } from 'src/app/core/interfaces/user.interface';
 import { RequestService } from 'src/app/module/request/services/request.service';
 import { PendingRequest } from 'src/app/module/request/interfaces/request.interface';
 import { Role } from 'src/app/base/constant';

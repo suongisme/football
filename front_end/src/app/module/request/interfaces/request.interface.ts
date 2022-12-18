@@ -15,7 +15,9 @@ export interface PendingRequest {
     startTime: string;
     endTime: string;
     requester: string;
-    hasCompetitor: 'Y' | 'N';
+    hasCompetitor: 'Có' | 'Không';
+    fullName: string;
+    phone: string;
 }
 
 export interface Challenge {

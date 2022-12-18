@@ -1,6 +1,5 @@
 package com.football.feedback;
 
-import com.football.admin.feedback.Feedback;
 import com.football.common.dto.ResultDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

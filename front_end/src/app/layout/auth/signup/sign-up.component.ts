@@ -14,6 +14,7 @@ import { DataService } from 'src/app/core/services/data.service';
 export class SignUpComponent implements OnInit {
 
     public formGroup: FormGroup;
+    public messageAfterCallApi: {EMAIL: string; USERNAME: string; PHONE: string};
 
     constructor(
         private fb: FormBuilder,
@@ -32,6 +33,7 @@ export class SignUpComponent implements OnInit {
             fullName: [null, [Validators.required]],
             username: [null, [Validators.required]],
             password: [null, [Validators.required]],
+            confirmPassword: [null, [Validators.required]],
             email: [null, [Validators.required]],
             phone: [null, [Validators.required]],
             role: [Role.USER, [Validators.required]]
@@ -44,6 +46,7 @@ export class SignUpComponent implements OnInit {
 
     public isErrorControl(formControlName: string): boolean {
         if (!this.formControl) return false;
+        if (this.messageAfterCallApi?.[formControlName]) return true;
         return (this.formControl[formControlName].dirty || this.formControl[formControlName].touched) && this.formControl[formControlName].invalid;
     }
 
@@ -52,10 +55,20 @@ export class SignUpComponent implements OnInit {
             this.toastService.error('Thông tin không hợp lệ')
             return;
         }
-        this.authService.reigsUser(this.formGroup.value)
-            .subscribe(res => {
-                this.dataService.activeAccount$.next(this.formControl['username'].value);
-                this.router.navigate(['/auth', 'otp']);
+        const { value } = this.formGroup;
+        if (value.password != value.confirmPassword) {
+            this.toastService.error('Mật khẩu không khớp.');
+            return;
+        }
+        this.authService.reigsUser(value)
+            .subscribe({
+                next: res => {
+                    this.dataService.activeAccount$.next(this.formControl['username'].value);
+                    this.router.navigate(['/auth', 'otp']);
+                },
+                error: error => {
+                    this.messageAfterCallApi = error.error;
+                }
             })
     }
 }

@@ -1,4 +1,4 @@
-package com.football.admin.feedback;
+package com.football.feedback;
 
 import lombok.Data;
 

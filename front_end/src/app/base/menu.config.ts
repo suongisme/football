@@ -21,7 +21,7 @@ export const Menu: IMenu[] = [
         roles: [Role.USER]
     },
     {
-        name: 'Sân của tôi',
+        name: 'Sân của Tôi',
         icon: 'assets/icons/svg/my-stadium.svg',
         link: 'my-stadium',
         roles: [Role.OWNER_STADIUM]
@@ -33,7 +33,7 @@ export const Menu: IMenu[] = [
         roles: [Role.USER]
     },
     {
-        name: 'Yêu cầu',
+        name: 'Danh sách đặt sân',
         icon: 'assets/icons/svg/my-stadium.svg',
         link: 'request/rent',
         roles: [Role.OWNER_STADIUM]

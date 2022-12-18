@@ -6,22 +6,36 @@
 
     <div class="d-flex flex-column">
         <label class="required">Email</label>
-        <input class="nice-input"  [class.nice-input-error]="isErrorControl('email')" placeholder="Nhập email" formControlName="email"/>
+        <input class="nice-input"  [class.nice-input-error]="isErrorControl('email')" placeholder="Nhập email" formControlName="email" (ngModelChange)="messageAfterCallApi?.EMAIL && messageAfterCallApi.EMAIL = null"/>
+        <div class="error-validate" *ngIf="messageAfterCallApi?.EMAIL">
+          {{ messageAfterCallApi?.EMAIL }}
+        </div>
     </div>
 
     <div class="d-flex flex-column">
         <label class="required">Số ĐT</label>
-        <input class="nice-input"  [class.nice-input-error]="isErrorControl('phone')" placeholder="Nhập số điện thoại" formControlName="phone" />
+        <input class="nice-input"  [class.nice-input-error]="isErrorControl('phone')" placeholder="Nhập số điện thoại" formControlName="phone" (ngModelChange)="messageAfterCallApi?.PHONE && messageAfterCallApi.PHONE = null" />
+        <div class="error-validate" *ngIf="messageAfterCallApi?.PHONE">
+          {{ messageAfterCallApi?.PHONE }}
+        </div>
     </div>
 
     <div class="d-flex flex-column">
         <label class="required">Tên đăng nhập</label>
-        <input class="nice-input"  [class.nice-input-error]="isErrorControl('username')" placeholder="Nhập tên đăng nhập" formControlName="username" />
+        <input class="nice-input" [class.nice-input-error]="isErrorControl('username')" placeholder="Nhập tên đăng nhập" formControlName="username" (ngModelChange)="messageAfterCallApi?.USERNAME && messageAfterCallApi.USERNAME = null"/>
+        <div class="error-validate" *ngIf="messageAfterCallApi?.USERNAME">
+          {{ messageAfterCallApi?.USERNAME }}
+        </div>
     </div>
-    
+
     <div class="d-flex flex-column">
         <label class="required">Mật khẩu</label>
         <input type="password" class="nice-input" [class.nice-input-error]="isErrorControl('password')" placeholder="Nhập mật khẩu" formControlName="password" />
+    </div>
+
+    <div class="d-flex flex-column">
+        <label class="required">Nhập lại mật khẩu</label>
+        <input type="password" class="nice-input" [class.nice-input-error]="isErrorControl('confirmPassword')" placeholder="Nhập lại mật khẩu" formControlName="confirmPassword" />
     </div>
 
     <div class="d-flex gap-2">
@@ -40,7 +54,7 @@
     </div>
 
     <div class="d-flex justify-content-end">
-        <a [routerLink]="['/auth', 'login']">Đã có tài khoản?</a>
+        <a [routerLink]="['/auth', 'login']">Nếu đã có tài khoản? <u>Đăng nhập</u></a>
     </div>
 
 </form>

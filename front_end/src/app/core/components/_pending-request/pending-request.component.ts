@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from "@angular/core";
 import { ColDef } from 'ag-grid-community';
 import { PendingRequest } from 'src/app/module/request/interfaces/request.interface';
+import { TimePipe } from '../../pipes/time.pipe';
 import { ActionComponent } from './action/action.component';
 
 @Component({
@@ -15,6 +16,10 @@ export class PendingRequestComponent implements OnInit {
     @Input() stadiumRequest: PendingRequest[] = [];
     
     public columns: ColDef[];
+
+    constructor(
+        private timePipe: TimePipe
+    ) {}
 
     public ngOnInit(): void {
         this.ngOnInitColumn();
@@ -53,7 +58,7 @@ export class PendingRequestComponent implements OnInit {
             {
                 headerName: 'Thời gian',
                 valueGetter: ({data}) => {
-                    return `${data.startTime}-${data.endTime}`
+                    return `${this.timePipe.transform(data.startTime)}-${this.timePipe.transform(data.endTime)}`
                 },
                 minWidth: 150,
                 maxWidth: 150,
@@ -63,11 +68,19 @@ export class PendingRequestComponent implements OnInit {
             },
             {
                 headerName: 'Người thuê',
-                field: 'requester',
-                minWidth: 150,
+                cellRenderer: ({data}) => {
+                    return `<div class='d-flex flex-column'>
+                    <span style='line-height: 20px;'>${data.fullName}</span>
+                    <span style='line-height: 20px;'>${data.phone}</span>
+                    </div>`
+                },
+                tooltipValueGetter: ({data}) => {
+                    return `${data.fullName} - ${data.phone}`
+                },
                 cellStyle: {
-                    'top': '10px'
-                }
+                    'top': '10px',
+                },
+                minWidth: 150,
             },
             {
                 headerName: 'Tìm đối thủ',

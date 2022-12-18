@@ -35,4 +35,16 @@ public class AdminBillController {
         ResultDTO resultDTO = this.adminBillService.rejectBill(billId);
         return ResponseEntity.ok(resultDTO);
     }
+
+    @GetMapping("/delivery/{billId}")
+    public ResponseEntity deliveryBill(@PathVariable String billId) {
+        ResultDTO resultDTO = this.adminBillService.deliveryBIll(billId);
+        return ResponseEntity.ok(resultDTO);
+    }
+
+    @GetMapping("/done/{billId}")
+    public ResponseEntity doneBill(@PathVariable String billId) {
+        ResultDTO resultDTO = this.adminBillService.doneBill(billId);
+        return ResponseEntity.ok(resultDTO);
+    }
 }

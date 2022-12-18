@@ -5,7 +5,8 @@
                 <img src="favicon.ico" style="width: 20px; height: 20px;" />
                 <span class="title">FFMS</span>
             </a>
-            <span class="h3">Chào mừng bạn quay lại</span>
+            <span *ngIf="isLoginPage" class="h3">Chào mừng bạn quay lại</span>
+            <span *ngIf="!isLoginPage" class="h3">Chào mừng thành viên mới</span>
         </div>
         <router-outlet></router-outlet>
     </div>

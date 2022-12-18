@@ -17,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafePipe } from './pipes/safe.pipe';
 import { PendingRequestComponent } from './components/_pending-request/pending-request.component';
 import { ActionComponent } from './components/_pending-request/action/action.component';
+import { TimePipe } from './pipes/time.pipe';
 
 const imports = [
     CommonModule,
@@ -42,6 +43,7 @@ const declarations = [
     PendingRequestComponent,
     ActionComponent,
     SafePipe,
+    TimePipe,
 ];
 
 const exports = [
@@ -56,11 +58,13 @@ const exports = [
     PendingRequestComponent,
     ActionComponent,
     SafePipe,
+    TimePipe,
 ]
 
 @NgModule({
     imports: imports,
     declarations: declarations,
-    exports: exports
+    exports: exports,
+    providers: [ TimePipe ]
 })
 export class CoreModule {}

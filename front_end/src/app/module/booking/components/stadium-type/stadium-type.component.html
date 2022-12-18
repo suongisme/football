@@ -18,7 +18,7 @@
             <ng-container>
                 <tr *ngFor="let child of row.children">
                     <td></td>
-                    <td>{{ child.startTime }} - {{ child.endTime }}</td>
+                    <td>{{ child.startTime | time }} - {{ child.endTime | time }}</td>
                     <td class="fw-bold">{{ child.price | currency:'VND' }}</td>
                 </tr>
             </ng-container>

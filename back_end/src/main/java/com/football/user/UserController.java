@@ -2,6 +2,7 @@ package com.football.user;
 
 import com.football.common.dto.ResultDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,11 @@ public class UserController {
     @PostMapping
     public ResponseEntity regisUser(@RequestBody User user) {
         ResultDTO<UserDto> result = this.userService.regisUser(user);
-        return ResponseEntity.status(result.getStatus()).body(result);
+        if (HttpStatus.OK.equals(result.getStatus())) {
+            return ResponseEntity.status(result.getStatus()).body(result);
+        } else {
+            return ResponseEntity.status(result.getStatus()).body(result.getData().getErrors());
+        }
     }
 
     @PostMapping("/active")

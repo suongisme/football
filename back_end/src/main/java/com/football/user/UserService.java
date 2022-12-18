@@ -1,5 +1,6 @@
 package com.football.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.football.common.dto.ResultDTO;
 import com.football.common.utils.ResultUtils;
 import com.football.mail.MailDTO;
@@ -10,6 +11,7 @@ import com.football.validator.ValidatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -20,9 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -35,6 +35,8 @@ public class UserService implements UserDetailsService {
     private final UserMapper userMapper;
 
     private final ValidatorService validatorService;
+
+    private final ObjectMapper objectMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -70,17 +72,25 @@ public class UserService implements UserDetailsService {
         this.validatorService.validate(user);
         log.info("regis user: {}", user.getUsername());
 
+        Map<String, String> userErrors = new HashMap<>();
+
         log.info("validate username");
         this.userRepository.findByUsername(user.getUsername())
-                .ifPresent(u -> {throw new IllegalArgumentException("Username đã tồn tại");});
+                .ifPresent(u -> userErrors.put("USERNAME", "Tên đăng nhập đã tồn tại"));
 
         log.info("validate email");
         this.userRepository.findByEmail(user.getEmail())
-                .ifPresent(u -> { throw new IllegalArgumentException("Email đã tồn tại");});
+                .ifPresent(u -> userErrors.put("EMAIL", "Email đã tồn tại"));
 
         log.info("validate phone");
         this.userRepository.findByPhone(user.getPhone())
-                .ifPresent(u -> { throw new IllegalArgumentException("SĐT đã tồn tại");});
+                .ifPresent(u -> userErrors.put("PHONE", "Số điện thoại đã tồn tại"));
+
+        if (!userErrors.isEmpty()) {
+            UserDto userDto = new UserDto();
+            userDto.setErrors(userErrors);
+            return new ResultDTO<>(userDto, null, HttpStatus.BAD_REQUEST);
+        }
 
         user.setId(UUID.randomUUID().toString());
         user.setStatus(UserConstant.Status.WAIT);

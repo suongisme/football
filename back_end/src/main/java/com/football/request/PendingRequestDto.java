@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.football.stadium.Stadium;
 import com.football.stadium.type.StadiumType;
 import com.football.stadium.type.detail.StadiumDetail;
+import com.football.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,10 @@ public class PendingRequestDto {
     private LocalTime endTime;
     private String requester;
     private String hasCompetitor;
+    private String fullName;
+    private String phone;
 
-    public PendingRequestDto(Stadium stadium, StadiumType stadiumType, StadiumDetail stadiumDetail, Request request) {
+    public PendingRequestDto(Stadium stadium, StadiumType stadiumType, StadiumDetail stadiumDetail, Request request, User user) {
         this.stadiumName = stadium.getName();
         this.typeName = stadiumType.getName();
         this.startTime = stadiumDetail.getStartTime();
@@ -35,6 +38,8 @@ public class PendingRequestDto {
         this.requestId = request.getId();
         this.hireDate = request.getHireDate();
         this.detailId = stadiumDetail.getId();
-        this.hasCompetitor = request.getHasCompetitor() ? "Y" : "N";
+        this.hasCompetitor = request.getHasCompetitor() ? "Có" : "Không";
+        this.fullName = user.getFullName();
+        this.phone = user.getPhone();
     }
 }

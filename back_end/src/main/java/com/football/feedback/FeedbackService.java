@@ -1,6 +1,5 @@
 package com.football.feedback;
 
-import com.football.admin.feedback.Feedback;
 import com.football.common.dto.ResultDTO;
 import com.football.common.dto.SearchDTO;
 import com.football.common.dto.SearchResponse;

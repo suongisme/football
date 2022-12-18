@@ -33,6 +33,18 @@ export class BillService {
         );
     }
 
+    public deliveryBill(billId: string): Observable<ResponseServiceModel<void>> {
+      return this.handleResponse<ResponseServiceModel<void>> (
+          this.http.get<ResponseServiceModel<void>>(`${environment.API_GATEWAY}/bills/delivery/${billId}`)
+      );
+  }
+
+  public doneBill(billId: string): Observable<ResponseServiceModel<void>> {
+    return this.handleResponse<ResponseServiceModel<void>> (
+        this.http.get<ResponseServiceModel<void>>(`${environment.API_GATEWAY}/bills/done/${billId}`)
+    );
+}
+
     public cancelBill(billId: string): Observable<ResponseServiceModel<void>> {
         return this.handleResponse<ResponseServiceModel<void>> (
             this.http.get<ResponseServiceModel<void>>(`${environment.API_GATEWAY}/bills/reject/${billId}`)

@@ -7,6 +7,10 @@
             <div>
                 <b>Tổng hóa đơn: {{ totalBill | currency:'VND' }}</b>
             </div>
+            <div class="d-flex align-items-center gap-2">
+                <input type="checkbox" id="checkbox" (change)="useSessionUser($event)" />
+                <label for="checkbox">Dùng thông tin của user đăng nhập</label>
+            </div>
             <div class="d-flex flex-column">
                 <label class="required">Tên người mua</label>
                 <input class="nice-input" placeholder="Nhập tên người mua hàng" formControlName="fullName" />
@@ -42,11 +46,6 @@
                         messagePattern: 'Số điện thoại không đúng định dạng'
                     }"
                 ></ng-container>
-            </div>
-
-            <div class="d-flex align-items-center gap-2">
-                <input type="checkbox" id="checkbox" (change)="useSessionUser($event)" />
-                <label for="checkbox">Dùng thông tin của user đăng nhập</label>
             </div>
         </form>
     </div>

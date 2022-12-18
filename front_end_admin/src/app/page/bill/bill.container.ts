@@ -73,8 +73,22 @@ export class BillContainer implements OnInit {
                 headerName: 'Người mua',
                 headerTooltip: 'Người mua',
 
-                field: 'createdBy',
-                tooltipField: 'createdBy',
+                cellRenderer: ({data}) => {
+                  return `<div>
+                    <div style="line-height: 20px;" class="d-flex">
+                      <span>Họ tên:&nbsp;</span>
+                      <div class="text-truncate fst-italic text-decoration-underline" title="${data.fullName}">${data.fullName}</div>
+                    </div>
+                    <div style="line-height: 20px;" class="d-flex">
+                      <span>Tên đăng nhập:&nbsp;</span>
+                      <div class="text-truncate fst-italic text-decoration-underline" title="${data.createdBy}">${data.createdBy}</div>
+                    </div>
+                    <div style="line-height: 20px;" class="d-flex">
+                      <span>Số điện thoại:&nbsp;</span>
+                      <div class="text-truncate fst-italic text-decoration-underline" title="${data.phone}">${data.phone}</div>
+                    </div>
+                  </div>`;
+                },
                 cellStyle: BASE_STYLE
             },
 
@@ -86,7 +100,7 @@ export class BillContainer implements OnInit {
                 tooltipValueGetter: param => this.datePipe.transform(param.data.createdDate, 'dd/MM/yyyy'),
                 cellStyle: BASE_STYLE,
             },
-            
+
             {
                 headerName: 'Tổng tiền',
                 headerTooltip: 'Tổng tiền',
@@ -107,9 +121,9 @@ export class BillContainer implements OnInit {
 
                 cellStyle: BASE_STYLE,
                 cellRenderer: StatusComponent,
-                values: ['Chờ phê duyệt', 'Đã phê duyệt', 'Từ chối'],
-                colors: ['#3366FF', '#52BD94', '#D14343'],
-                backgrounds: ['transparent', 'transparent', 'transparent'],
+                values: ['Chờ phê duyệt', 'Đã phê duyệt', 'Từ chối', 'Đang giao hàng', 'Đã giao hàng'],
+                colors: ['#3366FF', '#52BD94', '#D14343', '#52BD94', '#52BD94'],
+                backgrounds: ['transparent', 'transparent', 'transparent', 'transparent', 'transparent'],
             },
 
             {
@@ -128,6 +142,6 @@ export class BillContainer implements OnInit {
     }
 
     public onGridReady(event: GridReadyEvent): void {
-        
+
     }
 }

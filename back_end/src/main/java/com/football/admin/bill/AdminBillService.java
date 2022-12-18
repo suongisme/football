@@ -94,6 +94,28 @@ public class AdminBillService {
         return ResultUtils.buildSuccessResult(null);
     }
 
+    @Transactional
+    public ResultDTO deliveryBIll(String billId) {
+        Bill bill = this.billRepository.findById(billId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hóa đơn"));
+        bill.setStatus(BillStatus.DELIVERY.getStatus());
+        this.billRepository.save(bill);
+        User user = this.userService.getUserByUsername(bill.getCreatedBy());
+        this.sendMail(user, bill, null);
+        return ResultUtils.buildSuccessResult(bill);
+    }
+
+    @Transactional
+    public ResultDTO doneBill(String billId) {
+        Bill bill = this.billRepository.findById(billId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hóa đơn"));
+        bill.setStatus(BillStatus.DONE.getStatus());
+        this.billRepository.save(bill);
+        User user = this.userService.getUserByUsername(bill.getCreatedBy());
+        this.sendMail(user, bill, null);
+        return ResultUtils.buildSuccessResult(bill);
+    }
+
     @Async
     public void sendMail(User user, Bill bill, String reason) {
         MailDTO mailDTO = new MailDTO();
@@ -111,6 +133,16 @@ public class AdminBillService {
             params.put("param2", reason);
             mailDTO.setSubject("[THÔNG BÁO] ĐƠN HÀNG BỊ HỦY");
             mailDTO.setTemplateContent(MailTemplate.REJECT_BILL);
+        }
+
+        if (BillStatus.DELIVERY.getStatus().equals(bill.getStatus())) {
+            mailDTO.setSubject("[THÔNG BÁO] ĐƠN HÀNG ĐANG ĐƯỢC VẬN CHUYỂN");
+            mailDTO.setTemplateContent(MailTemplate.DELIVERY_BILL);
+        }
+
+        if (BillStatus.DONE.getStatus().equals(bill.getStatus())) {
+            mailDTO.setSubject("[THÔNG BÁO] ĐƠN HÀNG ĐÃ HOÀN THÀNH");
+            mailDTO.setTemplateContent(MailTemplate.DONE_BILL);
         }
         this.mailService.send(mailDTO);
     }

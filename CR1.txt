@@ -1,0 +1,61 @@
+UI đăng kí:
+-đăng kí -> Nếu chưa có tài khoản? _Đăng ký_
+-đã có tài khoản -> Nếu đã có tài khoản? _Đăng nhập_
+-Chào mừng bạn quay lại ở đăng ký -> Chào mừng thành viên mới
+-Thêm nhập lại mật khẩu
+-Sửa thông báo
+
+UI Chủ sân:
+yêu cầu->Danh sách Đặt sân
+Sân của tôi: Sân của Tôi
+
+Nội dung:
+Tên sân
+Loại sân
+Ngày thuê
+Khung giờ thuê: thời gian không có giây( 00:00 - 00:00 )
+Người thuê: Họ tên: Nguyễn Văn A
+		 Số điện thoại: 0912345456
+Tìm đối thủ: Có/Không
+
+xác nhận đặt sân: Bạn có chắc muốn chấp nhận yêu cầu đặt sân?
+Hủy đặt sân	:	 Bạn có chắc muốn hủy yêu cầu đặt sân?
+
+
+Chủ sân muốn:
+- Biết dược tại khung giờ sân nào đang trống
+- Thống kê 1 sân theo thời gian đã được đặt bao nhiêu lần(lịch sử đặt sân của 1 sân)
+- Thống kê doanh thu theo thời gian(datetodate)
+
+
+UI Người dùng:
+Tìm đối thủ: thêm cột Chọn Đối thủ->
+
+Cửa hàng:
+di chuyển checkbox dùng tt user lên trên người mua
+
+UI admin:
+-Quản lý sản phẩm: bỏ số lương trong form thêm sản phẩm
+-Thống kê đang hàng theo trạng thái
+-Thêm ngày cập nhật trạng thái phía sau cột trạng thái
+-Thêm trạng thái đã giao hàng(thêm form ngày giao, ckb xác nhận giao hàng) 
+-Danh sách đơn hàng: tt người mua(họ tên, sđt)
+-Thống kê doanh thu theo ngày
+
+Email:
+Kính gửi chủ sân TÊN SÂN,
+Bạn vửa nhận được một yêu cầu đặt sân TÊN SÂN từ khách hàng có tên HỌ TÊN NGƯỜi DÙNG, Thông tin chi tiết:
+Thông tin yêu cầu:
+-Tên sân: Sân bóng mini Bế Văn Đàn
+-Loại sân: 5 người
+-Thời gian: 14:31 - 16:31 ngày 05-12-2022
+-Giá: 100.000 đồng
+
+Thông tin người yêu cầu:
+-Tên đăng nhập: nguoidung
+-Họ và tên: Hùng Việt 1
+-Email: dinhtam6102@gmail.com
+-Số điện thoại: 0912456751
+
+
+/Thông tin email được gửi tự động từ hệ thống TÊN HỆ THỐNG./

@@ -106,10 +106,10 @@ public class RequestService {
         Map<String, Object> params = mailDTO.getParamsTemplate();
         params.put("param0", ownerStadium.getFullName());
         params.put("param1", stadium.getName());
-        params.put("param2", currentUser.getUsername());
+        params.put("param2", currentUser.getFullName());
         params.put("param3", stadium.getName());
-        params.put("param4", stadiumDetail.getStartTime().toString() + "-" + stadiumDetail.getEndTime().toString() + " " + DateUtils.dateToString(request.getHireDate(), "dd-MM-yyyy"));
-        params.put("param5", stadiumDetail.getPrice().toString());
+        params.put("param4", stadiumDetail.getStartTime().toString().replace(":00", "") + "-" + stadiumDetail.getEndTime().toString().replace(":00", "")  + " ngày " + DateUtils.dateToString(request.getHireDate(), "dd-MM-yyyy"));
+        params.put("param5", DataUtils.formatVndCurrency(stadiumDetail.getPrice()));
         params.put("param6", currentUser.getUsername());
         params.put("param7", currentUser.getFullName());
         params.put("param8", currentUser.getEmail());

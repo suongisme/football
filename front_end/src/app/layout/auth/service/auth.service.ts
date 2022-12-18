@@ -51,10 +51,6 @@ export class AuthService {
                     next: res => {
                         this.toastService.success('Đã gửi mã kích hoạt đến ' + user.email);
                         this.spinnerService.hide();
-                    },
-                    error: error => {
-                        this.toastService.error(error?.error?.message || 'Đăng ký thất bại')
-                        this.spinnerService.hide();
                     }
                 })
             )

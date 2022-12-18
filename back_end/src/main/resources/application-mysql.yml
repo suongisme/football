@@ -1,8 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    username: root
+    password: NguyenVanSuong@2001
     url: jdbc:mysql://0.0.0.0:3306/football
   jpa:
     show-sql: true

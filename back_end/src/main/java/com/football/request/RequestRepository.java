@@ -18,10 +18,11 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
                     " AND status = ?3")
     List<Request> findApprovedRequest(Long stadiumDetailId, String hireDate, Integer status);
 
-    @Query("SELECT new com.football.request.PendingRequestDto(s, t, d, r) FROM Request r" +
+    @Query("SELECT new com.football.request.PendingRequestDto(s, t, d, r, u) FROM Request r" +
             " JOIN StadiumDetail d ON d.id = r.stadiumDetailId" +
             " JOIN StadiumType t ON t.id = d.parentId" +
             " JOIN Stadium s ON s.id = t.stadiumId" +
+            " JOIN User u ON u.username = r.createdBy" +
             " WHERE r.status = 0 AND r.hireDate >= current_date" +
             " AND (:stadiumId IS NULL OR s.id = :stadiumId)" +
             " AND (:provinceId IS NULL OR s.provinceId = :provinceId)" +

@@ -17,10 +17,10 @@ import { ICellRendererParams } from 'ag-grid-community';
     styleUrls: ['./bill-action.component.scss']
 })
 export class BillActionComponent implements ICellRendererAngularComp {
-   
+
     public params: ICellRendererParams | any;
     public matDialogRef: MatDialogRef<void>;
-    
+
     // grid
     public columnDef: (ColDef)[];
     public rowData: (BillDetailModel | any)[] = [];
@@ -34,20 +34,30 @@ export class BillActionComponent implements ICellRendererAngularComp {
     refresh(params: ICellRendererParams): boolean {
         return true;
     }
-   
+
     agInit(params: ICellRendererParams): void {
         this.params = params;
     }
-    
+
+    public onDeliveryBill(): void {
+        this.billService.deliveryBill(this.params.data.id).subscribe(res => {
+            this.parent.doSearch(null, this.parent.pagination.currentPage);
+        })
+    }
+
+    public onDoneBill(): void {
+        this.billService.doneBill(this.params.data.id).subscribe(res => {
+            this.parent.doSearch(null, this.parent.pagination.currentPage);
+        })
+    }
+
     public onApproveBill(): void {
-        if (this.params.data.status === 1) return;
         this.billService.approveBill(this.params.data.id).subscribe(res => {
             this.parent.doSearch(null, this.parent.pagination.currentPage);
         })
     }
 
     public onCancelBill(): void {
-        if (this.params.data.status === 0) return;
         this.billService.cancelBill(this.params.data.id).subscribe(res => {
             this.parent.doSearch(null, this.parent.pagination.currentPage);
         })
@@ -100,7 +110,7 @@ export class BillActionComponent implements ICellRendererAngularComp {
                 field: 'sizeName',
                 tooltipField: 'sizeName',
             },
-            
+
             {
                 headerName: 'Số lượng',
                 headerTooltip: 'Số lượng',

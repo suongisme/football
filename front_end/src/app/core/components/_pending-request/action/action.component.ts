@@ -41,7 +41,7 @@ export class ActionComponent implements ICellRendererAngularComp {
 
         const content: Confirm = {
             title: 'Xác nhận',
-            message: 'Bạn có chắc chắn muốn hủy yêu cầu?'
+            message: 'Bạn có chắc chắn muốn hủy yêu cầu đặt sân?'
         };
         ref.componentInstance.content = content;
         ref.closed
@@ -64,7 +64,7 @@ export class ActionComponent implements ICellRendererAngularComp {
 
         const content: Confirm = {
             title: 'Xác nhận',
-            message: 'Bạn có chắc chắn muốn chấp nhận yêu cầu?'
+            message: 'Bạn có chắc chắn muốn chấp nhận yêu cầu đặt sân?'
         };
         ref.componentInstance.content = content;
         ref.closed
@@ -78,5 +78,4 @@ export class ActionComponent implements ICellRendererAngularComp {
                     })
             })
     }
-
 }

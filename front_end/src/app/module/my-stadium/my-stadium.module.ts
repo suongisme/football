@@ -39,7 +39,7 @@ const declarations = [
 
     InfoStadiumFormComponent,
     OptionFormComponent,
-    TypeStadiumFormComponent
+    TypeStadiumFormComponent,
 ];
 
 @NgModule({

@@ -9,7 +9,11 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum BillStatus {
 
-    PENDING(0, "Chờ duyệt"), APPROVE(1, "Đã duyệt"), REJECT(2, "Từ chối");
+    PENDING(0, "Chờ duyệt"),
+    APPROVE(1, "Đã duyệt"),
+    REJECT(2, "Từ chối"),
+    DELIVERY(3, "Đang giao hàng"),
+    DONE(4, "Đã giao hàng");
 
     final Integer status;
     final String statusName;
